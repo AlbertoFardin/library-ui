@@ -1,0 +1,9 @@
+html,
+body,
+body > div {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}

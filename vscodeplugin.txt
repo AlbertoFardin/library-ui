@@ -1,0 +1,3 @@
+mechatroner.rainbow-csv
+ms-ceintl.vscode-language-pack-it
+orta.vscode-jest

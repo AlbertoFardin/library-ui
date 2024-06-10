@@ -1,0 +1,21 @@
+enum TypeCell {
+  Thumbnail = "thumbnail",
+  MultipleThumbnail = "multiplethumbnail",
+  String = "string",
+  MultipleString = "multiplestring",
+  SimpleDate = "simpledate",
+  Timestamp = "timestamp",
+  Icon = "icon",
+  Bool = "bool",
+  Avatar = "avatar",
+  User = "user",
+  MultipleAvatar = "multipleavatar",
+  DictionaryEntry = "dictionaryEntry",
+  DictionaryEntries = "dictionaryEntries",
+  Percentage = "percentage",
+  Category = "category",
+  Skeleton = "skeleton",
+  Number = "number",
+  Byte = "byte",
+}
+export default TypeCell;

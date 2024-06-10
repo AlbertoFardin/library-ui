@@ -1,0 +1,112 @@
+[
+  {
+    "id": "Women",
+    "label": "Women",
+    "parent": null
+  },
+  {
+    "id": "Women/Top",
+    "label": "Top",
+    "parent": "Women"
+  },
+  {
+    "id": "Women/Top/Shirts",
+    "label": "Shirts",
+    "parent": "Women/Top"
+  },
+  {
+    "id": "Women/Top/T-Shirts",
+    "label": "T-Shirts",
+    "parent": "Women/Top"
+  },
+  {
+    "id": "Women/Beauty",
+    "label": "Beauty",
+    "parent": "Women"
+  },
+  {
+    "id": "Women/Pants",
+    "label": "Pants",
+    "parent": "Women"
+  },
+  {
+    "id": "Women/Shoes",
+    "label": "Shoes",
+    "parent": "Women"
+  },
+  {
+    "id": "Women/Shoes/Sneakers",
+    "label": "Sneakers",
+    "parent": "Women/Shoes"
+  },
+  {
+    "id": "Women/Shoes/Boots",
+    "label": "Boots",
+    "parent": "Women/Shoes"
+  },
+  {
+    "id": "Women/Skirts",
+    "label": "Skirts",
+    "parent": "Women"
+  },
+  {
+    "id": "Men",
+    "label": "Men",
+    "parent": null
+  },
+  {
+    "id": "Men/New arrivals",
+    "label": "New arrivals",
+    "parent": "Men"
+  },
+  {
+    "id": "Women/New arrivals",
+    "label": "New arrivals",
+    "parent": "Women"
+  },
+  {
+    "id": "Kids",
+    "label": "Kids",
+    "parent": null
+  },
+  {
+    "id": "Kids/New arrivals",
+    "label": "New arrivals",
+    "parent": "Kids"
+  },
+  {
+    "id": "Men/longlabel",
+    "label": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce elementum orci nibh, ut aliquet ligula ornare nec. Sed interdum elit quis congue scelerisque. Donec pharetra leo a ipsum viverra, eu accumsan libero sagittis. Donec venenatis euismod felis, eu malesuada turpis facilisis in. Donec ac massa gravida arcu semper pharetra vitae sed diam. Praesent bibendum varius nunc in aliquam. Aenean faucibus ante nec eros ullamcorper sollicitudin. Proin euismod neque vel eros aliquet vehicula. Mauris eros orci, efficitur non imperdiet eget, scelerisque posuere mauris. Donec eget orci ut neque eleifend bibendum. Nullam sed ipsum feugiat, vulputate metus a, lacinia velit. In blandit leo in dolor laoreet, at egestas ex vulputate. Donec pharetra venenatis faucibus. Nam nulla nibh, lacinia eu diam vel, ultricies laoreet sapien. Sed id mi quis nulla iaculis lacinia lobortis sed ipsum.",
+    "parent": "Men"
+  },
+  {
+    "id": "Men/withTooltip",
+    "label": "Try custom tooltip",
+    "parent": "Men",
+    "tooltip": "WoW this tooltip is super! 🎉🍰🦄 "
+  },
+  {
+    "id": "email",
+    "label": "Email",
+    "parent": null,
+    "icon": "email"
+  },
+  {
+    "id": "email/1",
+    "label": "Posta in arrivo",
+    "parent": "email",
+    "icon": "inbox"
+  },
+  {
+    "id": "email/2",
+    "label": "Posta inviata",
+    "parent": "email",
+    "icon": "send"
+  },
+  {
+    "id": "email/3",
+    "label": "Bozze",
+    "parent": "email",
+    "icon": "insert_drive_file"
+  }
+]

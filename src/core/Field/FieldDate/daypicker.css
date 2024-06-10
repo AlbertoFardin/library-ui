@@ -1,0 +1,8 @@
+.rdp {
+  --rdp-cell-size: 30px; /* Size of the day cells. */
+  --rdp-caption-font-size: 12px; /* Font size for the caption labels. */
+}
+.rdp svg {
+  width: 10px;
+  height: 10px;
+}

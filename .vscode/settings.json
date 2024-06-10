@@ -1,0 +1,74 @@
+{
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "commentAnchors.scrollPosition": "center",
+  "commentAnchors.tags.anchors": {
+    "ANCHOR": {
+      "highlightColor": "#A8C023",
+      "scope": "workspace"
+    },
+    "FIXME": {
+      "highlightColor": "#3ea8ff",
+      "scope": "workspace"
+    },
+    "LINK": {
+      "highlightColor": "#2ecc71",
+      "scope": "workspace"
+    },
+    "NOTE": {
+      "highlightColor": "#FFB300",
+      "scope": "workspace"
+    },
+    "REVIEW": {
+      "highlightColor": "#64DD17",
+      "scope": "workspace"
+    },
+    "TODO": {
+      "highlightColor": "#3ea8ff",
+      "scope": "workspace"
+    }
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.fontFamily": "Fira Code, Menlo, Monaco, 'Courier New', monospace",
+  "editor.formatOnSave": true,
+  "editor.suggestSelection": "first",
+  "editor.tabSize": 2,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "explorer.confirmDragAndDrop": false,
+  "files.autoSave": "off",
+  "javascript.format.insertSpaceAfterKeywordsInControlFlowStatements": false,
+  "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
+  "javascript.preferences.quoteStyle": "single",
+  "prettier.arrowParens": "always",
+  "prettier.jsxSingleQuote": true,
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "all",
+  "typescript.format.insertSpaceAfterKeywordsInControlFlowStatements": false,
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
+  "typescript.preferences.quoteStyle": "single",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue"
+}

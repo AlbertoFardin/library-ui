@@ -1,0 +1,12 @@
+node_modules
+.awcache
+data
+junit.xml
+bucket
+.env
+version.json
+static/webviewer/lib
+/package
+/static
+/.idea/
+/.out/
