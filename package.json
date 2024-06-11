@@ -1,9 +1,9 @@
 {
-  "name": "@warda/library-ui",
+  "name": "@alberto.fardin/library-ui",
   "version": "30.8.12",
   "description": "React components for faster and easier web development. Build your own design system, or start with Material Design.",
   "main": "index.js",
-  "authors": "alberto.fardin@warda.it",
+  "authors": "alberto.fardin",
   "license": "ISC",
   "scripts": {
     "dev": "npm run storybook:start",
@@ -26,7 +26,6 @@
     "**/*": "prettier --write --ignore-unknown"
   },
   "dependencies": {
-    "@warda/react-image-annotation": "~0.9.13",
     "bytes": "^3.1.2",
     "classnames": "^2.3.2",
     "copy-to-clipboard": "^3.3.3",

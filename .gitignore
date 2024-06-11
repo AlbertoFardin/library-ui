@@ -7,6 +7,5 @@ bucket
 version.json
 static/webviewer/lib
 /package
-/static
 /.idea/
 /.out/
