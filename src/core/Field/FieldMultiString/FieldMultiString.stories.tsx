@@ -1,5 +1,4 @@
 import { action } from "@storybook/addon-actions";
-import * as React from "react";
 import DemoFieldMultiString from "./Demo";
 import FieldMultiString from ".";
 import {
@@ -21,12 +20,13 @@ for (let i = 0; i < maxItem; i++) {
 }
 
 export default {
-  title: "Core/Field/FieldMultiString",
+  title: "core/Field/FieldMultiString",
   component: FieldMultiString,
   args: {
     color,
     label: "FieldMultiString",
     onChange: action("onChange"),
+    onClick: action("onClick"),
     style,
     value,
     menu: menuItems,
@@ -45,7 +45,12 @@ export const Default = Story.bind({});
 
 export const Disabled = Story.bind({});
 Disabled.args = {
-  readOnly: true,
+  ReadOnly: true,
+};
+export const DisabledInput = Story.bind({});
+DisabledInput.args = {
+  readOnlyInput: true,
+  value: [],
 };
 
 export const Placeholder = Story.bind({});

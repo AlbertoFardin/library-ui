@@ -1,16 +1,16 @@
-<!-- markdownlint-disable -->
-
 <p align="center">
 <img width="450" src="./static/logo.svg" alt="Alberto Fardin">
 </p>
 
-This is my personal web site and portfolio online.
+- **Live Demo:** [albertofardin-portfolio.netlify.app](https://albertofardin-portfolio.netlify.app/)
+- **Source Code:** [github.com/AlbertoFardin/library-ui](https://github.com/AlbertoFardin/library-ui)
 
-This is a customizable library of components to build faster and more accessible applications.
+There’s no better résumé for a developer than their own code.
 
-Follow design system of [Material Design](https://material.io/design/introduction/).
+This project is my personal online portfolio.
+It also includes a customizable component library designed to help build faster and more accessible applications, following the [Material Design](https://material.io/design/introduction/) guidelines.
 
-Build with [ReactJs](https://reactjs.org/) and [Npm](https://www.npmjs.com/)
+Built with [React.js](https://reactjs.org/) and [NPM](https://www.npmjs.com/).
 
 ---
 
@@ -21,6 +21,9 @@ Installing NodeJs will also install npm (version 8.19.4)
 
 > Before updating the NodeJS version, backward compatibility with the libraries used and the code must be checked
 > So you will have to align the version in Jenkins too
+
+You must get warda library from repo.warda.it.
+
 > maximum memory allowed for Node.js must be 4GB or upper.
 
 ## Node Version Manager
@@ -51,6 +54,28 @@ nvm install 16.20.2
  node -v
  npm -v
 ```
+
+## Enable use of repo.warda.it
+
+To get the warda libraries you must be enabled as UI developer on repo.warda.it
+and give credentials to npm login command line.
+So you have to execute commands
+
+```bash
+npm login --registry=https://repo.warda.it/repository/warda-npm-snapshots/ --scope=@warda-snapshot
+npm login --registry=https://repo.warda.it/repository/warda-npm-releases/ --scope=@warda
+```
+
+and provide credentials. The file `~/.npmrc` will be created
+
+```text
+//repo.warda.it/repository/warda-npm-snapshots/:_authToken= ...token...
+@warda-snapshot:registry=https://repo.warda.it/repository/warda-npm-snapshots/
+//repo.warda.it/repository/warda-npm-releases/:_authToken= ...token...
+@warda:registry=https://repo.warda.it/repository/warda-npm-releases/
+```
+
+see https://wardafactory.atlassian.net/wiki/spaces/DLOG/pages/85262369/Gestione+moduli+Node.js+con+NPM+in+Nexus+3
 
 ## Maximum memory allowed for Node.js
 
@@ -167,6 +192,12 @@ npm run check:jest
 
 Tests are written in a folder `__tests__` in the same root where the function/component to test are.
 
+To run specific test use `npx jest`; for example, to run parseDeepZoomXML.spec.ts in ./src/core/PyramidZoom/DeepZoomImageData/**tests**/
+
+```bash
+npx jest ./src/core/PyramidZoom/DeepZoomImageData/__tests__/parseDeepZoomXML.spec.ts
+```
+
 > You can run a single test using the `debugger tool` of your IDE (VSCode...).
 
 To format all files in source you can run
@@ -195,6 +226,8 @@ To build static version of storybook the command is
 npm run storybook:build-static
 ```
 
+> This command only needs to be run once before starting the storybook and is used by Jenkins to update the [WARDA Library-UI Storybook](https://s3-eu-west-1.amazonaws.com/warda-static-resources/library-ui/index.html) with the release of each new version.
+
 To start storybook locally
 
 ```bash
@@ -220,8 +253,31 @@ if pre commit hook blocks the commit, and you want to fight without solving the 
   git commit --no-verify -m "Commit message"
 ```
 
+# Pre-check new version in local seecomerce project
+
+To check new code you may produce distribution code in folder `package` with command
+
+```bash
+npm run publish:create
+```
+
+and then you have to copy the code into the seecommerce project.
+For example, if seecommerce project folder is `../seecommerce2-ui/` you may run the command
+
+```bash
+rm -rf ../seecommerce2-ui/node_modules/@warda/library-ui/
+mkdir ../seecommerce2-ui/node_modules/@warda/library-ui/
+cp -R package/* ../seecommerce2-ui/node_modules/@warda/library-ui/
+```
+
 ---
 
 # Versioning and release
 
 This repo follows the rules of [feature branch workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow) and [SemVer](http://semver.org/).
+
+To publish a new version in warda-nexus:
+
+1. Create a new version tag, see [npm-version](https://docs.npmjs.com/cli/v9/commands/npm-version) `npm version patch | minor | major`.
+2. Push the commit and tag created.
+3. Go to [Jenkins](https://build.warda.it/job/Ui/job/Libraries/job/library-ui-git/job/master/) and manualy lanch a build with the tag.

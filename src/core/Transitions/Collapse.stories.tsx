@@ -1,9 +1,9 @@
 import * as React from "react";
-import Collapse from "./Collapse";
 import { action } from "@storybook/addon-actions";
+import Collapse from "./Collapse";
 
 export default {
-  title: "Core/Transitions/Collapse",
+  title: "core/Transitions/Collapse",
   component: Collapse,
 };
 

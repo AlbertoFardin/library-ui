@@ -1,4 +1,3 @@
-import * as React from "react";
 import Tooltip from ".";
 import Text from "../Text";
 
@@ -54,10 +53,9 @@ const ExampleStory = (args) => (
 );
 
 export default {
-  title: "Core/Tooltip",
+  title: "core/Tooltip",
   component: Tooltip,
   args: {
-    open: true,
     title: "tooltip",
   },
 };
@@ -66,21 +64,25 @@ export const Example = ExampleStory.bind({});
 
 export const PlacementTop = ExampleStory.bind({});
 PlacementTop.args = {
+  open: true,
   place: "top",
 };
 
 export const PlacementRight = ExampleStory.bind({});
 PlacementRight.args = {
+  open: true,
   place: "right",
 };
 
 export const PlacementLeft = ExampleStory.bind({});
 PlacementLeft.args = {
+  open: true,
   place: "left",
 };
 
 export const PlacementBottom = ExampleStory.bind({});
 PlacementBottom.args = {
+  open: true,
   place: "bottom",
 };
 

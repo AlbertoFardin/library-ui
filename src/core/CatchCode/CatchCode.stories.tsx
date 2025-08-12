@@ -2,7 +2,7 @@ import * as React from "react";
 import CatchCode, { IListener, KeyMap } from ".";
 
 export default {
-  title: "Core/CatchCode",
+  title: "core/CatchCode",
   component: CatchCode,
 };
 

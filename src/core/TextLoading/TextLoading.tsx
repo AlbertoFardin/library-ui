@@ -1,9 +1,9 @@
 import * as React from "react";
+import classnames from "classnames";
+import { createUseStyles } from "react-jss";
 import Text from "../Text";
 import CircularProgress from "../CircularProgress";
 import { getTheme } from "../../theme";
-import classnames from "classnames";
-import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   textloading: {

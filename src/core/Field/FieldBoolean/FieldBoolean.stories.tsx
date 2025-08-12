@@ -1,4 +1,3 @@
-import * as React from "react";
 import { action } from "@storybook/addon-actions";
 import DemoFieldBoolean from "./DemoFieldBoolean";
 import FieldBoolean from ".";
@@ -23,7 +22,7 @@ for (let i = 0; i < 30; i++) {
 }
 
 export default {
-  title: "Core/Field/FieldBoolean",
+  title: "core/Field/FieldBoolean",
   component: FieldBoolean,
   args: {
     color,

@@ -1,13 +1,12 @@
-import * as React from "react";
+import { action } from "@storybook/addon-actions";
 import BtnBase from ".";
 import Text from "../Text";
-import { action } from "@storybook/addon-actions";
 
 const color = "#f00";
 const style = { padding: 25, margin: 25, border: `1px solid ${color}` };
 
 export default {
-  title: "Core/BtnBase",
+  title: "core/BtnBase",
   component: BtnBase,
 };
 

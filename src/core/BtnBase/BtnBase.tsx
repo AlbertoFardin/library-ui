@@ -1,12 +1,11 @@
 import * as React from "react";
 import { createUseStyles } from "react-jss";
-import { isMobile } from "../../utils/deviceUtils";
 import Ink from "react-ink";
-import { getTheme } from "../../theme";
 import classnames from "classnames";
-import Tooltip from "../Tooltip";
 import setToClipboard from "copy-to-clipboard";
-import emptyFn from "../../utils/emptyFn";
+import { isMobile } from "../../utils/deviceUtils";
+import { getTheme } from "../../theme";
+import Tooltip from "../Tooltip";
 
 interface IStyles {
   disabled: boolean;
@@ -35,7 +34,7 @@ export interface IBtnBase {
   clickElapsed?: number;
   onClick?: (event: React.MouseEvent, keyDown: IKeyDown) => void;
   onDoubleClick?: (event: React.MouseEvent, keyDown: IKeyDown) => void;
-  onContextMenu?: (event: React.MouseEvent, keyDown: IKeyDown) => void;
+  onContextMenu?: (event: React.MouseEvent) => void;
   onMouseEnter?: (event: React.MouseEvent) => void;
   onMouseLeave?: (event: React.MouseEvent) => void;
   onMouseMove?: (event: React.MouseEvent) => void;
@@ -46,6 +45,7 @@ export interface IBtnBase {
   disabledRipple?: boolean;
   copyToClipboard?: string;
   onCopyToClipboard?: (text: string) => void;
+  onLongPress?: (event: React.TouchEvent) => void;
 }
 const BtnBase = React.forwardRef(
   (props: IBtnBase, ref: React.Ref<HTMLDivElement>) => {
@@ -69,16 +69,24 @@ const BtnBase = React.forwardRef(
       disabled: disabledProp,
       disabledRipple,
       copyToClipboard,
-      onCopyToClipboard = emptyFn,
+      onCopyToClipboard,
+      onLongPress,
     } = props;
     const disabled = disabledProp || (!onClick && !onDoubleClick);
     const classes = useStyles({ disabled });
 
     const clickTimeout = React.useRef(null);
+    const pressTimeout = React.useRef(null);
     const clearClickTimeout = () => {
       if (clickTimeout.current !== null) {
         clearTimeout(clickTimeout.current);
         clickTimeout.current = null;
+      }
+    };
+    const clearPressTimeout = () => {
+      if (pressTimeout.current !== null) {
+        clearTimeout(pressTimeout.current);
+        pressTimeout.current = null;
       }
     };
 
@@ -110,7 +118,7 @@ const BtnBase = React.forwardRef(
 
         if (!!copyToClipboard) {
           setToClipboard(copyToClipboard);
-          onCopyToClipboard(copyToClipboard);
+          if (onCopyToClipboard) onCopyToClipboard(copyToClipboard);
         }
 
         if (clickPropagation === false) {
@@ -149,20 +157,34 @@ const BtnBase = React.forwardRef(
     );
     const cbContextMenu = React.useCallback(
       (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        if (isMobile()) return;
+
         if (!disabled && onContextMenu) {
           if (clickPropagation === false) {
             event.preventDefault();
             event.stopPropagation();
           }
-          onContextMenu(event, {
-            isMobile: isMobile(),
-            keyDownCtrl: event.ctrlKey || event.metaKey,
-            keyDownMeta: event.shiftKey,
-          });
+          onContextMenu(event);
         }
       },
       [clickPropagation, disabled, onContextMenu],
     );
+
+    const cbTouchStart = React.useCallback(
+      (event: React.TouchEvent<HTMLDivElement>) => {
+        if (!onLongPress) return;
+        pressTimeout.current = window.setTimeout(() => {
+          onLongPress(event);
+        }, 500);
+      },
+      [onLongPress],
+    );
+    const cbTouchEnd = React.useCallback(() => {
+      clearPressTimeout();
+    }, []);
+    const cbTouchCancel = React.useCallback(() => {
+      clearPressTimeout();
+    }, []);
 
     return (
       <Tooltip title={tooltip} open={tooltipOpen} place={tooltipPlace}>
@@ -180,10 +202,13 @@ const BtnBase = React.forwardRef(
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
           onMouseMove={onMouseMove}
+          onTouchStart={cbTouchStart}
+          onTouchEnd={cbTouchEnd}
+          onTouchCancel={cbTouchCancel}
           onKeyPress={undefined}
         >
           {disabled || disabledRipple ? null : (
-            <Ink style={{ color }} opacity={0.1} />
+            <Ink style={{ color, zIndex: 1 }} opacity={0.2} />
           )}
           {children}
         </div>

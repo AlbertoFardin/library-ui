@@ -22,7 +22,7 @@ export const multiselectMeta = (
 ): string[] => {
   const array = Array.from(idsSelected);
 
-  const idsToAdd = idsTotal.filter((item, index) => {
+  const idsToAdd = idsTotal.filter((_, index) => {
     if (indexSlcFrom < indexSlcTo) {
       return index >= indexSlcFrom && index <= indexSlcTo;
     }

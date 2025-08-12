@@ -1,10 +1,11 @@
 import * as React from "react";
+import classnames from "classnames";
 import Btn from "../../Btn";
 import { IPopoverListItem } from "../../PopoverList";
-import classnames from "classnames";
 import useStyles from "./useStyles";
 
 interface IBtnMenu {
+  zIndex?: number;
   color: string;
   className?: string;
   onClose: () => void;
@@ -18,6 +19,7 @@ interface IBtnMenu {
 }
 
 const BtnMenu = ({
+  zIndex,
   color,
   className,
   onClose,
@@ -30,7 +32,7 @@ const BtnMenu = ({
   onMouseLeave,
 }: IBtnMenu) => {
   const classes = useStyles({ color });
-  const isRenderDefault = !items.length || (visibleOnHover && !inputHover);
+  const isRenderDefault = !items?.length || (visibleOnHover && !inputHover);
 
   if (isRenderDefault) return renderDefault;
 
@@ -50,6 +52,7 @@ const BtnMenu = ({
         icon="more_vert"
         menu={{
           onClose,
+          zIndex,
           items,
         }}
       />

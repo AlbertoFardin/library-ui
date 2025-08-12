@@ -7,7 +7,7 @@ import { getTheme } from "../../theme";
 const color = "#f00";
 
 export default {
-  title: "Core/Checkbox",
+  title: "core/Checkbox",
   component: Checkbox,
 };
 

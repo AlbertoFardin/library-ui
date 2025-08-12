@@ -1,23 +1,23 @@
 import * as React from "react";
 import classnames from "classnames";
+import TextareaAutosize from "react-textarea-autosize";
 import emptyFn from "../../../utils/emptyFn";
-import useDebouncedState from "../../../utils/useDebouncedState";
 import { getLabels } from "../Label";
 import useStyles from "../utils/useStyles";
 import BtnMenu from "../utils/BtnMenu";
 import IFieldText from "./IFieldText";
 import Btn from "../../Btn";
 import { getTheme } from "../../../theme";
-import TextareaAutosize from "react-textarea-autosize";
 
 export const defaultMinRows = 1;
 export const defaultMaxRows = 5;
 export const defaultAutoSize = false;
 
 const FieldText = ({
+  inputRef: inputRefProp,
   color = getTheme().colors.theme1,
   className,
-  debounce = 300,
+  debounce = 500,
   label,
   inputReadOnly,
   adornmentIcon,
@@ -39,6 +39,8 @@ const FieldText = ({
   onBlur = emptyFn,
   onFocus = emptyFn,
   onClick = emptyFn,
+  onMouseOver = emptyFn,
+  onMouseLeave = emptyFn,
   placeholder = "Write...",
   placeholderDisabled = "No value",
   readOnly,
@@ -51,41 +53,34 @@ const FieldText = ({
   minRows = defaultMinRows,
   maxRows = defaultMaxRows,
   autosize = defaultAutoSize,
+  innerChildren,
 }: IFieldText) => {
   const fieldRef = React.useRef(null);
-  const inputRef = React.useRef(null);
+  const inputRefDefault = React.useRef(null);
+  const inputRef = inputRefProp || inputRefDefault;
   const [inputHover, setInputHover] = React.useState(false);
-  const [inputValue, setInputValue] = useDebouncedState(
-    value,
-    debounce,
-    onChange,
-  );
+  const [inputValue, setInputValue] = React.useState(value);
   const classes = useStyles({ color });
-  const cbOnMouseEnter = React.useCallback(() => {
+  const cbOnMouseOver = React.useCallback(() => {
+    onMouseOver();
     setInputHover(true);
-  }, []);
+  }, [onMouseOver]);
   const cbOnMouseLeave = React.useCallback(() => {
+    onMouseLeave();
     setInputHover(false);
+  }, [onMouseLeave]);
+  const cbOnChange = React.useCallback((event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setInputValue(event.target.value);
   }, []);
-  const cbOnChange = React.useCallback(
-    (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      setInputValue(event.target.value);
-    },
-    [setInputValue],
-  );
   const cbOnBlur = React.useCallback(
     (event) => {
       event.preventDefault();
       event.stopPropagation();
-      const v = event.target.value;
-      if (!v) {
-        inputRef.current.value = value;
-      }
-      onBlur(v);
+      onBlur(event.target.value);
     },
-    [inputRef, onBlur, value],
+    [onBlur],
   );
   const cbOnFocus = React.useCallback(
     (event) => {
@@ -97,14 +92,28 @@ const FieldText = ({
   );
   const cbOnKeyDown = React.useCallback(
     (event) => {
-      onKeyPress(event.key, inputRef.current.value);
+      onKeyPress(event.key, inputValue);
     },
-    [inputRef, onKeyPress],
+    [inputValue, onKeyPress],
   );
   const cbMenuOnClose = React.useCallback(() => {
     setInputHover(false);
     menuOnClose();
   }, [menuOnClose]);
+
+  // Debounce effect
+  React.useEffect(() => {
+    if (inputValue === value) return undefined;
+    const handler = setTimeout(() => {
+      onChange(inputValue);
+    }, debounce);
+    return () => clearTimeout(handler);
+  }, [inputValue, value, debounce, onChange]);
+
+  // Keep local state in sync with external value if it changes
+  React.useEffect(() => {
+    setInputValue(value);
+  }, [value]);
 
   return (
     <div
@@ -119,11 +128,11 @@ const FieldText = ({
         [className]: !!className,
       })}
       onFocus={emptyFn}
-      onMouseOver={cbOnMouseEnter}
+      onMouseOver={cbOnMouseOver}
       onMouseLeave={cbOnMouseLeave}
     >
       {getLabels(label)}
-      {!adornmentIcon ? null : (
+      {!!adornmentIcon && (
         <Btn
           className={classes.adornmentIcon}
           icon={adornmentIcon}
@@ -131,9 +140,7 @@ const FieldText = ({
           tooltip={adornmentIconTooltip}
         />
       )}
-      {!adornmentAvatar &&
-      !adornmentAvatarText &&
-      !adornmentAvatarIcon ? null : (
+      {(adornmentAvatar || adornmentAvatarText || adornmentAvatarIcon) && (
         <Btn
           className={classes.adornmentAvatar}
           avatar={adornmentAvatar}
@@ -146,9 +153,9 @@ const FieldText = ({
         <div className={classes.adornmentElement} children={adornmentElement} />
       ) : multiline ? (
         <TextareaAutosize
+          ref={inputRef}
           autoFocus={autoFocus}
           autoComplete={autoComplete}
-          ref={inputRef}
           readOnly={readOnly || inputReadOnly}
           value={inputValue}
           placeholder={readOnly && !value ? placeholderDisabled : placeholder}
@@ -164,10 +171,10 @@ const FieldText = ({
         />
       ) : (
         <input
+          ref={inputRef}
           disabled={readOnly}
           autoFocus={autoFocus}
           autoComplete={autoComplete}
-          ref={inputRef}
           type={inputType}
           name={inputName}
           readOnly={readOnly || inputReadOnly}
@@ -181,7 +188,8 @@ const FieldText = ({
           className={classes.input}
         />
       )}
-      {!!adornmentElement ? null : (
+      {innerChildren}
+      {!adornmentElement && (
         <BtnMenu
           color={color}
           className={classes.menuPosRelative}

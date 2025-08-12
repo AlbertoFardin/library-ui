@@ -2,7 +2,6 @@ import * as React from "react";
 import classnames from "classnames";
 import Btn from "../../Btn";
 import emptyFn from "../../../utils/emptyFn";
-import useDebounce from "../../../utils/useDebounce";
 import Text from "../../Text";
 import Chip from "../../Chip";
 import { getLabels } from "../Label";
@@ -24,6 +23,16 @@ const getInputVisible = (
   if (type === "singleselect") return !optionsShow.length;
   return true;
 };
+const isSelectionComplete = ({
+  type,
+  maxSelectable,
+  value,
+}: {
+  type: "singleselect" | "multiselect";
+  maxSelectable: number;
+  value: string[];
+}) =>
+  type === "multiselect" && maxSelectable > 0 && value.length >= maxSelectable;
 
 const FieldSelect = ({
   color = getTheme().colors.theme1,
@@ -59,14 +68,15 @@ const FieldSelect = ({
   searchable = false,
   style,
   value = [],
+  maxSelectable,
+  selectionLimitMessage,
 }: IFieldSelect) => {
   const fieldRef = React.useRef(null);
   const [width, setWidth] = React.useState(0);
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [inputValue, setInputValue] = React.useState("");
   const [inputHover, setInputHover] = React.useState(false);
-  const [fieldFocus, setFieldFocus] = React.useState(false);
-  const inputValueDebounced = useDebounce(inputValue, 500);
+  const isComplete = isSelectionComplete({ type, maxSelectable, value });
 
   const fieldWidth = fieldRef.current ? fieldRef.current.clientWidth : 1;
   const optionsShow = value
@@ -87,17 +97,16 @@ const FieldSelect = ({
   }, []);
   const cbFieldClick = React.useCallback(() => {
     if (!readOnly) {
-      setFieldFocus(true);
       setMenuOpen(true);
       onClick();
+      if (searchable) onSearch(inputValue);
     }
-  }, [readOnly, onClick]);
+  }, [inputValue, onClick, onSearch, readOnly, searchable]);
   const cbMenuClose = React.useCallback(() => {
     setMenuOpen(false);
-    setFieldFocus(false);
     setInputValue("");
     onClose();
-  }, [onClose]);
+  }, [onClose, setInputValue]);
   const onClikReset = React.useCallback(() => {
     onChange(undefined, []);
   }, [onChange]);
@@ -121,10 +130,13 @@ const FieldSelect = ({
             slcIds.splice(indexToRemove, 1);
           }
         }
+        if (isSelectionComplete({ type, maxSelectable, value: slcIds })) {
+          setMenuOpen(false);
+        }
         onChange(slcId, slcIds);
       }
     },
-    [chipsCanRemove, onChange, type, value],
+    [chipsCanRemove, maxSelectable, onChange, type, value],
   );
   const endAdornmentDefault = readOnly ? null : (
     <Btn
@@ -139,21 +151,14 @@ const FieldSelect = ({
   }, [menuOnClose]);
 
   React.useEffect(() => {
-    if (searchable && inputValueDebounced) {
+    if (searchable && inputValue) {
       setMenuOpen(true);
     }
-  }, [searchable, inputValueDebounced]);
+  }, [searchable, inputValue]);
 
   React.useEffect(() => {
     setWidth(fieldWidth);
   }, [fieldWidth]);
-
-  React.useEffect(() => {
-    if (searchable && fieldFocus) {
-      onSearch(inputValueDebounced);
-      setFieldFocus(true);
-    }
-  }, [fieldFocus, inputValueDebounced, onSearch, searchable]);
 
   return (
     <>
@@ -250,7 +255,16 @@ const FieldSelect = ({
                 )}
               </>
             )}
-            {!inputVisible ? null : (
+            {!inputVisible ? null : isComplete ? (
+              <div className={classes.completeMessage}>
+                <Text
+                  children={
+                    selectionLimitMessage ??
+                    `You can select up to ${maxSelectable} item${maxSelectable > 1 ? "s" : ""}.`
+                  }
+                />
+              </div>
+            ) : (
               <input
                 readOnly
                 placeholder={
@@ -261,7 +275,7 @@ const FieldSelect = ({
             )}
           </div>
         )}
-        {!!adornmentElement ? null : (
+        {!!adornmentElement || isComplete ? null : (
           <BtnMenu
             color={color}
             className={classes.menuPosAbsoluteBot}
@@ -275,7 +289,7 @@ const FieldSelect = ({
         )}
       </div>
       <Menu
-        open={menuOpen && !readOnly}
+        open={menuOpen && !readOnly && !isComplete}
         anchorEl={fieldRef.current}
         onSearch={setInputValue}
         onClose={cbMenuClose}

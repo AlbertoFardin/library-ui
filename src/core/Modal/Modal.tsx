@@ -11,27 +11,20 @@ import CircularProgress from "../CircularProgress";
 import IconHelp from "../IconHelp";
 
 const size = 100;
+interface IStyles {
+  zIndex: number;
+  backdropZIndex: number;
+}
 const useStyles = createUseStyles({
-  "@keyframes blowUpModal": {
-    "0%": {
-      transform: "scale(0)",
-    },
-    "100%": {
-      transform: "scale(1)",
-    },
-  },
   modal: {
     overflow: "hidden",
     position: "absolute",
-    width: "fit-content",
-    height: "fit-content",
-    zIndex: getTheme().zIndex.modal,
+    zIndex: ({ zIndex }: IStyles) => zIndex,
     display: "flex",
     flexDirection: "column",
     alignItems: "stretch",
-    transform: "scale(0)",
-    animation:
-      "$blowUpModal 250ms cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards",
+    width: "fit-content",
+    height: "fit-content",
   },
   modalIsAlert: {
     margin: "auto",
@@ -41,23 +34,23 @@ const useStyles = createUseStyles({
     right: 0,
     minWidth: size,
     minHeight: size,
-    maxWidth: window.innerWidth - 30,
-    maxHeight: window.innerHeight - 30,
+    maxWidth: "calc(100vw - 30px)",
+    maxHeight: "calc(100vh - 30px)",
   },
   modalLoading: {
     alignItems: "center",
     justifyContent: "center",
   },
   modalBackdrop: {
-    zIndex: getTheme().zIndex.modal,
+    zIndex: ({ zIndex, backdropZIndex }: IStyles) => backdropZIndex || zIndex,
   },
   content: {
     display: "flex",
     flexDirection: "column",
     alignItems: "stretch",
-    height: "inherit",
-    maxHeight: "inherit",
-    flex: 1,
+    flex: "1 1 auto",
+    overflowY: "auto",
+    minHeight: 0,
   },
   contentMinSize: {
     minWidth: 350,
@@ -81,6 +74,11 @@ export interface IModal {
   actionsStyle?: React.CSSProperties;
   actions?: JSX.Element | React.ReactNode;
   popover?: boolean;
+  zIndex?: number;
+  backdropVisible?: boolean;
+  backdropClassName?: string;
+  backdropStyle?: React.CSSProperties;
+  backdropZIndex?: number;
 }
 
 const Modal = ({
@@ -99,8 +97,13 @@ const Modal = ({
   actionsStyle,
   actions,
   popover,
+  zIndex = getTheme().zIndex.modal,
+  backdropVisible = true,
+  backdropClassName,
+  backdropStyle,
+  backdropZIndex,
 }: IModal) => {
-  const classes = useStyles({});
+  const classes = useStyles({ zIndex, backdropZIndex });
 
   if (!open) return null;
 
@@ -109,8 +112,12 @@ const Modal = ({
       <Backdrop
         open={true}
         onClick={onClose}
-        className={classes.modalBackdrop}
-        invisible={popover}
+        className={classnames({
+          [classes.modalBackdrop]: true,
+          [backdropClassName]: !!backdropClassName,
+        })}
+        style={backdropStyle}
+        invisible={!backdropVisible}
       />
       <Card
         elevation={popover ? 4 : 1}
@@ -146,9 +153,11 @@ const Modal = ({
               />
             )}
             {!actions ? null : (
-              <Toolbar style={actionsStyle} className={actionsClassName}>
-                {actions}
-              </Toolbar>
+              <Toolbar
+                style={actionsStyle}
+                className={actionsClassName}
+                children={actions}
+              />
             )}
           </>
         )}

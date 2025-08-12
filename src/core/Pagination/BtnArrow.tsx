@@ -1,4 +1,3 @@
-import * as React from "react";
 import Btn from "../Btn";
 
 interface IBtnArrow {

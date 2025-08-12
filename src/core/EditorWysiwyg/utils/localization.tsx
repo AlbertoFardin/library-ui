@@ -1,4 +1,3 @@
-import * as React from "react";
 import { titleSrc } from "./icons";
 
 export function localization() {

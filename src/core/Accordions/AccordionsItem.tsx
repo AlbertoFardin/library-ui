@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createUseStyles } from "react-jss";
-import BtnBase from "../BtnBase";
 import classnames from "classnames";
+import BtnBase from "../BtnBase";
 import { IAccordion } from "./interfaces";
 
 const useStyles = createUseStyles({
@@ -9,7 +9,7 @@ const useStyles = createUseStyles({
     display: "flex",
     "flex-direction": "row",
     "align-items": "stretch",
-    width: "-webkit-fill-available",
+    width: "100%",
     overflow: "hidden",
     "text-overflow": "ellipsis",
   },

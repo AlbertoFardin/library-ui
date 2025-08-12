@@ -32,12 +32,12 @@ export interface IFieldBoolean {
   classNameMenu?: string;
   getChipLabel?: (item: IListItem) => string;
   adornmentIcon?: string;
-  adornmentIconTooltip?: string;
+  adornmentIconTooltip?: string | string[];
   adornmentIconColor?: string;
   adornmentAvatar?: string;
-  adornmentAvatarTooltip?: string;
+  adornmentAvatarTooltip?: string | string[];
   adornmentElement?: JSX.Element;
-  label?: string | ILabel[] | React.ReactElement;
+  label?: string | ILabel[];
   loading?: boolean;
   onClick?: () => void;
   onClose?: () => void;
@@ -69,7 +69,7 @@ const FieldBoolean = (p: IFieldBoolean) => {
       value={getValue(value)}
       onChange={onChangeCb}
       chipsStyle={{
-        width: "-webkit-fill-available",
+        width: "100%",
         marginRight: p.readOnly ? 0 : 35,
         marginTop: 0,
         marginBottom: 0,

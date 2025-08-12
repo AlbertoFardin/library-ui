@@ -1,9 +1,8 @@
-import * as React from "react";
 import Divider from ".";
 import Toolbar from "../Toolbar";
 
 export default {
-  title: "Core/Divider",
+  title: "core/Divider",
   component: Divider,
 };
 

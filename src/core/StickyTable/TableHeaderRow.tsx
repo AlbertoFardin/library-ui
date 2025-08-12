@@ -1,9 +1,9 @@
 import * as React from "react";
+import isEqual from "lodash-es/isEqual";
 import allButDataAndVirtualEqual from "./allButDataAndVirtualEqual";
 import TableCell from "./TableCell";
 import { IRenderer, IStickTableRow } from "./IStickyTable";
 import { IVirtual } from "./useVirtual";
-import isEqual from "lodash-es/isEqual";
 
 interface ITableHeaderRow {
   className?: string;
@@ -26,7 +26,7 @@ const TableHeaderRowNoMemo = ({
   virtual,
   renderer,
 }: ITableHeaderRow) => {
-  const { cols } = virtual;
+  const { rows, cols } = virtual;
   const { visible, sizes, positions } = cols;
   const items = [];
   for (let i = visible.min; i <= visible.max; ++i) {
@@ -38,6 +38,8 @@ const TableHeaderRowNoMemo = ({
         rowIndex={0}
         columnIndex={i}
         columnWidth={sizes[i]}
+        rowsTotal={rows.sizes.length}
+        columnsTotal={cols.sizes.length}
         rowHeight={height}
         style={{ left: leftWidth + positions[i] }}
       />,
@@ -54,11 +56,6 @@ const TableHeaderRowNoMemo = ({
 
 // Horizontal header bars. These take a 1d data prop and some offsets for positioning
 const TableHeaderRow = React.memo(TableHeaderRowNoMemo, (prev, next) => {
-  // we need to re-render if change rows "id"
-  const prevIds = prev.data.map((d) => d.id).join();
-  const nextIds = next.data.map((d) => d.id).join();
-  if (prevIds !== nextIds) return false;
-
   // we need to re-render if change rows "value"
   const prevVal = prev.data.map((d) => JSON.stringify(d.value)).join();
   const nextVal = next.data.map((d) => JSON.stringify(d.value)).join();

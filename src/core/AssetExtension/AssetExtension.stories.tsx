@@ -1,10 +1,9 @@
-import * as React from "react";
 import AssetExtension from ".";
 
 const s = { margin: 10, border: "1px solid #f00" };
 
 export default {
-  title: "Core/AssetExtension",
+  title: "core/AssetExtension",
   component: AssetExtension,
 };
 

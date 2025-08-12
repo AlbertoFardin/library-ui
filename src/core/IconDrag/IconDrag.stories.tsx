@@ -1,8 +1,7 @@
-import * as React from "react";
 import IconDrag from "./IconDrag";
 
 export default {
-  title: "Core/IconDrag",
+  title: "core/IconDrag",
   component: IconDrag,
   args: {
     open: true,

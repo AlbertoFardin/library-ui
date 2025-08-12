@@ -46,5 +46,14 @@ module.exports = {
     "react-hooks/rules-of-hooks": "error",
     "import/no-named-as-default": "off",
     "jsx-a11y/no-autofocus": "off",
+    "jsx-a11y/media-has-caption": "off",
+    "react/react-in-jsx-scope": "off",
+    "import/order": [
+      "warn",
+      {
+        groups: ["external", "internal", "builtin"],
+        "newlines-between": "never",
+      },
+    ],
   },
 };

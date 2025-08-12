@@ -1,5 +1,4 @@
 export type * from "./interfaces";
-export * from "./constants";
 export { default as FilterWrapper } from "./utils/FilterWrapper";
 export { default as FilterCount } from "./utils/FilterCount";
 export { default as clearFilterValue } from "./utils/clearFilterValue";

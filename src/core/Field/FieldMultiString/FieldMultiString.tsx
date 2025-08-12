@@ -1,5 +1,6 @@
 import * as React from "react";
 import classnames from "classnames";
+import { v4 as uuidv4 } from "uuid";
 import emptyFn from "../../../utils/emptyFn";
 import Chip from "../../Chip";
 import Text from "../../Text";
@@ -10,7 +11,6 @@ import IFieldMultiString, { IFieldMultiStringItem } from "./interfaces";
 import Btn from "../../Btn";
 import { getTheme } from "../../../theme";
 import Divider from "../../Divider";
-import { v4 as uuidv4 } from "uuid";
 
 const createItem = (label: string): { id: string; label: string } => ({
   id: uuidv4(),
@@ -128,7 +128,7 @@ const FieldMultiString = ({
           color={getTheme().colors.theme1}
           id={id}
           label={label}
-          icon="close"
+          icon={readOnly ? undefined : "close"}
           onClick={readOnly ? undefined : cbChipClick}
         />
       );
@@ -206,13 +206,8 @@ const FieldMultiString = ({
           )}
           {!inputVisible ? null : (
             <input
-              placeholder={
-                readOnly && !value.length
-                  ? "No value"
-                  : readOnlyInput
-                    ? "Click to input value..."
-                    : placeholder
-              }
+              placeholder={readOnly && !value.length ? "No value" : placeholder}
+              readOnly={readOnly || readOnlyInput}
               className={classes.input}
               onKeyDown={cbKeyPressed}
             />

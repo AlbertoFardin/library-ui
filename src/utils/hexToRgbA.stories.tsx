@@ -1,13 +1,13 @@
 import * as React from "react";
+import { action } from "@storybook/addon-actions";
 import hexToRgbA from "./hexToRgbA";
 import InputText from "../stories/InputText";
 import InputNumber from "../stories/InputNumber";
 import Text from "../core/Text";
 import Divider from "../core/Divider";
-import { action } from "@storybook/addon-actions";
 
 export default {
-  title: "Utils/hexToRgbA",
+  title: "utils/hexToRgbA",
 };
 
 const DemoComponent = () => {

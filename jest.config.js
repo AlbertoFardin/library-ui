@@ -5,7 +5,7 @@ module.exports = {
   reporters: ["default"],
   roots: ["<rootDir>/src/"],
   moduleNameMapper: {
-    "\\.(css|less|scss)$": "identity-obj-proxy",
+    "\\.(css|less|scss|woff2)$": "identity-obj-proxy",
   },
   testEnvironmentOptions: {
     userAgent: "Agent/00",

@@ -1,8 +1,8 @@
-import { FunctionComponent } from "react";
+import * as React from "react";
 import { EditorState, ContentBlock, DraftBlockType } from "draft-js";
 
 export type TDecorator = {
-  component: FunctionComponent;
+  component: React.FunctionComponent;
   regex: RegExp;
 };
 

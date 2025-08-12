@@ -1,11 +1,10 @@
-import * as React from "react";
 import { action } from "@storybook/addon-actions";
 import BtnPulse from "./BtnPulse";
 import Toolbar from "../Toolbar";
 import { getTheme } from "../../theme";
 
 export default {
-  title: "Core/BtnPulse",
+  title: "core/BtnPulse",
   component: BtnPulse,
 };
 

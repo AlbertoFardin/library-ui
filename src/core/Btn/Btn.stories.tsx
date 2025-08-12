@@ -1,4 +1,3 @@
-import * as React from "react";
 import { action } from "@storybook/addon-actions";
 import Btn, { IBtn } from ".";
 import { getTheme } from "../../theme";
@@ -6,6 +5,12 @@ import DemoBtn from "./Demo";
 import Text from "../Text";
 import Toolbar from "../Toolbar";
 import InputFile from "../InputFile";
+
+const mapVariantColor = {
+  light: "#0085ff",
+  bold: "#ff9600",
+  outlined: "#02d404",
+};
 
 const args: IBtn = {
   icon: "photo_camera",
@@ -17,7 +22,7 @@ const args: IBtn = {
 };
 
 export default {
-  title: "Core/Btn",
+  title: "core/Btn",
   component: Btn,
   args,
 };
@@ -29,10 +34,13 @@ const StorySimple = (args) => <Btn {...args} />;
 
 const Story = (args) => (
   <table>
-    <thead>
+    <thead style={{ backgroundColor: "#f1f1f1", textAlign: "left" }}>
       <tr>
         <th>
-          <Text weight="bolder" children="VARIANT" />
+          <Text weight="bolder" children="variant" style={{ width: 60 }} />
+        </th>
+        <th>
+          <Text weight="bolder" children="color" style={{ width: 120 }} />
         </th>
         <th>
           <Text weight="bolder" children="icon" />
@@ -52,31 +60,47 @@ const Story = (args) => (
       </tr>
     </thead>
     <tbody>
-      {["light", "bold"].map((v) => {
-        const color = v === "bold" ? getTheme().colors.msgSucc : undefined;
-        return (
-          <tr key={v}>
-            <td>
-              <Text style={{ fontStyle: "italic" }} children={v} />
-            </td>
-            <td>
-              <Btn {...args} label="" variant={v} color={color} />
-            </td>
-            <td>
-              <Btn {...args} icon="" variant={v} color={color} />
-            </td>
-            <td>
-              <Btn {...args} variant={v} color={color} selected />
-            </td>
-            <td>
-              <Btn {...args} variant={v} color={color} disabled />
-            </td>
-            <td>
-              <Btn {...args} label="" variant={v} color={color} small />
-            </td>
-          </tr>
-        );
-      })}
+      {[getTheme().colors.msgSucc, "#C07CF1", "#EDCD0E", undefined].map(
+        (color) =>
+          ["light", "bold", "outlined"].map((v) => (
+            <tr key={v}>
+              <td>
+                <Text
+                  style={{ color: mapVariantColor[v] }}
+                  weight="bolder"
+                  children={v}
+                />
+              </td>
+              <td>
+                <Text
+                  style={{
+                    fontFamily: "monospace",
+                    backgroundColor: "#eee",
+                    padding: "0 5px",
+                    borderRadius: 2,
+                    width: "fit-content",
+                  }}
+                  children={String(color)}
+                />
+              </td>
+              <td>
+                <Btn {...args} label="" variant={v} color={color} />
+              </td>
+              <td>
+                <Btn {...args} icon="" variant={v} color={color} />
+              </td>
+              <td>
+                <Btn {...args} variant={v} color={color} selected />
+              </td>
+              <td>
+                <Btn {...args} variant={v} color={color} disabled />
+              </td>
+              <td>
+                <Btn {...args} label="" variant={v} color={color} small />
+              </td>
+            </tr>
+          )),
+      )}
     </tbody>
   </table>
 );

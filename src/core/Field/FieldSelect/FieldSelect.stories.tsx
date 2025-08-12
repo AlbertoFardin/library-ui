@@ -1,8 +1,7 @@
-import * as React from "react";
 import { action } from "@storybook/addon-actions";
 import DemoFieldSearch from "../FieldSelect/DemoFieldSearch";
 import DemoFieldSelect from "../FieldSelect/DemoFieldSelect";
-import FieldSelect from "../FieldSelect";
+import FieldSelect, { IFieldSelect } from "../FieldSelect";
 import {
   color,
   style,
@@ -13,6 +12,8 @@ import {
   menuItems,
 } from "../utils/story";
 import CardDemo from "../../../stories/CardDemo";
+import Tooltip from "../../Tooltip";
+import Btn from "../../Btn";
 
 const manyOptions = [];
 for (let i = 0; i < 30; i++) {
@@ -23,23 +24,25 @@ for (let i = 0; i < 30; i++) {
   });
 }
 
+const args: IFieldSelect = {
+  color,
+  label: "FieldSelect",
+  onChange: action("onChange"),
+  style,
+  value: ["apple"],
+  options: [
+    {
+      id: "apple",
+      label: "apple",
+    },
+  ],
+  menu: menuItems,
+};
+
 export default {
-  title: "Core/Field/FieldSelect",
+  title: "core/Field/FieldSelect",
   component: FieldSelect,
-  args: {
-    color,
-    label: "FieldSelect",
-    onChange: action("onChange"),
-    style,
-    value: ["apple"],
-    options: [
-      {
-        id: "apple",
-        label: "apple",
-      },
-    ],
-    menu: menuItems,
-  },
+  args,
 };
 
 const DemoStorySearch = () => <DemoFieldSearch />;
@@ -90,3 +93,28 @@ ManyItems.args = {
   options: manyOptions,
   value: manyOptions.map((o) => o.id),
 };
+
+const TooltipStory = (args) => (
+  <CardDemo>
+    <Tooltip title="Tooltip" place="right">
+      <FieldSelect
+        {...args}
+        readOnly
+        adornmentElement={
+          <Btn
+            style={{
+              margin: 0,
+              minHeight: 32,
+              maxWidth: "inherit",
+            }}
+            icon="info_outline"
+            label="No attributes available"
+            labelStyle={{ textAlign: "left" }}
+          />
+        }
+      />
+    </Tooltip>
+  </CardDemo>
+);
+
+export const WrappedToTooltip = TooltipStory.bind({});

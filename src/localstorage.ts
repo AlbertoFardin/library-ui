@@ -28,6 +28,7 @@ const parseValue = <T>(v): T => {
     return v as T;
   }
 };
+
 export const localstorageGetItem = <T>(key: string, fallback?: T): T => {
   try {
     const value = localstorage[key];
@@ -35,13 +36,20 @@ export const localstorageGetItem = <T>(key: string, fallback?: T): T => {
       throw "no_value";
     }
     const v = parseValue<T>(value);
-    if (fallback != undefined && typeof fallback !== typeof v) {
-      throw "diff_type";
-    }
     return v;
   } catch {
-    return fallback || undefined;
+    return fallback;
   }
+};
+
+export const localstorageRemoveItem = (key: string): void => {
+  localstorage.removeItem(key);
+};
+
+export const localstorageSetItem = <T>(key: string, value: T): T => {
+  const stringified = JSON.stringify(value);
+  localstorage.setItem(key, stringified);
+  return value;
 };
 
 export default localstorage;

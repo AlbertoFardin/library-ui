@@ -14,7 +14,7 @@ import BtnMenu from "../utils/BtnMenu";
 const Mention = ({ display, className }: any) => (
   <span className={className} children={display} />
 );
-const displayTransform = (id, display) => display;
+const displayTransform = (_, display) => display;
 
 const FieldMentions = ({
   color = getTheme().colors.theme1,
@@ -57,7 +57,7 @@ const FieldMentions = ({
     menuOnClose();
   }, [menuOnClose]);
   const cbOnChange = React.useCallback(
-    (event, newValue, newPlainTextValue, mentions) => {
+    (_event, newValue, _newPlainTextValue, mentions) => {
       if (!readOnly) {
         const mentionsCompleted = mentions.map(({ id }) =>
           users.find((u) => u.id === id),
@@ -68,7 +68,7 @@ const FieldMentions = ({
     [onChange, users, readOnly],
   );
   const cbRenderSuggestion = React.useCallback(
-    (suggestion, search, highlightedDisplay) => {
+    (suggestion, _, highlightedDisplay) => {
       const { id, avatar, avatarIcon, avatarText } = users.find(
         ({ id }) => id === suggestion.id,
       );
@@ -156,6 +156,7 @@ const FieldMentions = ({
             renderSuggestion={cbRenderSuggestion}
             displayTransform={displayTransform}
             className={classes.mentionsUser}
+            isOpen={false}
           />
         </MentionsInput>
       )}

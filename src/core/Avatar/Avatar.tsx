@@ -1,11 +1,12 @@
 import * as React from "react";
 import { createUseStyles } from "react-jss";
+import classnames from "classnames";
 import Icon from "../Icon";
 import Text from "../Text";
 import Tooltip from "../Tooltip";
-import classnames from "classnames";
 import { getTheme } from "../../theme";
 import { Initialize } from "../../interfaces";
+import useMediaLoader from "../../utils/useMediaLoader";
 
 const useStyles = createUseStyles({
   avatar: {
@@ -41,20 +42,17 @@ const Avatar = React.forwardRef(
       className,
       style,
       size = 24,
-      src = "", // fix null
+      src: srcUrl,
       text = "",
       icon = "person",
       tooltip,
     } = props;
     const classes = useStyles({});
 
-    const [init, setInit] = React.useState(Initialize.START);
-    const onLoadSucc = React.useCallback(() => {
-      setInit(Initialize.SUCC);
-    }, []);
-    const onLoadFail = React.useCallback(() => {
-      setInit(Initialize.FAIL);
-    }, []);
+    const { src, initialize, handleLoadSucc, handleLoadFail } = useMediaLoader({
+      srcUrl,
+      retry: 3,
+    });
 
     return (
       <Tooltip title={tooltip}>
@@ -74,13 +72,13 @@ const Avatar = React.forwardRef(
             width: size,
           }}
         >
-          {!!src && init !== Initialize.FAIL ? (
+          {!!src && initialize !== Initialize.FAIL ? (
             <img
               src={src}
               alt=""
               className={classes.avatarSrc}
-              onLoad={onLoadSucc}
-              onError={onLoadFail}
+              onLoad={handleLoadSucc}
+              onError={handleLoadFail}
             />
           ) : !!text ? (
             <Text className={classes.avatarChild} children={text} />

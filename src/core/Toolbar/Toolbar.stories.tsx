@@ -4,7 +4,7 @@ import Text from "../Text";
 import Icon from "../Icon";
 
 export default {
-  title: "Core/Toolbar",
+  title: "core/Toolbar",
   component: Toolbar,
 };
 

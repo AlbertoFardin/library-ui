@@ -1,20 +1,21 @@
 import * as React from "react";
 import { createUseStyles } from "react-jss";
-import BtnBase, { IKeyDown } from "../BtnBase";
 import classnames from "classnames";
+import BtnBase, { IKeyDown } from "../BtnBase";
 import emptyFn from "../../utils/emptyFn";
 import IPreviewRender from "./IPreviewRender";
 import PreviewRenderPlaceholder from "./PreviewRenderPlaceholder";
 import PreviewRenderImage from "./PreviewRenderImage";
 import PreviewRenderVideo from "./PreviewRenderVideo";
 import { Initialize } from "../../interfaces";
-import getPreviewSrcUrl from "./getPreviewSrcUrl";
+import { getPreviewBackgroundColor } from "./utils";
 import { getTheme } from "../../theme";
-import { typeDocument, typeImage, typeVideo } from "../../utils/mimeTypes";
-import { reducer, reducerInitState, ACTION } from "./reducer";
-
-const RETRY_COUNT = 10;
-const RETRY_DELAY = 10000;
+import Placeholder from "../Placeholder";
+import useMediaLoader from "../../utils/useMediaLoader";
+import {
+  useAppMediaTypeCtx,
+  MediaKind,
+} from "../../contexts/AppMediaTypeContext";
 
 interface IStyles {
   color: string;
@@ -22,6 +23,7 @@ interface IStyles {
   previewWidth: number;
   borderRadius: number;
 }
+
 const useStyles = createUseStyles({
   preview: {
     position: "relative",
@@ -40,7 +42,7 @@ const useStyles = createUseStyles({
     alignItems: "center",
     justifyContent: "center",
     "& > *": {
-      transition: "all 250ms",
+      transition: "transform 250ms", // animazione al mousehover
       userSelect: "none",
       maxWidth: ({ previewWidth }: IStyles) => previewWidth,
       maxHeight: ({ previewHeight }: IStyles) => previewHeight,
@@ -56,12 +58,12 @@ export interface IPreview {
   previewWidth: number;
   onClick?: (event: React.MouseEvent, keyDown: IKeyDown) => void;
   onDoubleClick?: (event: React.MouseEvent, keyDown: IKeyDown) => void;
-  onLoadError?: (
-    event: React.SyntheticEvent<HTMLImageElement | HTMLVideoElement, Event>,
-  ) => void;
-  onLoadSuccess?: (
-    event: React.SyntheticEvent<HTMLImageElement | HTMLVideoElement, Event>,
-  ) => void;
+  onContextMenu?: (event: React.MouseEvent) => void;
+  onMouseEnter?: (event: React.MouseEvent) => void;
+  onMouseLeave?: (event: React.MouseEvent) => void;
+  onMouseMove?: (event: React.MouseEvent) => void;
+  onLoadFail?: () => void;
+  onLoadSucc?: () => void;
   placeholderIcon?: string;
   placeholderIconStyle?: React.CSSProperties;
   placeholderIconClassName?: string;
@@ -73,6 +75,7 @@ export interface IPreview {
   mimeType: string;
   mousehover?: boolean;
   disabled?: boolean;
+  objectFit?: "contain" | "cover" | "fill";
 }
 
 const Preview = React.forwardRef(
@@ -85,8 +88,12 @@ const Preview = React.forwardRef(
       previewWidth,
       onClick,
       onDoubleClick,
-      onLoadError = emptyFn,
-      onLoadSuccess = emptyFn,
+      onContextMenu,
+      onMouseEnter,
+      onMouseLeave,
+      onMouseMove,
+      onLoadFail = emptyFn,
+      onLoadSucc = emptyFn,
       placeholderIcon,
       placeholderIconStyle,
       placeholderIconClassName,
@@ -98,67 +105,62 @@ const Preview = React.forwardRef(
       mimeType,
       mousehover,
       disabled,
+      objectFit = "contain",
     } = props;
 
+    const appMediaTypeCtx = useAppMediaTypeCtx();
     const classes = useStyles({
       color,
       previewHeight,
       previewWidth,
       borderRadius: getTheme().borderRadius,
     });
-    const [state, dispatch] = React.useReducer(reducer, reducerInitState);
-    const { initialize, loadRetry, loadCount } = state;
 
-    const srcUrlMemo = React.useMemo(() => {
-      return getPreviewSrcUrl(srcUrl, loadCount);
-    }, [loadCount, srcUrl]);
-    const isVideo = new Set(typeVideo).has(mimeType);
-    const isImage = new Set(typeImage).has(mimeType);
-    const isDocument = new Set(typeDocument).has(mimeType);
-    const srcType = isVideo || isImage || isDocument;
-
-    const onLoadSucc = React.useCallback(
-      (event) => {
-        dispatch({ type: ACTION.INIT_SUCC });
-        onLoadSuccess(event);
-      },
-      [onLoadSuccess],
-    );
-    const onLoadFail = React.useCallback(
-      (event) => {
-        dispatch({ type: ACTION.INIT_FAIL, retry: true });
-        onLoadError(event);
-      },
-      [onLoadError],
-    );
-    const propsPreviewRender: IPreviewRender = {
-      initialize,
-      onLoadSucc,
+    const mediaKind = appMediaTypeCtx.mediaKind(mimeType);
+    const { src, initialize, handleLoadSucc, handleLoadFail } = useMediaLoader({
+      srcUrl,
       onLoadFail,
-      srcUrl: srcUrlMemo,
+      onLoadSucc,
+      isValidMedia: mediaKind !== MediaKind.UNKNOWN,
+    });
+
+    const size = Math.min(previewWidth, previewHeight);
+    const propsPreviewRender: IPreviewRender = {
+      srcLoaded: initialize === Initialize.SUCC,
+      onLoadSucc: handleLoadSucc,
+      onLoadFail: handleLoadFail,
+      src,
       mousehover: disabled ? false : mousehover,
+      size: size,
+      objectFit,
     };
 
-    React.useEffect(() => {
-      if (!!srcUrl && srcType === true) {
-        dispatch({ type: ACTION.INIT_START });
-      } else {
-        dispatch({ type: ACTION.INIT_FAIL });
-      }
-    }, [srcUrl, srcType]);
+    const previewRenderPlaceholder = () => (
+      <PreviewRenderPlaceholder
+        size={size}
+        icon={placeholderIcon}
+        iconStyle={placeholderIconStyle}
+        iconClassName={placeholderIconClassName}
+        label={placeholderLabel}
+        labelStyle={placeholderLabelStyle}
+        labelClassName={placeholderLabelClassName}
+        labelRequired={placeholderLabelRequired}
+      />
+    );
 
-    React.useEffect(() => {
-      const fnRetry = setInterval(() => {
-        if (
-          initialize === Initialize.FAIL &&
-          loadRetry &&
-          loadCount <= RETRY_COUNT
-        ) {
-          dispatch({ type: ACTION.INIT_START });
-        }
-      }, RETRY_DELAY);
-      return () => clearInterval(fnRetry);
-    }, [initialize, loadCount, loadRetry]);
+    const renderContent = () => {
+      if (!src || initialize === Initialize.FAIL)
+        return previewRenderPlaceholder();
+      switch (mediaKind) {
+        case MediaKind.DOC:
+        case MediaKind.IMG:
+          return <PreviewRenderImage {...propsPreviewRender} />;
+        case MediaKind.VID:
+          return <PreviewRenderVideo {...propsPreviewRender} />;
+        default:
+          return null;
+      }
+    };
 
     return (
       <BtnBase
@@ -171,27 +173,26 @@ const Preview = React.forwardRef(
         style={style}
         onClick={onClick}
         onDoubleClick={onDoubleClick}
+        onContextMenu={onContextMenu}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        onMouseMove={onMouseMove}
         disabled={disabled}
         clickExclusive
       >
-        {initialize === Initialize.FAIL ? (
-          <PreviewRenderPlaceholder
-            size={Math.min(previewWidth, previewHeight)}
-            icon={placeholderIcon}
-            iconStyle={placeholderIconStyle}
-            iconClassName={placeholderIconClassName}
-            label={placeholderLabel}
-            labelStyle={placeholderLabelStyle}
-            labelClassName={placeholderLabelClassName}
-            labelRequired={placeholderLabelRequired}
-          />
-        ) : null}
-        {initialize !== Initialize.FAIL && (isImage || isDocument) ? (
-          <PreviewRenderImage {...propsPreviewRender} />
-        ) : null}
-        {initialize !== Initialize.FAIL && isVideo ? (
-          <PreviewRenderVideo {...propsPreviewRender} />
-        ) : null}
+        <Placeholder
+          open={
+            initialize === Initialize.NONE ||
+            initialize === Initialize.START ||
+            initialize === Initialize.WAIT
+          }
+          spinnerColor={getTheme().colors.typography}
+          spinnerSize={size / 6}
+          spinner
+          background
+          backgroundColor={getPreviewBackgroundColor()}
+        />
+        {renderContent()}
       </BtnBase>
     );
   },

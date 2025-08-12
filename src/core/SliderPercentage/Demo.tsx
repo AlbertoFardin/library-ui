@@ -1,7 +1,7 @@
 import * as React from "react";
+import { action } from "@storybook/addon-actions";
 import PercentageSlider from "./SliderPercentage";
 import Btn from "../Btn";
-import { action } from "@storybook/addon-actions";
 import { PercentageRange } from "../Filter/FilterPercentage";
 
 const DemoStory = () => {

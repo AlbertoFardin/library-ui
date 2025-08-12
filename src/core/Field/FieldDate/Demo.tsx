@@ -10,7 +10,7 @@ import {
   adornmentAvatar,
   adornmentElement,
 } from "../utils/story";
-import { DATE_FORMAT } from "../../../interfaces";
+import { DATE_FORMAT } from "../../../constants";
 import InputBoolean from "../../../stories/InputBoolean";
 import InputButton from "../../../stories/InputButton";
 import InputText from "../../../stories/InputText";

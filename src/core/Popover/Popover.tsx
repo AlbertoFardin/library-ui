@@ -17,6 +17,10 @@ export interface IPopover {
   originAnchor?: PopoverOrigin;
   originTransf?: PopoverOrigin;
   positionZone?: 1 | 2 | 3 | 4;
+  zIndex?: number;
+  backdropVisible?: boolean;
+  backdropClassName?: string;
+  backdropStyle?: React.CSSProperties;
 }
 interface IPopoverCmp extends IPopover {
   children: JSX.Element | React.ReactNode;
@@ -33,11 +37,19 @@ const Popover = ({
   originTransf = defaultOrigin,
   positionZone,
   children,
+  zIndex,
+  backdropVisible = false,
+  backdropClassName,
+  backdropStyle,
 }: IPopoverCmp) => (
   <Modal
+    zIndex={zIndex}
     open={open}
     onClose={onClose}
     popover
+    backdropVisible={backdropVisible}
+    backdropClassName={backdropClassName}
+    backdropStyle={backdropStyle}
     className={className}
     style={getPopoverStyle({
       style,

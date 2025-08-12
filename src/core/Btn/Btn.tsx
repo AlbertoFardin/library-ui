@@ -1,6 +1,6 @@
 import * as React from "react";
-import { getTheme } from "../../theme";
 import classnames from "classnames";
+import { getTheme } from "../../theme";
 import Icon from "../Icon";
 import Text from "../Text";
 import BtnBase from "../BtnBase";
@@ -9,6 +9,20 @@ import useStyles from "./useStyles";
 import IBtn from "./IBtn";
 import PopoverList from "../PopoverList";
 import Avatar from "../Avatar";
+import { isMobile } from "../../utils/deviceUtils";
+
+const getColorRipple = (
+  color: string,
+  variant: "light" | "bold" | "outlined",
+): string => {
+  switch (variant) {
+    case "outlined":
+    case "light":
+      return color || getTheme().colors.theme1;
+    default:
+      return getTheme().colors.background;
+  }
+};
 
 enum ACTION {
   SET_HOVER = "SET_HOVER",
@@ -50,7 +64,8 @@ const Btn = ({
   iconClassName,
   iconStyle,
   label,
-  labelWeight = "bolder",
+  labelSize = 1,
+  labelWeight = "regular",
   labelPosition = "right",
   labelRequired,
   labelClassName,
@@ -88,6 +103,7 @@ const Btn = ({
     disabled,
     label,
     onClick,
+    onCopyToClipboard,
     menuProp: !!menu,
     menuOpen,
     small,
@@ -95,6 +111,7 @@ const Btn = ({
   });
   const cbOnMouseEnter = React.useCallback(
     (event) => {
+      if (isMobile()) return;
       event.persist();
       dispatch({ type: ACTION.SET_HOVER, hover: true });
       if (onMouseEnter) onMouseEnter(event);
@@ -103,6 +120,7 @@ const Btn = ({
   );
   const cbOnMouseLeave = React.useCallback(
     (event) => {
+      if (isMobile()) return;
       event.persist();
       dispatch({ type: ACTION.SET_HOVER, hover: false });
       if (onMouseLeave) onMouseLeave(event);
@@ -134,6 +152,7 @@ const Btn = ({
     <Text
       ellipsis={true}
       tooltip={false}
+      size={labelSize}
       weight={labelWeight}
       className={classnames({
         [classes.label]: true,
@@ -173,7 +192,7 @@ const Btn = ({
     <>
       <BtnBase
         ref={buttonRef}
-        color={color}
+        color={getColorRipple(color, variant)}
         className={classnames({
           [classes.button]: true,
           [className]: !!className,
@@ -215,7 +234,6 @@ const Btn = ({
         )}
         {children}
       </BtnBase>
-
       {!menu ? null : (
         <PopoverList
           open={menuOpen}
@@ -225,6 +243,7 @@ const Btn = ({
           originTransf={menu.originTransf}
           onClose={cbOnClose}
           title={menu.title}
+          zIndex={menu.zIndex}
         />
       )}
     </>

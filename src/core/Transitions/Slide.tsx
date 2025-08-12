@@ -14,9 +14,9 @@ const useStyles = createUseStyles({
     width: "inherit",
     height: "inherit",
     display: "inline-flex",
-    "flex-direction": "column",
-    "align-items": "stretch",
-    "justify-content": "center",
+    flexDirection: "column",
+    alignItems: "stretch",
+    justifyContent: "center",
     transition: ({ timeout }: IStyles) => `${timeout}ms transform linear`,
   },
   transitionTop: {

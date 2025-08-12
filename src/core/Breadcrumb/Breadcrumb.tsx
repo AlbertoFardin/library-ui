@@ -30,30 +30,38 @@ const BreadcrumbItem = ({ color, id, name, onClick }: IBreadcrumbItem) => {
     <Btn
       color={color}
       label={name}
-      style={{ margin: 2 }}
-      onClick={!!onClick ? cbClick : undefined}
+      disabled={!onClick}
+      onClick={cbClick}
+      style={{ margin: 2, opacity: 1 }}
     />
   );
 };
 
 export interface IBreadcrumb {
+  className?: string;
+  style?: React.CSSProperties;
   color?: string;
   maxItems?: number;
   items: { id: string; name: string }[];
-  onClick?: (id: string | number) => void;
+  onClick?: (id: string) => void;
 }
 const Breadcrumb = ({
+  className,
+  style,
   color = getTheme().colors.theme1,
   maxItems = 3,
   items = [],
   onClick,
-}: IBreadcrumb) =>
-  !items.length ? null : (
+}: IBreadcrumb) => {
+  if (items.length === 0) return null;
+  return (
     <div
+      className={className}
       style={{
         display: "flex",
         flex: 1,
         alignItems: "center",
+        ...style,
       }}
     >
       {items.reduce(
@@ -85,5 +93,6 @@ const Breadcrumb = ({
       )}
     </div>
   );
+};
 
 export default Breadcrumb;

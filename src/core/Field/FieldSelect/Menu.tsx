@@ -1,12 +1,12 @@
 import * as React from "react";
-import { getTheme } from "../../../theme";
-import Popover, { PopoverOrigin } from "../../Popover";
 import { createUseStyles } from "react-jss";
 import classnames from "classnames";
+import { getTheme } from "../../../theme";
+import Popover, { PopoverOrigin } from "../../Popover";
 import emptyFn from "../../../utils/emptyFn";
 import ListItem, { IListItem } from "../../ListItem";
 import List from "../../List";
-import FieldSearch from "../../FieldSearch";
+import FieldSearch from "../../InputSearch";
 import { SelectType } from "../../Checkbox";
 
 const MAX_SIZE = 30;
@@ -31,7 +31,7 @@ const useStyles = createUseStyles({
   fieldsearch: {
     height: 42,
     border: 0,
-    width: "-webkit-fill-available",
+    width: "100%",
     borderRadius: 0,
     borderBottom: `1px solid ${getTheme().colors.grayBorder}`,
   },
@@ -76,7 +76,7 @@ const Menu = ({
 }: IMenu) => {
   const classes = useStyles({ width });
   const onSelect = React.useCallback(
-    (e, slcId: string) => {
+    (_, slcId: string) => {
       if (type === "singleselect") onClose();
       onClick(slcId);
     },
@@ -90,7 +90,7 @@ const Menu = ({
     return vLabel1.includes(vInput) || vLabel2.includes(vInput);
   });
   const optionsMore = Math.max(0, optionsFound.length - MAX_SIZE);
-  const optionsFoundMaxSize = optionsFound.filter((a, index) => {
+  const optionsFoundMaxSize = optionsFound.filter((_, index) => {
     return index < MAX_SIZE;
   });
 
@@ -108,7 +108,7 @@ const Menu = ({
     >
       {!optionsMore && !searchable ? null : (
         <FieldSearch
-          autofocus
+          autoFocus
           className={classes.fieldsearch}
           onChange={onSearch}
           value={input}

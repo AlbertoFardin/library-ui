@@ -1,11 +1,10 @@
-import * as React from "react";
 import * as deviceUtils from "./deviceUtils";
 import InputText from "../stories/InputText";
 import Text from "../core/Text";
 import Divider from "../core/Divider";
 
 export default {
-  title: "Utils/deviceUtils",
+  title: "utils/deviceUtils",
 };
 
 const DemoComponent = () => {

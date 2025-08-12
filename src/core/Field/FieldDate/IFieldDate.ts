@@ -10,11 +10,11 @@ interface IFieldDate {
   /** date format passed to [moment.format()](https://momentjs.com/docs/#/displaying/format/) function*/
   dateFormat?: string;
   /** Label of the component. It must be a string or an ILabel[] */
-  label?: string | ILabel[] | React.ReactElement;
+  label?: string | ILabel[];
   /** Icon render in InputAdornment position START */
   adornmentIcon?: string;
   /** adornmentIcon's tooltip  */
-  adornmentIconTooltip?: string;
+  adornmentIconTooltip?: string | string[];
   /** adornmentIcon's color  */
   adornmentIconColor?: string;
   /** Avatar render in InputAdornment position START */
@@ -24,7 +24,7 @@ interface IFieldDate {
   /** adornmentAvatar's icon */
   adornmentAvatarIcon?: string;
   /** adornmentAvatar's tooltip */
-  adornmentAvatarTooltip?: string;
+  adornmentAvatarTooltip?: string | string[];
   /** Elements render in InputAdornment position START */
   adornmentElement?: JSX.Element;
   /** BtnMenu actions configs, if empty Btn isn't render */

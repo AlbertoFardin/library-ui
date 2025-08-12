@@ -28,6 +28,7 @@ const stateToHTMLOptions = {
         }, */
       };
     }
+    return undefined;
   },
 };
 

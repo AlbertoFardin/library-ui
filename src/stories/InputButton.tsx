@@ -1,9 +1,9 @@
 import * as React from "react";
+import classnames from "classnames";
+import { createUseStyles } from "react-jss";
 import BtnBase from "../core/BtnBase";
 import Text from "../core/Text";
 import Icon from "../core/Icon";
-import classnames from "classnames";
-import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   inputBoolean: {

@@ -17,16 +17,24 @@ export interface IUserMock {
   avatarText: string;
 }
 
-export const getUserInitials = (user: IUser): string => {
-  const init =
-    (user.profileData.firstName || "").substring(0, 1) +
-    (user.profileData.lastName || "").substring(0, 1);
+export const getUserInitials = ({
+  firstName = "",
+  lastName = "",
+}: {
+  firstName?: string;
+  lastName?: string;
+}): string => {
+  const init = firstName.substring(0, 1) + lastName.substring(0, 1);
   return init.trim().toLocaleUpperCase();
 };
-export const getUserFullname = (user: IUser): string => {
-  const f = user.profileData.firstName || "";
-  const l = user.profileData.lastName || "";
-  return f + (!!f ? " " : "") + l;
+export const getUserFullname = ({
+  firstName = "",
+  lastName = "",
+}: {
+  firstName?: string;
+  lastName?: string;
+}): string => {
+  return (firstName + " " + lastName).trim();
 };
 
 export const getUser = (
@@ -39,12 +47,12 @@ export const getUser = (
     return {
       type: IUserType.USER,
       id: user.userId,
-      name: getUserFullname(user),
+      name: getUserFullname(user.profileData),
       firstName: user.profileData.firstName,
       lastName: user.profileData.lastName,
       avatar: user.profileData.picture,
       avatarIcon: "person",
-      avatarText: getUserInitials(user),
+      avatarText: getUserInitials(user.profileData),
     };
   }
   const m2m = (m2ms || []).find((u) => u.clientId === id);
@@ -56,7 +64,7 @@ export const getUser = (
       firstName: "",
       lastName: "",
       avatar: "",
-      avatarIcon: "keyboard_command",
+      avatarIcon: "keyboard_command_key",
       avatarText: "",
     };
   }

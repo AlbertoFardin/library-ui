@@ -1,11 +1,14 @@
-import * as React from "react";
 import { createUseStyles } from "react-jss";
-import IPreviewRender from "./IPreviewRender";
 import classnames from "classnames";
+import IPreviewRender from "./IPreviewRender";
 
+interface IStyles {
+  objectFit: "contain" | "cover" | "fill";
+}
 const useStyles = createUseStyles({
   src: {
-    objectFit: "contain",
+    transition: "none", // di default <img> ha la transizione
+    objectFit: ({ objectFit }: IStyles) => objectFit,
     width: "100%",
     height: "auto",
   },
@@ -15,15 +18,16 @@ const useStyles = createUseStyles({
 });
 
 const PreviewRenderImage = ({
+  src,
   onLoadSucc,
   onLoadFail,
-  srcUrl,
   mousehover,
+  objectFit,
 }: IPreviewRender) => {
-  const classes = useStyles({});
+  const classes = useStyles({ objectFit });
   return (
     <img
-      src={srcUrl}
+      src={src}
       alt=""
       className={classnames({
         [classes.src]: true,

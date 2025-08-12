@@ -1,10 +1,9 @@
-import * as React from "react";
+import { action } from "@storybook/addon-actions";
 import List from "./List";
 import ListItem from "../ListItem";
-import { action } from "@storybook/addon-actions";
 
 export default {
-  title: "Core/List",
+  title: "core/List",
   component: List,
 };
 

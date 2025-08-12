@@ -1,9 +1,10 @@
 import * as React from "react";
-import FilterText from "./FilterText";
-import Btn from "../../Btn";
 import { action } from "@storybook/addon-actions";
+import FilterText from "./FilterText";
 import IFilterText from "./IFilterText";
 import { clearTextFilter } from "./utils/Functions";
+import InputBoolean from "../../../stories/InputBoolean";
+import InputButton from "../../../stories/InputButton";
 
 const FilterTextDemo = () => {
   const [filter, setFilter] = React.useState<IFilterText>({
@@ -14,6 +15,7 @@ const FilterTextDemo = () => {
     switchExactValue: false,
     switchNoValue: false,
     collapsed: false,
+    multiline: true,
     labelSub: undefined,
   });
 
@@ -26,10 +28,15 @@ const FilterTextDemo = () => {
     [filter],
   );
 
+  const onMultiline = React.useCallback(
+    (v: boolean) => {
+      setFilter({ ...filter, multiline: v });
+    },
+    [filter],
+  );
   const onClear = React.useCallback(() => {
     setFilter({ ...filter, ...clearTextFilter(filter) });
   }, [filter]);
-
   const onSetCiao = React.useCallback(
     () =>
       setFilter({
@@ -38,7 +45,6 @@ const FilterTextDemo = () => {
       }),
     [filter],
   );
-
   const onLabelSub = React.useCallback(() => {
     setFilter({
       ...filter,
@@ -66,24 +72,26 @@ const FilterTextDemo = () => {
       <FilterText
         {...(filter as IFilterText)}
         onChange={onChange}
-        cartridgeSplit
         style={{
           border: "1px solid #f00",
           width: 250,
         }}
         collapsedHelp="Please enable to edit"
       />
-      <Btn variant="bold" label="Clear input" onClick={onClear} />
-      <Btn variant="bold" label="Set ciao👋" onClick={onSetCiao} />
-      <Btn
-        variant="bold"
-        label={"Label sub: " + String(filter.labelSub !== undefined)}
-        onClick={onLabelSub}
+      <InputBoolean
+        label="multiline"
+        value={filter.multiline || false}
+        onChange={onMultiline}
       />
-      <Btn
-        variant="bold"
+      <InputButton label="Clear input" onChange={onClear} />
+      <InputButton label="Set ciao👋" onChange={onSetCiao} />
+      <InputButton
+        label={"Label sub: " + String(filter.labelSub !== undefined)}
+        onChange={onLabelSub}
+      />
+      <InputButton
         label={"disabled: " + String(filter.collapsed)}
-        onClick={onCollapsed}
+        onChange={onCollapsed}
       />
     </div>
   );

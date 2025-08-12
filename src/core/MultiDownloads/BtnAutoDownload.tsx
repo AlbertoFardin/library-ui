@@ -1,15 +1,21 @@
 import * as React from "react";
 import Btn from "../Btn";
 import { getTheme } from "../../theme";
+import { LinkTarget } from "./interfaces";
 
-interface IBtnAutoDownload {
+const BtnAutoDownload = ({
+  style,
+  url,
+  name,
+  tooltip,
+  linkTarget = "_self",
+}: {
   style?: React.CSSProperties;
   url: string;
   name: string;
   tooltip?: string;
-}
-
-const BtnAutoDownload = ({ style, url, name, tooltip }: IBtnAutoDownload) => {
+  linkTarget?: LinkTarget;
+}) => {
   const linkRef = React.useRef(null);
   const [mousehover, setMousehover] = React.useState(false);
   const [downloaded, setDownloaded] = React.useState(false);
@@ -38,6 +44,8 @@ const BtnAutoDownload = ({ style, url, name, tooltip }: IBtnAutoDownload) => {
   return (
     <a
       ref={linkRef}
+      rel="noreferrer"
+      target={linkTarget}
       href={url}
       download={name}
       style={{ textDecoration: "none" }}

@@ -1,9 +1,9 @@
 import * as React from "react";
-import Zoom from "./Zoom";
 import { action } from "@storybook/addon-actions";
+import Zoom from "./Zoom";
 
 export default {
-  title: "Core/Transitions/Zoom",
+  title: "core/Transitions/Zoom",
   component: Zoom,
   args: {
     onEnter: action("onEnter"),

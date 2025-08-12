@@ -23,7 +23,7 @@ interface IFieldSelect {
   /** Icon render in InputAdornment position START */
   adornmentIcon?: string;
   /** adornmentIcon's tooltip  */
-  adornmentIconTooltip?: string;
+  adornmentIconTooltip?: string | string[];
   /** adornmentIcon's color  */
   adornmentIconColor?: string;
   /** Avatar render in InputAdornment position START */
@@ -33,13 +33,13 @@ interface IFieldSelect {
   /** adornmentAvatar's icon */
   adornmentAvatarIcon?: string;
   /** adornmentAvatar's tooltip */
-  adornmentAvatarTooltip?: string;
+  adornmentAvatarTooltip?: string | string[];
   /** Elements render in InputAdornment position START */
   adornmentElement?: JSX.Element;
   /** Type of selection */
   type?: "singleselect" | "multiselect";
   /** Label of the component. It must be a string or an ILabel[] */
-  label?: string | ILabel[] | React.ReactElement;
+  label?: string | ILabel[];
   /** Show loading spinner */
   loading?: boolean;
   /** Callback fired when click input */
@@ -70,6 +70,8 @@ interface IFieldSelect {
   readOnly?: boolean;
   /** If true, the menu options render a search input */
   searchable?: boolean;
+  maxSelectable?: number;
+  selectionLimitMessage?: string;
 }
 
 export default IFieldSelect;

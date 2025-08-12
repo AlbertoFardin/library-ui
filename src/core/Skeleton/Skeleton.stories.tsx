@@ -3,7 +3,7 @@ import Skeleton from "./Skeleton";
 import InputText from "../../stories/InputText";
 
 export default {
-  title: "Core/Skeleton",
+  title: "core/Skeleton",
   component: Skeleton,
 };
 

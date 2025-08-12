@@ -1,9 +1,8 @@
-import * as React from "react";
 import DemoCmp from "./Demo";
 import StickyTable from "./StickyTable";
 
 export default {
-  title: "Core/StickyTable",
+  title: "core/StickyTable",
   component: StickyTable,
 };
 

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { createUseStyles } from "react-jss";
 import useScrollbarSizes from "./useScrollbarSizes";
 import useVirtualize from "./useVirtual";
 import TableGrid from "./TableGrid";
@@ -7,11 +8,9 @@ import TableHeaderCol from "./TableHeaderCol";
 import Corner from "./Corner";
 import { IStickyTable } from "./IStickyTable";
 import BorderShadow from "../BorderShadow";
-import { createUseStyles } from "react-jss";
 import { getTheme } from "../../theme";
 
 export const zIndexSticky = {
-  rowsDisabledMask: 3,
   cols: 2,
   rows: 4,
   corner: 5,
@@ -60,6 +59,10 @@ export const StickyTable = ({
   rightData,
   bottomData,
   leftData,
+  topBorder = false,
+  rightBorder = false,
+  bottomBorder = false,
+  leftBorder = false,
   width,
   height,
   topHeight = DEFAULT_HEIGHT,
@@ -205,6 +208,10 @@ export const StickyTable = ({
     width: viewWidth - leftWidth - rightWidth,
     height: viewHeight - topHeight - bottomHeight,
   });
+  const leftScrolled = scrollX > 0;
+  const rightScrolled = Math.abs(scrollW - width - scrollX) > 1;
+  const topScrolled = scrollY > 0;
+  const bottomScrolled = Math.abs(scrollH - height - scrollY) > 1;
 
   const cbScroll = React.useCallback(
     (e) => {
@@ -230,6 +237,12 @@ export const StickyTable = ({
     }
   }, [resetScrollbarY, setScrollY]);
 
+  const scrollXSize =
+    scrollbarRef.current?.offsetWidth - scrollbarRef.current?.clientWidth || 0;
+  const scrollYSize =
+    scrollbarRef.current?.offsetHeight - scrollbarRef.current?.clientHeight ||
+    0;
+
   return (
     <div
       ref={containerRef}
@@ -240,24 +253,35 @@ export const StickyTable = ({
       }}
     >
       <BorderShadow
-        open={!!leftData && scrollX > 0}
+        open={!!leftData && leftWidth > 0}
         position="left"
         style={{ zIndex: zIndexSticky.shadow, left: leftWidth }}
+        border={leftScrolled || leftBorder}
+        shadow={leftScrolled}
       />
       <BorderShadow
-        open={!!rightData && Math.abs(scrollW - width - scrollX) > 1}
+        open={!!rightData && rightWidth > 0}
         position="right"
-        style={{ zIndex: zIndexSticky.shadow, right: rightWidth }}
+        style={{ zIndex: zIndexSticky.shadow, right: rightWidth + scrollYSize }}
+        border={rightScrolled || rightBorder}
+        shadow={rightScrolled}
       />
       <BorderShadow
-        open={!!topData && scrollY > 0}
+        open={!!topData && topHeight > 0}
         position="top"
         style={{ zIndex: zIndexSticky.shadow, top: topHeight }}
+        border={topScrolled || topBorder}
+        shadow={topScrolled}
       />
       <BorderShadow
-        open={!!bottomData && Math.abs(scrollH - height - scrollY) > 1}
+        open={!!bottomData && bottomHeight > 0}
         position="bottom"
-        style={{ zIndex: zIndexSticky.shadow, bottom: bottomHeight }}
+        style={{
+          zIndex: zIndexSticky.shadow,
+          bottom: bottomHeight + scrollXSize,
+        }}
+        border={bottomScrolled || bottomBorder}
+        shadow={bottomScrolled}
       />
       <div
         className={classes.stickyTable}

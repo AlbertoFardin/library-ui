@@ -1,10 +1,9 @@
-import * as React from "react";
+import { action } from "@storybook/addon-actions";
 import SliderPercentage from "./SliderPercentage";
 import DemoStory from "./Demo";
-import { action } from "@storybook/addon-actions";
 
 export default {
-  title: "Core/SliderPercentage",
+  title: "core/SliderPercentage",
   component: SliderPercentage,
   args: {
     range: [20, 30],

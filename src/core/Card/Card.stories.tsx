@@ -1,12 +1,11 @@
-import * as React from "react";
+import { action } from "@storybook/addon-actions";
 import Card from ".";
 import Text from "../Text";
-import { action } from "@storybook/addon-actions";
 
 const style = { padding: 25, margin: 25 };
 
 export default {
-  title: "Core/Card",
+  title: "core/Card",
   component: Card,
 };
 

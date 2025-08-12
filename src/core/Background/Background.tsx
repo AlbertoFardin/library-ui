@@ -1,8 +1,8 @@
 import * as React from "react";
 import { createUseStyles } from "react-jss";
+import classnames from "classnames";
 import hexToRgbA from "../../utils/hexToRgbA";
 import { getTheme } from "../../theme";
-import classnames from "classnames";
 
 interface IStyles {
   color1: string;
@@ -18,7 +18,7 @@ const useStyles = createUseStyles({
     position: "relative",
     background: ({ color1, color2 }: IStyles) =>
       `linear-gradient(to right, ` +
-      `${hexToRgbA(color1)} 0%, ${hexToRgbA(color2)} 100%)`,
+      `${hexToRgbA(color2)} 0%, ${hexToRgbA(color1)} 100%)`,
     display: "flex",
     "flex-direction": "column",
     "align-items": "center",

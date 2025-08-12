@@ -1,22 +1,21 @@
 import * as React from "react";
+import classnames from "classnames";
 import { getTheme } from "../../../theme";
 import { getLabels } from "../Label";
 import Divider from "../../Divider";
 import FieldPickerList from "./FieldPickerList";
-import FieldPickerCreate from "./FieldPickerCreate";
+import FieldPickerBtnCreate from "./FieldPickerBtnCreate";
 import FieldPickerSearch from "./FieldPickerSearch";
-import IFieldPicker from "./IFieldPicker";
+import IFieldPicker, { IFieldItem, IFieldPickerDialog } from "./IFieldPicker";
 import emptyFn from "../../../utils/emptyFn";
-import classnames from "classnames";
 import useStyles from "../utils/useStyles";
 import BtnMenu from "../utils/BtnMenu";
 import Btn from "../../Btn";
-import { IListItem } from "../../ListItem";
 
-const itemsOnSearchDefault = (inputValue: string, item: IListItem): boolean => {
-  const valueLow = item.label?.toLowerCase() || "";
-  const inputLow = inputValue.toLowerCase();
-  return valueLow.includes(inputLow);
+const dialogItemDefault: IFieldPickerDialog = {
+  enable: false,
+  fields: [],
+  onChange: emptyFn,
 };
 
 const FieldPicker = ({
@@ -38,17 +37,16 @@ const FieldPicker = ({
   menuOnHover = true,
   menuOnClose = emptyFn,
   onChange = emptyFn,
-  onCreate = emptyFn,
   placeholder = "Search items...",
   readOnly,
   value = [],
   items = [],
   itemsSortable = true,
-  itemsOnSearch = itemsOnSearchDefault,
-  createEnabled,
-  createProps = [],
-  createTitle,
-  createTitleHelp,
+  itemsSearchable = true,
+  itemsSearchKeys = ["label"],
+  dialogToCreate = dialogItemDefault,
+  dialogToModify = dialogItemDefault,
+  zIndex,
 }: IFieldPicker) => {
   const classes = useStyles({ color });
   const fieldRef = React.useRef(null);
@@ -64,14 +62,14 @@ const FieldPicker = ({
     setInputHover(false);
     menuOnClose();
   }, [menuOnClose]);
-  const noHeader = !items.length || readOnly;
+  const noHeader = !items.length || readOnly || !itemsSearchable;
   const width = fieldRef?.current?.clientWidth || 0;
 
   return (
     <div
       ref={fieldRef}
       role="presentation"
-      style={style}
+      style={{ ...style, textAlign: "left", minHeight: "fit-content" }}
       className={classnames({
         [classes.field]: true,
         [classes.fieldCanHover]: !readOnly,
@@ -109,22 +107,19 @@ const FieldPicker = ({
         <div className={classes.chipsWrapper}>
           {noHeader ? null : (
             <FieldPickerSearch
+              fieldRef={fieldRef}
               width={width}
               value={value}
               items={items}
-              onSearch={itemsOnSearch}
               onChange={onChange}
               placeholder={placeholder}
-              adornment={
-                <Btn
-                  icon="arrow_drop_down"
-                  className={classes.menuPosAbsoluteBot}
-                />
-              }
+              itemsSearchKeys={itemsSearchKeys}
+              zIndex={zIndex}
             />
           )}
           {!!adornmentElement ? null : (
             <BtnMenu
+              zIndex={zIndex}
               color={color}
               className={classes.menuPosAbsoluteTop}
               onClose={cbMenuOnClose}
@@ -137,20 +132,22 @@ const FieldPicker = ({
           {noHeader ? null : <Divider />}
           <FieldPickerList
             value={value}
-            items={items}
+            items={items as IFieldItem[]}
+            color={color}
+            width={width}
             onChange={onChange}
             readOnly={readOnly}
             sortable={itemsSortable}
+            dialogToModify={dialogToModify}
+            zIndex={zIndex}
           />
-          {!createEnabled || readOnly ? null : (
-            <FieldPickerCreate
+          {readOnly ? null : (
+            <FieldPickerBtnCreate
               color={color}
-              width={width}
-              onCreate={onCreate}
-              title={createTitle}
-              titleHelp={createTitleHelp}
-              props={createProps}
-              items={items}
+              value={value}
+              items={items as IFieldItem[]}
+              dialog={dialogToCreate}
+              zIndex={zIndex}
             />
           )}
         </div>

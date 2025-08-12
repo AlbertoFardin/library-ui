@@ -3,7 +3,7 @@ import Text from "../Text";
 import TabsCarousel from ".";
 
 export default {
-  title: "Core/TabsCarousel",
+  title: "core/TabsCarousel",
   component: TabsCarousel,
 };
 

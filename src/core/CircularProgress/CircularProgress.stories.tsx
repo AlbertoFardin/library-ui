@@ -1,9 +1,8 @@
-import * as React from "react";
 import CircularProgress from ".";
 import { getTheme } from "../../theme";
 
 export default {
-  title: "Core/CircularProgress",
+  title: "core/CircularProgress",
   component: CircularProgress,
 };
 

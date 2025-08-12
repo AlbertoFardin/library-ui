@@ -1,8 +1,8 @@
 import * as React from "react";
+import { action } from "@storybook/addon-actions";
 import Btn from "../Btn";
 import Text from "../Text";
 import Modal from "./";
-import { action } from "@storybook/addon-actions";
 
 const Demo = () => {
   const btnRef = React.useRef(null);

@@ -1,38 +1,33 @@
 import * as React from "react";
 import { action } from "@storybook/addon-actions";
-import Preview from "./Preview";
+import Preview, { IPreview } from "./Preview";
 import DemoCmp from "./Demo";
 
-const onLoadSuccess = (event) => {
-  action("onLoadSuccess")(event);
-  console.log("onLoadSuccess URL", event.target.src);
+const args: IPreview = {
+  style: {
+    border: "1px solid #f00",
+    margin: 25,
+  },
+  previewHeight: 300,
+  previewWidth: 300,
+  srcUrl: "",
+  mimeType: "",
+  onClick: action("onClick"),
+  onDoubleClick: action("onDoubleClick"),
+  onLoadFail: action("onLoadFail"),
+  onLoadSucc: action("onLoadSucc"),
+  placeholderIcon: "settings",
+  placeholderLabel: "settings",
 };
 
 export default {
-  title: "Core/Preview",
+  title: "core/Preview",
   component: Preview,
-  args: {
-    style: {
-      border: "1px solid #f00",
-      margin: 25,
-    },
-    onClick: action("onClick"),
-    onDoubleClick: action("onDoubleClick"),
-    onLoadError: action("onLoadError"),
-    onLoadSuccess: onLoadSuccess,
-    placeholderIcon: "settings",
-    placeholderLabel: "settings",
-  },
+  args,
 };
 
 const Story = (args) => {
-  const { onLoadSuccess, onLoadError, loadtimeSrcUrl, loadtimeSucc, srcUrl } =
-    args;
-
-  const [loadTime, setLoadTime] = React.useState(0);
-  const onLoadTime = React.useCallback(() => {
-    setLoadTime(loadTime + 1);
-  }, [loadTime]);
+  const { onLoadSuccess, onLoadError, srcUrl } = args;
   const [previewH, setPreviewH] = React.useState(350);
   const onPreviewH = React.useCallback((event) => {
     setPreviewH(Number(event.target.value));
@@ -45,21 +40,6 @@ const Story = (args) => {
   const onMousehover = React.useCallback(() => {
     setMousehover(!mousehover);
   }, [mousehover]);
-
-  const cbLoadError = React.useCallback(
-    (event) => {
-      onLoadTime();
-      onLoadError(event);
-    },
-    [onLoadError, onLoadTime],
-  );
-  const cbLoadSuccess = React.useCallback(
-    (event) => {
-      onLoadTime();
-      onLoadSuccess(event);
-    },
-    [onLoadSuccess, onLoadTime],
-  );
 
   return (
     <div>
@@ -83,26 +63,23 @@ const Story = (args) => {
           onChange={onPreviewH}
         />
       </div>
-      <p style={{ margin: "0 10px" }}>
-        <span>load time:</span>
-        <span style={{ marginLeft: 5, fontWeight: "bold" }}>{loadTime}</span>
-      </p>
       <Preview
         {...args}
         mousehover={mousehover}
         previewHeight={previewH}
         previewWidth={previewW}
-        onLoadError={cbLoadError}
-        onLoadSuccess={cbLoadSuccess}
-        srcUrl={
-          !!loadtimeSrcUrl && !!loadtimeSucc && loadTime >= loadtimeSucc
-            ? loadtimeSrcUrl
-            : srcUrl
-        }
+        onLoadError={onLoadError}
+        onLoadSuccess={onLoadSuccess}
+        srcUrl={srcUrl}
       />
     </div>
   );
 };
+
+const protocol = window.location.protocol; // Es: 'https:' o 'http:'
+const host = window.location.hostname; // Es: 'www.example.com' (senza la porta)
+const port = window.location.port;
+const baseUrl = `${protocol}//${host}${port ? `:${port}` : ""}`;
 
 const DemoStory = () => <DemoCmp />;
 export const Demo = DemoStory.bind({});
@@ -113,28 +90,32 @@ export const SrcNotFound = Story.bind({});
 SrcNotFound.args = {
   placeholderIcon: "hide_image",
   placeholderLabel: "not_found",
-  srcUrl: "https://upload.wikimedia.org/wikipedia/not-fount.jpg",
+  srcUrl: "https://upload.wikimedia.org/wikipedia/not-found.jpg",
   mimeType: "image/jpeg",
-};
-
-export const SrcFoundOnTime3 = Story.bind({});
-SrcFoundOnTime3.args = {
-  placeholderIcon: "hide_image",
-  placeholderLabel: "not_found",
-  srcUrl: "https://upload.wikimedia.org/wikipedia/not-fount.jpg",
-  mimeType: "image/jpeg",
-  loadtimeSucc: 3,
-  loadtimeSrcUrl: "./images/width_128/test_image1.jpeg",
 };
 
 export const SrcImage = Story.bind({});
 SrcImage.args = {
-  srcUrl: "./images/width_128/test_image1.jpeg",
+  srcUrl: `${baseUrl}/images/width_128/test_image1.jpeg`,
   mimeType: "image/jpeg",
+};
+
+export const SrcNotFoundVideo = Story.bind({});
+SrcNotFoundVideo.args = {
+  placeholderIcon: "hide_image",
+  placeholderLabel: "not_found",
+  srcUrl: "https://upload.wikimedia.org/wikipedia/not-found.mp4",
+  mimeType: "video/mp4",
 };
 
 export const SrcVideo = Story.bind({});
 SrcVideo.args = {
-  srcUrl: "./video/width_128/test_video.mp4",
+  srcUrl: `${baseUrl}/video/width_128/test_video.mp4`,
   mimeType: "video/mp4",
+};
+
+export const SrcFont = Story.bind({});
+SrcFont.args = {
+  srcUrl: `${baseUrl}/sb-common-assets/fonts.css`,
+  mimeType: "text/css",
 };

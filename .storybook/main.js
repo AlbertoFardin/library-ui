@@ -8,13 +8,9 @@ const custom = require("./webpack.config.js");
 module.exports = {
   stories: [
     "../src/Welcome.stories.mdx",
-    "../src/core/**/*.stories.tsx",
-    // "../src/portal/**/*.stories.tsx",
-    "../src/utils/**/*.stories.tsx",
+    "../src/**/*.stories.@(js|jsx|ts|tsx|mdx)",
   ],
-
   addons: ["@storybook/addon-actions", "@storybook/addon-essentials"],
-
   typescript: {
     check: true,
     configFile: "tsconfig.json",
@@ -29,9 +25,10 @@ module.exports = {
   webpackFinal: async (config) => {
     return {
       ...config,
+      devtool: "source-map",
       module: {
         ...config.module,
-        rules: [].concat(config.module.rules).concat(custom.module.rules),
+        rules: [].concat(config.module.rules),
       },
     };
   },

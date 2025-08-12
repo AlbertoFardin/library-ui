@@ -3,7 +3,7 @@ import Background from ".";
 import Card from "../Card";
 
 export default {
-  title: "Core/Background",
+  title: "core/Background",
   component: Background,
 };
 

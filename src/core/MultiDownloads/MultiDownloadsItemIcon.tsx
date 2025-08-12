@@ -1,20 +1,20 @@
-import * as React from "react";
 import { getTheme } from "../../theme";
 import CircularProgress from "../CircularProgress";
 import BtnClickDownload from "./BtnClickDownload";
 import BtnAutoDownload from "./BtnAutoDownload";
 import Btn from "../Btn";
-import { IMultiDownloadsItem } from "./interfaces";
+import { IMultiDownloadsItem, LinkTarget } from "./interfaces";
 import BtnCopyUrl from "./BtnCopyUrl";
 
-interface IMultiDownloadsItemIcon {
-  data: IMultiDownloadsItem;
-  onCopyUrlToClipboard: (url: string) => void;
-}
 const MultiDownloadsItemIcon = ({
   data,
   onCopyUrlToClipboard,
-}: IMultiDownloadsItemIcon) => {
+  linkTarget,
+}: {
+  data: IMultiDownloadsItem;
+  onCopyUrlToClipboard: (url: string) => void;
+  linkTarget?: LinkTarget;
+}) => {
   const { loading, name, url, tooltip, error, onClick } = data;
   const styleBtn = { marginRight: 4 };
 
@@ -50,6 +50,7 @@ const MultiDownloadsItemIcon = ({
           tooltip={tooltip}
           onClick={onClick}
           style={styleBtn}
+          linkTarget={linkTarget}
         />
       </>
     );
@@ -62,6 +63,7 @@ const MultiDownloadsItemIcon = ({
         name={name}
         tooltip={tooltip}
         style={styleBtn}
+        linkTarget={linkTarget}
       />
     </>
   );

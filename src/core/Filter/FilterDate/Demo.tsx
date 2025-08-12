@@ -1,11 +1,11 @@
 import * as React from "react";
+import { action } from "@storybook/addon-actions";
+import * as moment from "moment";
 import FilterDate from "./FilterDate";
 import Btn from "../../Btn";
 import Text from "../../Text";
 import Toolbar from "../../Toolbar";
-import { action } from "@storybook/addon-actions";
-import { DATE_FORMAT } from "../../../interfaces";
-import * as moment from "moment";
+import { DATE_FORMAT } from "../../../constants";
 
 const FilterDateDemo = () => {
   const [value, setValue] = React.useState<

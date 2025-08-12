@@ -1,9 +1,8 @@
-import * as React from "react";
 import { action } from "@storybook/addon-actions";
 import LogoWarda from ".";
 
 export default {
-  title: "Core/LogoWarda",
+  title: "core/LogoWarda",
   component: LogoWarda,
   argTypes: {
     color: { control: "color" },

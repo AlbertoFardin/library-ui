@@ -1,13 +1,15 @@
 import * as React from "react";
 import { createUseStyles } from "react-jss";
-import { Tooltip } from "react-tooltip";
+import { Tooltip as ReactTooltip } from "react-tooltip";
+import { v4 as uuidv4 } from "uuid";
 import Portal from "../Portal";
 import Text from "../Text";
-import { v4 as uuidv4 } from "uuid";
-import { getFontWeight, getFonts, getTheme } from "../../theme";
+import { getFontWeight, getFontsFamily, getTheme } from "../../theme";
 import getColorOpposite from "../../utils/getColorOpposite";
+import { isMobile } from "../../utils/deviceUtils";
+import isDOMElement from "../../utils/isDOMElement";
 
-const fontFamily = getFonts()[0];
+const fontFamily = getFontsFamily()[0];
 const fontWeight = getFontWeight(fontFamily, "regular");
 // this style fix if value is a JSX.Element
 const style: React.CSSProperties = {
@@ -57,19 +59,33 @@ export interface ITooltip {
   title?: string | string[] | JSX.Element;
   place?: "top" | "bottom" | "left" | "right";
   children: JSX.Element;
+  wrapperClassName?: string;
+  wrapperStyle?: React.CSSProperties;
 }
 
-const TooltipCustomized = (props: ITooltip) => {
+const Tooltip = (props: ITooltip) => {
   const classes = useStyles();
-  const tooltipId = uuidv4();
+  const tooltipId = React.useMemo(() => uuidv4(), []);
   const { open, title = "", place = "top", children } = props;
 
-  if (!title) return children;
+  if (isMobile() || !title) return children;
+
+  const needsWrapper = !isDOMElement(children.type);
+  const wrappedChild = needsWrapper ? (
+    <div
+      data-tooltip-id={tooltipId}
+      className={props.wrapperClassName}
+      style={props.wrapperStyle}
+      children={children}
+    />
+  ) : (
+    React.cloneElement(children, { "data-tooltip-id": tooltipId })
+  );
 
   return (
     <>
       <Portal>
-        <Tooltip
+        <ReactTooltip
           className={classes.tooltip}
           style={{
             backgroundColor: getColorOpposite(getTheme().colors.background),
@@ -82,13 +98,11 @@ const TooltipCustomized = (props: ITooltip) => {
           <div style={style}>
             <RenderText value={title} />
           </div>
-        </Tooltip>
+        </ReactTooltip>
       </Portal>
-      {React.cloneElement(children, {
-        "data-tooltip-id": tooltipId,
-      })}
+      {wrappedChild}
     </>
   );
 };
 
-export default TooltipCustomized;
+export default Tooltip;

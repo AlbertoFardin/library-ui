@@ -1,14 +1,14 @@
 import * as React from "react";
-import { getTheme } from "../../../theme";
 import { createUseStyles } from "react-jss";
 import classnames from "classnames";
+import isEmpty from "lodash-es/isEmpty";
+import { getTheme } from "../../../theme";
 import Collapse from "../../Transitions/Collapse";
-import Icon from "../../Icon";
 import CircularProgress from "../../CircularProgress";
 import Text from "../../Text";
 import IconHelp from "../../IconHelp";
 import FilterCount from "./FilterCount";
-import isEmpty from "lodash-es/isEmpty";
+import Btn from "../../Btn";
 
 const useStyle = createUseStyles({
   facet: {
@@ -21,9 +21,6 @@ const useStyle = createUseStyles({
     alignItems: "center",
     flex: 1,
     height: 40,
-  },
-  headerCursorPointer: {
-    cursor: "pointer",
   },
   headerLabelSub: {
     margin: "-10px 0 10px 24px",
@@ -38,11 +35,11 @@ interface IFilterWrapper {
   className?: string;
   style?: React.CSSProperties;
   count?: number;
-  collapsedHide?: boolean;
   label: string;
   labelSub?: string;
   collapsed?: boolean;
   collapsedHelp?: string | string[];
+  collapsedHide?: boolean;
   help?: string | string[];
   onClickCount?: () => void;
   mandatory?: boolean;
@@ -55,11 +52,11 @@ const FilterWrapper = ({
   className,
   style,
   count,
-  collapsedHide,
   label,
   labelSub,
   collapsed,
   collapsedHelp,
+  collapsedHide,
   help,
   onClickCount,
   mandatory,
@@ -83,44 +80,40 @@ const FilterWrapper = ({
         [className]: !!className,
       })}
     >
-      <div
-        role="presentation"
-        className={classnames({
-          [classes.header]: true,
-          [classes.headerCursorPointer]: !collapsedHide,
-        })}
-        onClick={onCollapse}
-      >
-        {loading ? (
-          <CircularProgress color={color} size={15} />
-        ) : collapsedHide ? null : (
-          <Icon
-            children={collapse ? "keyboard_arrow_down" : "keyboard_arrow_up"}
+      {!label ? null : (
+        <div className={classes.header}>
+          {loading ? (
+            <CircularProgress color={color} size={15} />
+          ) : collapsedHide ? null : (
+            <Btn
+              icon={collapse ? "keyboard_arrow_down" : "keyboard_arrow_up"}
+              onClick={onCollapse}
+            />
+          )}
+          <Text
+            ellipsis
+            style={{ marginLeft: 2, maxWidth: 130 }}
+            children={label}
           />
-        )}
-        <Text
-          ellipsis
-          style={{ marginLeft: 8, maxWidth: 130 }}
-          children={label}
-        />
-        {!mandatory ? null : (
-          <span style={{ marginLeft: 2, color: "#f00" }} children={"*"} />
-        )}
-        <div style={{ flex: 1 }} />
-        {!onClickCount ? null : (
-          <FilterCount
-            color={color}
-            open={!!count}
-            label={count}
-            onClick={onClickCount}
-          />
-        )}
-        {collapsed ? (
-          <IconHelp open={!isEmpty(collapsedHelp)} tooltip={collapsedHelp} />
-        ) : (
-          <IconHelp open={!isEmpty(help)} tooltip={help} />
-        )}
-      </div>
+          {!mandatory ? null : (
+            <span style={{ marginLeft: 2, color: "#f00" }} children="*" />
+          )}
+          <div style={{ flex: 1 }} />
+          {!onClickCount ? null : (
+            <FilterCount
+              color={color}
+              open={!!count}
+              label={count}
+              onClick={onClickCount}
+            />
+          )}
+          {collapsed ? (
+            <IconHelp open={!isEmpty(collapsedHelp)} tooltip={collapsedHelp} />
+          ) : (
+            <IconHelp open={!isEmpty(help)} tooltip={help} />
+          )}
+        </div>
+      )}
       {!labelSub || collapse ? null : (
         <Text ellipsis className={classes.headerLabelSub} children={labelSub} />
       )}

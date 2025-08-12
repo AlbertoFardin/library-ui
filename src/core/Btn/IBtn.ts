@@ -3,7 +3,7 @@ import { IPopoverListItem } from "../PopoverList";
 import { PopoverOrigin } from "../Popover";
 
 interface IBtn {
-  variant?: "light" | "bold";
+  variant?: "light" | "bold" | "outlined";
   color?: string;
   cmpRef?;
   className?: string;
@@ -14,6 +14,7 @@ interface IBtn {
   label?: string;
   labelClassName?: string;
   labelStyle?: React.CSSProperties;
+  labelSize?: 0 | 1 | 2 | 3 | 4 | 5;
   labelWeight?: "regular" | "lighter" | "bolder";
   labelPosition?: "right" | "left";
   labelRequired?: boolean;
@@ -41,6 +42,7 @@ interface IBtn {
     onClose?: () => void;
     items: IPopoverListItem[];
     title?: string;
+    zIndex?: number;
   };
   small?: boolean;
   badge?: boolean;

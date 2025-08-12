@@ -1,3 +1,5 @@
+export type LinkTarget = "_blank" | "_self" | "_parent" | "_top";
+
 export interface IMultiDownloadsItem {
   id: string;
   loading?: boolean;
@@ -28,4 +30,6 @@ export interface IMultiDownloads {
   style?: React.CSSProperties;
   /** Callback on click button "copy url", if not value not see the button */
   onCopyUrlToClipboard?: (url: string) => void;
+  /** Specifies where to open the linked document (default "_self") */
+  linkTarget?: LinkTarget;
 }

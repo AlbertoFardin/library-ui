@@ -33,12 +33,16 @@ const InputFile = ({
   const onClick = React.useCallback((event) => {
     event.stopPropagation();
   }, []);
+  const onDrop = React.useCallback((event: React.DragEvent) => {
+    // disabilito il drop dei file direttamente nell'input
+    event.preventDefault();
+  }, []);
 
   if (disabled) return null;
 
   return (
     <input
-      title={directory ? "Select folder" : "Select file"}
+      title=""
       type={directory ? undefined : "file"}
       accept={acceptFiles}
       {...{
@@ -47,6 +51,7 @@ const InputFile = ({
       }}
       multiple={multiple}
       onClick={onClick}
+      onDrop={onDrop}
       onChange={onChangeInput}
       style={style}
     />

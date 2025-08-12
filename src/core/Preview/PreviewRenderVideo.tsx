@@ -1,13 +1,12 @@
 import * as React from "react";
 import { createUseStyles } from "react-jss";
-import IPreviewRender from "./IPreviewRender";
-import { Initialize } from "../../interfaces";
-import Icon from "../Icon";
 import classnames from "classnames";
+import IPreviewRender from "./IPreviewRender";
+import Icon from "../Icon";
 
 const useStyles = createUseStyles({
   src: {
-    "object-fit": "contain",
+    objectFit: "contain",
     width: "100%",
     height: "auto",
   },
@@ -21,41 +20,65 @@ const useStyles = createUseStyles({
     bottom: 0,
     left: 0,
     margin: "auto",
-    "border-radius": 1000,
-    "z-index": 1,
-    "background-color": "rgba(0,0,0,0.5)",
+    borderRadius: 1000,
+    zIndex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
     height: "fit-content",
     width: "fit-content",
-    "text-align": "center",
+    textAlign: "center",
     display: "flex",
-    "align-items": "center",
-    "justify-content": "center",
-    "& > *": {
-      color: "#fff",
-      "font-size": "200%",
-      padding: "10px",
-    },
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
 const PreviewRenderVideo = ({
-  initialize,
+  src,
+  srcLoaded,
   onLoadSucc,
   onLoadFail,
-  srcUrl,
   mousehover,
+  size,
 }: IPreviewRender) => {
   const classes = useStyles({});
   const videoRef = React.useRef(null);
-  const srcLoaded = initialize === Initialize.SUCC;
+  React.useEffect(() => {
+    const video = videoRef.current;
+    if (video && src) {
+      // fix per dispositivi iOS Mobile che non caricano il primo frame del video
+      // play&stop per forzare il download e visualizzazione del frame.
+
+      // LINK https://developer.chrome.com/blog/play-request-was-interrupted?hl=it
+      // Show loading animation.
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            // Automatic playback started!
+            // Show playing UI.
+            // We can now safely pause video...
+            video.pause();
+            video.currentTime = 0;
+          })
+          .catch(() => {
+            // Auto-play was prevented
+            // Show paused UI.
+            // console.log("video error", error);
+          });
+      }
+    }
+  }, [src]);
 
   React.useEffect(() => {
-    if (!!videoRef && !!videoRef.current) {
+    const video = videoRef.current;
+    if (video) {
       if (mousehover && srcLoaded) {
-        videoRef.current.play();
+        // al mousehover parte il video
+        video.play();
       } else {
-        videoRef.current.pause();
-        videoRef.current.currentTime = 0;
+        // al mouseleave il video si resetta
+        video.pause();
+        video.currentTime = 0;
       }
     }
   }, [mousehover, srcLoaded]);
@@ -68,9 +91,11 @@ const PreviewRenderVideo = ({
           [classes.src]: true,
           [classes.mousehover]: mousehover,
         })}
-        src={srcUrl}
+        src={src}
         muted
         loop
+        playsInline
+        preload="auto"
         controls={false}
         onLoadedData={onLoadSucc}
         onError={onLoadFail}
@@ -78,7 +103,16 @@ const PreviewRenderVideo = ({
       {srcLoaded && !mousehover ? (
         <div
           className={classes.videoplayer}
-          children={<Icon children="play_arrow" />}
+          children={
+            <Icon
+              style={{
+                fontSize: Math.min(50, size / 4),
+                color: "#fff",
+                padding: 5,
+              }}
+              children="play_arrow"
+            />
+          }
         />
       ) : null}
     </>

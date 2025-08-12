@@ -1,8 +1,8 @@
 import * as React from "react";
-import { getTheme } from "../../theme";
 import { createUseStyles } from "react-jss";
-import Text from "../Text";
 import classnames from "classnames";
+import { getTheme } from "../../theme";
+import Text from "../Text";
 import Tooltip from "../Tooltip";
 import BtnArrow from "./BtnArrow";
 import Btn from "../Btn";
@@ -107,7 +107,7 @@ const Pagination = ({
     [onChangeCurr, pageCurr, pageMax],
   );
   const cbOnChangeSize = React.useCallback(
-    (event, id: string) => {
+    (_, id: string) => {
       const { selected } = (pageSize as IPageSize[]).find(
         (s) => String(id) === String(s.value),
       );

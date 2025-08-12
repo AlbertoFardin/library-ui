@@ -1,7 +1,7 @@
 import * as React from "react";
-import Text from "../core/Text";
 import classnames from "classnames";
 import { createUseStyles } from "react-jss";
+import Text from "../core/Text";
 import { ITheme, getTheme } from "../theme";
 
 const useStyles = createUseStyles({

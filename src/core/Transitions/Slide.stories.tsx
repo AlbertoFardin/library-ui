@@ -1,10 +1,10 @@
 import * as React from "react";
+import { action } from "@storybook/addon-actions";
 import Btn from "../Btn";
 import Slide from "./Slide";
-import { action } from "@storybook/addon-actions";
 
 export default {
-  title: "Core/Transitions/Slide",
+  title: "core/Transitions/Slide",
   component: Slide,
   args: {
     onEnter: action("onEnter"),
@@ -20,7 +20,7 @@ const ExampleStory = (args) => {
     "top" as "top" | "bottom" | "left" | "right",
   );
   const onClick = React.useCallback(() => setOpen(!open), [open]);
-  const onDirection = React.useCallback((e, id) => setDirection(id), []);
+  const onDirection = React.useCallback((_, id) => setDirection(id), []);
 
   return (
     <div

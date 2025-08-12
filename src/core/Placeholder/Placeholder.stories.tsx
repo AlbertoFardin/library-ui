@@ -1,8 +1,7 @@
-import * as React from "react";
 import Placeholder from ".";
 
 export default {
-  title: "Core/Placeholder",
+  title: "core/Placeholder",
   component: Placeholder,
   args: {
     icon: "camera",

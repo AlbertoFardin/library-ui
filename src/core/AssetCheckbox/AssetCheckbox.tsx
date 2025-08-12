@@ -1,9 +1,9 @@
 import * as React from "react";
 import { createUseStyles } from "react-jss";
+import classnames from "classnames";
 import Icon from "../Icon";
 import { getTheme } from "../../theme";
 import BtnBase, { IKeyDown } from "../BtnBase";
-import classnames from "classnames";
 
 const SIZE = 20;
 
@@ -39,52 +39,53 @@ const useStyles = createUseStyles({
   btnbase: {
     color: ({ color }: IStyles) => color,
     padding: 10,
-    "border-radius": getTheme().borderRadius,
-    "min-height": SIZE,
-    "min-width": SIZE,
-    "max-height": SIZE,
-    "max-width": SIZE,
+    borderRadius: getTheme().borderRadius,
+    minHeight: SIZE,
+    minWidth: SIZE,
+    maxHeight: SIZE,
+    maxWidth: SIZE,
     height: SIZE,
     width: SIZE,
     overflow: "hidden",
     display: "flex",
-    "align-items": "center",
-    "justify-content": "center",
+    alignItems: "center",
+    justifyContent: "center",
     position: "relative",
   },
   checkboxIcon: {
     transform: "scale(0)",
     transition: "250ms transform",
-    "background-color": ({ color }: IStyles) => color,
-    "border-radius": 4,
+    backgroundColor: ({ color }: IStyles) => color,
+    borderRadius: 0,
     height: SIZE - 2,
     width: SIZE - 2,
     display: "flex",
-    "align-items": "center",
-    "justify-content": "center",
+    alignItems: "center",
+    justifyContent: "center",
   },
   checkboxIconSelected: {
     transform: "scale(1)",
   },
   checkbox: {
     display: "flex",
-    "align-items": "center",
-    "justify-content": "center",
-    "background-color": "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#fff",
     border: ({ selected, color }: IStyles) =>
       `1px solid ${selected ? color : getTheme().colors.grayBorder}`,
-    "border-radius": getTheme().borderRadius,
-    "box-sizing": "border-box",
+    borderRadius: getTheme().borderRadius,
+    boxSizing: "border-box",
     position: "absolute",
     top: 10,
     left: 10,
     opacity: 0,
+    overflow: "hidden",
   },
   checkboxShow: {
     opacity: 1,
   },
   icon: {
-    "font-size": 20,
+    fontSize: 20,
     transition: "250ms all",
     transform: "scale(1)",
   },
@@ -93,12 +94,14 @@ const useStyles = createUseStyles({
   },
 });
 
+export type CheckBoxType = "none" | "mousehover" | "always";
+
 export interface IAssetCheckbox {
   className?: string;
   style?: React.CSSProperties;
   color: string;
   icon: string;
-  type: "none" | "mousehover" | "always";
+  type: CheckBoxType;
   selected?: boolean;
   disabled?: boolean;
   mouseHover?: boolean;
@@ -135,7 +138,11 @@ const AssetCheckbox = ({
       })}
       color={color}
       onClick={onClick}
-      disabled={disabled}
+      disabled={
+        disabled ||
+        type === "none" ||
+        (type === "mousehover" && mouseHover === false)
+      }
     >
       <div
         className={classnames({

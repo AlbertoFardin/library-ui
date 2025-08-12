@@ -1,7 +1,5 @@
 /* eslint-disable */
 
-import * as React from "react";
-
 const svgLogo = ({
   color,
   width,

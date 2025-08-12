@@ -1,10 +1,10 @@
 import * as React from "react";
+import { createUseStyles } from "react-jss";
+import classnames from "classnames";
 import BtnBase from "../BtnBase";
 import Icon from "../Icon";
 import mixColors from "../../utils/mixColors";
 import BadgeLabel from "./BadgeLabel";
-import { createUseStyles } from "react-jss";
-import classnames from "classnames";
 import Avatar from "../Avatar";
 import { getTheme } from "../../theme";
 
@@ -33,11 +33,14 @@ const useStyles = createUseStyles({
     cursor: ({ isButton }: IStyles) => (isButton ? "pointer" : "default"),
     backgroundColor: getTheme().colors.background,
     "&:hover": {
-      backgroundColor: ({ isButton, color }: IStyles) =>
-        isButton
-          ? mixColors(0.75, color, getTheme().colors.background)
-          : getTheme().colors.background,
+      backgroundColor: ({ isButton, color }: IStyles) => {
+        if (!isButton) return undefined;
+        return mixColors(0.75, color, getTheme().colors.background);
+      },
     },
+  },
+  badgeIcon: {
+    fontSize: 16,
   },
 });
 
@@ -45,7 +48,7 @@ export interface IBadge {
   className?: string;
   style?: React.CSSProperties;
   tooltip?: string | string[] | JSX.Element;
-  color: string;
+  color?: string;
   onClick?: (
     event: React.MouseEvent,
     ref: React.MutableRefObject<HTMLDivElement>,
@@ -69,7 +72,7 @@ const Badge = ({
   className,
   style,
   tooltip,
-  color,
+  color = getTheme().colors.theme1,
   onClick,
   avatar,
   avatarText,
@@ -132,8 +135,8 @@ const Badge = ({
       )}
       {!icon ? null : (
         <Icon
-          className={iconClassName}
-          style={{ fontSize: 14, color, ...iconStyle }}
+          className={classnames([classes.badgeIcon, iconClassName])}
+          style={{ color, ...iconStyle }}
           children={icon}
         />
       )}

@@ -1,19 +1,27 @@
 import { createUseStyles } from "react-jss";
-import { getFonts, getTheme } from "../../../theme";
+import { getFontsFamily, getTheme } from "../../../theme";
 import hexToRgbA from "../../../utils/hexToRgbA";
 
 export const fieldHeight = 42;
+
 interface IStyles {
   color: string;
+  modalEnabled?: boolean;
 }
+
 const useStyles = createUseStyles({
+  completeMessage: {
+    backgroundColor: getTheme().colors.grayDrawer,
+    padding: "3px 10px",
+    borderRadius: getTheme().borderRadius,
+  },
   field: {
     color: getTheme().colors.typography,
     position: "relative",
     display: "inline-flex",
     flexDirection: "row",
     alignItems: "center",
-    boxSizing: "border-box",
+    boxSizing: "content-box",
     margin: "18px 0",
     minHeight: fieldHeight,
     maxHeight: 120,
@@ -52,13 +60,13 @@ const useStyles = createUseStyles({
     color: getTheme().colors.typography,
     fontSize: "12px",
     fontWeight: "normal",
-    fontFamily: [getFonts()[0], "Helvetica", "Arial", "sans-serif"]
+    fontFamily: [getFontsFamily()[0], "Helvetica", "Arial", "sans-serif"]
       .filter((f) => !!f)
       .join(", "),
     padding: 10,
     boxSizing: "border-box",
     minHeight: 18,
-    width: "-webkit-fill-available",
+    width: "100%",
     alignSelf: "stretch",
     resize: "none",
     backgroundColor: "transparent",
@@ -69,6 +77,7 @@ const useStyles = createUseStyles({
     verticalAlign: "top",
     lineHeight: 1.5,
     letterSpacing: "0.015em",
+    opacity: 1,
     "&::placeholder": {
       color: getTheme().colors.typography,
       opacity: 0.5,
@@ -79,6 +88,7 @@ const useStyles = createUseStyles({
     flex: 1,
     flexDirection: "column",
     alignSelf: "stretch",
+    width: "100%",
   },
   chipsWrapperList: {
     textAlign: "left",
@@ -105,7 +115,7 @@ const useStyles = createUseStyles({
   },
   menuPosRelative: {
     alignSelf: "flex-end",
-    margin: "0 5px 5px 0",
+    margin: "0 5px 5px 0 !important", // important need to fix in SC
   },
   menuPosAbsoluteBot: {
     zIndex: 1,
@@ -134,7 +144,7 @@ const useStyles = createUseStyles({
       color: getTheme().colors.typography,
       fontSize: "12px",
       fontWeight: "normal",
-      fontFamily: [getFonts()[0], "Helvetica", "Arial", "sans-serif"]
+      fontFamily: [getFontsFamily()[0], "Helvetica", "Arial", "sans-serif"]
         .filter((f) => !!f)
         .join(", "),
       outline: "none",
@@ -154,11 +164,14 @@ const useStyles = createUseStyles({
     borderRadius: 3,
     backgroundColor: hexToRgbA(getTheme().colors.theme1, 0.25),
   },
-  editorWysiwygOnClick: {
+  bodyField: {
     display: "flex",
     flex: 1,
+    width: "inherit",
+    cursor: ({ modalEnabled }: IStyles) =>
+      modalEnabled ? "pointer" : "default",
   },
-  editorWysiwygReadOnly: {
+  bodyFieldElement: {
     overflow: "auto",
     flex: 1,
     minHeight: 120,
@@ -170,6 +183,16 @@ const useStyles = createUseStyles({
     minHeight: 390,
     maxHeight: 390,
     width: 650,
+    border: `1px solid ${getTheme().colors.grayBorder}`,
+    borderRadius: getTheme().borderRadius,
+  },
+  jsonViewerInModal: {
+    overflow: "auto",
+    flex: 1,
+    minHeight: 390,
+    maxHeight: 390,
+    width: 650,
+    margin: "0 15px",
     border: `1px solid ${getTheme().colors.grayBorder}`,
     borderRadius: getTheme().borderRadius,
   },

@@ -1,9 +1,8 @@
-import * as React from "react";
 import TextLoading from ".";
 import { getTheme } from "../../theme";
 
 export default {
-  title: "Core/TextLoading",
+  title: "core/TextLoading",
   component: TextLoading,
   args: {
     color: getTheme().colors.theme1,

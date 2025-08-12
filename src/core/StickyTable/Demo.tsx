@@ -7,14 +7,14 @@ import CardDemo from "../../stories/CardDemo";
 const Cell = ({ className, style, columnIndex, rowIndex }: IRenderer) => (
   <div
     className={className}
-    style={{ ...style, position: "absolute" }}
+    style={style}
     children={`${rowIndex}:${columnIndex}`}
   />
 );
 const Header = ({ className, style, columnIndex, rowIndex }: IRenderer) => (
   <div
     className={className}
-    style={{ ...style, position: "absolute", backgroundColor: "#f1f1f1" }}
+    style={{ ...style, backgroundColor: "#f1f1f1" }}
     children={`${rowIndex}:${columnIndex}`}
   />
 );

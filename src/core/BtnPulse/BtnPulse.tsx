@@ -1,9 +1,9 @@
 import * as React from "react";
-import { getTheme } from "../../theme";
 import { createUseStyles } from "react-jss";
+import classnames from "classnames";
+import { getTheme } from "../../theme";
 import Btn from "../Btn";
 import hexToRgbA from "../../utils/hexToRgbA";
-import classnames from "classnames";
 
 const COLOR = "#C07CF1";
 const SIZE = 30;

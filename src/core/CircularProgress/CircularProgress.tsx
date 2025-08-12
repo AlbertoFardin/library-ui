@@ -1,8 +1,8 @@
 import * as React from "react";
 import { createUseStyles } from "react-jss";
+import classnames from "classnames";
 import { getTheme } from "../../theme";
 import hexToRgbA from "../../utils/hexToRgbA";
-import classnames from "classnames";
 
 interface IStyles {
   color: string;

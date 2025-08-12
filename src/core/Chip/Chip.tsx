@@ -1,11 +1,11 @@
 import * as React from "react";
+import { createUseStyles } from "react-jss";
+import classnames from "classnames";
 import { getTheme } from "../../theme";
 import Text from "../Text";
 import BtnBase from "../BtnBase";
-import { createUseStyles } from "react-jss";
 import hexToRgbA from "../../utils/hexToRgbA";
 import Icon from "../Icon";
-import classnames from "classnames";
 import Avatar from "../Avatar";
 
 interface IStyles {
@@ -30,7 +30,7 @@ const useStyle = createUseStyles({
         ? hexToRgbA(color, getTheme().colors.isDark ? 0.45 : 0.15)
         : getTheme().colors.background,
     borderRadius: 50,
-    maxWidth: "-webkit-fill-available",
+    maxWidth: "100%",
     padding: "1px 5px",
     verticalAlign: "middle",
   },

@@ -2,44 +2,126 @@ import localstorage, { localstorageGetItem } from "./localstorage";
 
 // LINK https://wardafactory.atlassian.net/wiki/spaces/LibraryUI
 
-export const THEME_KEY = "theme";
+export const THEME_KEY = "libraryuiTheme";
 
-export const getFonts = (): string[] => {
-  const theme = getTheme();
-  const array: string[] = [];
-  theme.fonts.google?.families.forEach((f) => {
-    const fontName = f.split(":")[0];
-    array.push(fontName);
-  });
-  theme.fonts.custom?.families.forEach((f) => {
-    const fontName = f.split(":")[0];
-    array.push(fontName);
-  });
-  return array;
-};
-export const getFontData = (fontName: string): string => {
-  const theme = getTheme();
-  let fontData = "";
-  theme.fonts.google?.families.forEach((f) => {
-    if (f.split(":")[0] === fontName) fontData = f;
-  });
-  theme.fonts.custom?.families.forEach((f) => {
-    if (f.split(":")[0] === fontName) fontData = f;
-  });
-  return fontData;
+export const getFontsFamily = (): string[] => {
+  try {
+    const theme = getTheme();
+    return theme.fonts.map((f) => f.family);
+  } catch {
+    removeTheme();
+    return [];
+  }
 };
 export const getFontWeight = (
-  fontName: string,
+  fontFamily: string,
   w: "regular" | "lighter" | "bolder",
 ): number => {
-  const weights: number[] = getFontData(fontName)
-    .split(":")[1]
-    .split(",")
-    .map((n) => Number(n));
-  if (weights.length === 1) return weights[0];
+  const theme = getTheme();
+  const weights = theme.fonts.find((f) => f.family === fontFamily).weight;
   if (w === "lighter") return weights[0];
   if (w === "bolder") return weights[2];
   return weights[1];
+};
+export const getFontSourceFormat = (url: string): string => {
+  try {
+    const urlObject = new URL(url);
+    const pathname = urlObject.pathname;
+    const parts = pathname.split("/");
+    const lastPart = parts[parts.length - 1];
+    const dotIndex = lastPart.lastIndexOf(".");
+    if (dotIndex !== -1 && dotIndex !== lastPart.length - 1) {
+      return lastPart.substring(dotIndex + 1);
+    }
+    return undefined;
+  } catch (error) {
+    return undefined;
+  }
+};
+export const getFontSource = (fontFamily: string): FontSource[] => {
+  const theme = getTheme();
+  const url = theme.fonts.find((f) => f.family === fontFamily).source;
+  const format = getFontSourceFormat(url);
+  if (!!format) return [{ url, format }];
+  return [
+    {
+      url,
+      format: "woff2",
+    },
+    {
+      url,
+      format: "woff",
+    },
+    {
+      url,
+      format: "opentype",
+    },
+  ];
+};
+
+export type FontSource = {
+  url: string;
+  format: string; // Ex: "woff2", "woff", "opentype"
+};
+export type FontConfig = {
+  fontFamily: string;
+  sources: FontSource[];
+  fontStyle?: string;
+  fontWeight?: string;
+  fontStretch?: string; // Ex: "normal", "condensed", "expanded", etc.
+  fontDisplay?: string; // Ex: "auto", "block", "swap", etc.
+};
+const getFontConfigFromTheme = (): FontConfig[] => {
+  return getFontsFamily().map((fontFamily) => {
+    const config: FontConfig = {
+      fontFamily,
+      sources: getFontSource(fontFamily),
+    };
+    return config;
+  });
+};
+export const loadFonts = () => {
+  getFontConfigFromTheme().forEach(
+    ({
+      fontFamily,
+      sources,
+      fontStyle = "normal",
+      fontWeight = "400",
+      fontStretch = "normal",
+      fontDisplay = "swap", // Default a 'swap'
+    }) => {
+      const src = sources
+        .map(({ url, format }) => `url("${url}") format("${format}")`)
+        .join(", ");
+
+      if (fontDisplay) {
+        const style = document.createElement("style");
+        style.textContent = `
+          @font-face {
+            font-family: '${fontFamily}';
+            font-display: ${fontDisplay};
+          }
+        `;
+        document.head.appendChild(style);
+      }
+
+      const fontFace = new FontFace(fontFamily, src, {
+        style: fontStyle,
+        weight: fontWeight,
+        stretch: fontStretch,
+      });
+
+      fontFace
+        .load()
+        .then(() => {
+          document.fonts.add(fontFace);
+          // console.log(`Font ${fontFamily} loaded successfully.`);
+        })
+        .catch((err) => {
+          console.error(`Failed to load font ${fontFamily}:`, err);
+        });
+    },
+  );
 };
 
 export interface IThemeColors {
@@ -71,20 +153,16 @@ export interface ITheme {
   zIndex: IThemeZIndex;
   borderRadius: number;
   fonts: {
-    google?: {
-      families: string[];
-    };
-    custom?: {
-      families: string[];
-      urls: string[];
-    };
-  };
+    family: string;
+    weight: [number, number, number];
+    source: string;
+  }[];
 }
 
 export const THEME_COLORS_SOFT: IThemeColors = {
   isDark: false,
-  theme1: "#C07CF1",
-  theme2: "#002BFF",
+  theme1: "#7301ff",
+  theme2: "#eb017c",
   mousehover: "#f1f1f1",
   background: "#ffffff",
   grayDrawer: "#f4f5f7",
@@ -124,15 +202,14 @@ export const THEME_DEFAULT: ITheme = {
   colors: THEME_COLORS_SOFT,
   zIndex: THEME_DEFAULT_ZINDEX,
   borderRadius: 5,
-  fonts: {
-    google: {
-      families: [
-        "Roboto:300,400,500",
-        "Freehand:400",
-        "Rubik Marker Hatch:400",
-      ],
+  fonts: [
+    {
+      family: "Roboto",
+      weight: [300, 400, 700],
+      source:
+        "https://fonts.gstatic.com/s/roboto/v32/KFOiCnqEu92Fr1Mu51QrEz0dL-vwnYh2eg.woff2",
     },
-  },
+  ],
 };
 
 export const removeTheme = () => {

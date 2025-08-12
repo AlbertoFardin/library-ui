@@ -1,19 +1,19 @@
 import * as React from "react";
 import * as moment from "moment";
+import { DayPicker } from "react-day-picker";
+import classnames from "classnames";
 import Popover, { PopoverOrigin } from "../../Popover";
 import emptyFn from "../../../utils/emptyFn";
 import IFieldDate from "./IFieldDate";
-import { getFonts, getTheme } from "../../../theme";
-import { DayPicker } from "react-day-picker";
+import { getFontsFamily, getTheme } from "../../../theme";
 import Text from "../../Text";
-import classnames from "classnames";
 import Btn from "../../Btn";
 import { getLabels } from "../Label";
 import useStyles from "../utils/useStyles";
 import BtnMenu from "../utils/BtnMenu";
 import "react-day-picker/dist/style.css";
 import "./daypicker.css";
-import { DATE_FORMAT } from "../../../interfaces";
+import { DATE_FORMAT } from "../../../constants";
 
 const originAnchor: PopoverOrigin = {
   horizontal: "center",
@@ -51,7 +51,7 @@ const FieldDate = ({
   toYear = 2100,
 }: IFieldDate) => {
   const fieldRef = React.useRef(null);
-  const fontFamily = getFonts()[0];
+  const fontFamily = getFontsFamily()[0];
   const [popover, setPopover] = React.useState(false);
   const [inputHover, setInputHover] = React.useState(false);
   const classes = useStyles({ color });
@@ -140,7 +140,9 @@ const FieldDate = ({
           />
         ) : !!value ? (
           <>
-            {readOnly ? null : (
+            {readOnly ? (
+              <div style={{ padding: "0 5px" }} />
+            ) : (
               <Btn
                 style={{ margin: "0 5px" }}
                 color={color}

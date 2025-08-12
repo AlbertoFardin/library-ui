@@ -1,5 +1,3 @@
-import * as React from "react";
-import Divider from "../Divider";
 import List from "../List";
 import Popover, { IPopover } from "../Popover";
 import PopoverListItem, { IPopoverListItem } from "./PopoverListItem";
@@ -23,6 +21,7 @@ const PopoverList = ({
   originTransf,
   anchorPosition,
   positionZone,
+  zIndex,
 }: IPopoverList) => (
   <Popover
     open={open && !!actions.length}
@@ -35,29 +34,20 @@ const PopoverList = ({
     originTransf={originTransf}
     anchorPosition={anchorPosition}
     positionZone={positionZone}
+    zIndex={zIndex}
   >
-    <List>
+    <List style={{ maxHeight: "40vh" }}>
       {!title ? null : (
         <Text
           ellipsis
           weight="bolder"
-          size={2}
           children={title}
           style={{ padding: "5px 15px" }}
         />
       )}
-      {actions.reduce((acc, cur: IPopoverListItem) => {
-        if (cur.divider) {
-          acc.push(
-            <Divider key={`${cur.id}_divider`} style={{ margin: "0 10px" }} />,
-          );
-        }
-
-        if (!cur.hidden) {
-          acc.push(<PopoverListItem key={cur.id} {...cur} onClose={onClose} />);
-        }
-        return acc;
-      }, [])}
+      {actions.map((cur: IPopoverListItem) => (
+        <PopoverListItem key={cur.id} {...cur} onClose={onClose} />
+      ))}
     </List>
   </Popover>
 );

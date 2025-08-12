@@ -1,5 +1,8 @@
 export { default as Label } from "./Label";
 export type { ILabel } from "./Label";
+export { default as LabelMandatory } from "./LabelMandatory";
+export type { ILabelMandatory } from "./LabelMandatory";
+
 export { fieldHeight } from "./utils/useStyles";
 //
 export { default as FieldText } from "./FieldText";
@@ -31,4 +34,11 @@ export type {
 } from "./FieldMultiString";
 //
 export { default as FieldPicker } from "./FieldPicker";
-export type { IFieldPicker, IFieldPickerCreateProp } from "./FieldPicker";
+export type {
+  IFieldPicker,
+  IFieldPickerDialog,
+  IFieldPickerDialogField,
+} from "./FieldPicker";
+
+export { default as FieldPassThrow } from "./FieldPassThrough";
+export type { IFieldPassThrough } from "./FieldPassThrough";

@@ -12,7 +12,7 @@ interface IFieldMentions {
   /** component CSS style */
   style?: React.CSSProperties;
   /** Component' s label */
-  label?: string | ILabel[] | React.ReactElement;
+  label?: string | ILabel[];
   /** Callback fired on change input */
   onChange?: (value: string, mentions: IUserMock[]) => void;
   /** Component's placeholder */
@@ -26,7 +26,7 @@ interface IFieldMentions {
   /** Icon render in InputAdornment position START */
   adornmentIcon?: string;
   /** adornmentIcon's tooltip  */
-  adornmentIconTooltip?: string;
+  adornmentIconTooltip?: string | string[];
   /** adornmentIcon's color  */
   adornmentIconColor?: string;
   /** Avatar render in InputAdornment position START */
@@ -36,7 +36,7 @@ interface IFieldMentions {
   /** adornmentAvatar's icon */
   adornmentAvatarIcon?: string;
   /** adornmentAvatar's tooltip */
-  adornmentAvatarTooltip?: string;
+  adornmentAvatarTooltip?: string | string[];
   /** Elements render in InputAdornment position START */
   adornmentElement?: JSX.Element;
   /** BtnMenu actions configs, if empty Btn isn't render */

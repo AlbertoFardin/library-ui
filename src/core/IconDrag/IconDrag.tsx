@@ -1,5 +1,6 @@
 import * as React from "react";
 import { createUseStyles } from "react-jss";
+import classnames from "classnames";
 import Icon from "../Icon";
 
 const useStyles = createUseStyles({
@@ -16,13 +17,24 @@ const useStyles = createUseStyles({
   },
 });
 
-export interface IIconDrag {
+export interface IIconDrag extends React.HTMLAttributes<HTMLSpanElement> {
   open?: boolean;
 }
-const IconDrag = ({ open = true }: IIconDrag) => {
+const IconDrag = (props: IIconDrag) => {
+  const { className, style, open = true } = props;
   const classes = useStyles({});
   if (!open) return null;
-  return <Icon children="drag_indicator" className={classes.dragIcon} />;
+  return (
+    <Icon
+      {...props}
+      children="drag_indicator"
+      style={style}
+      className={classnames({
+        [classes.dragIcon]: true,
+        [className]: !!className,
+      })}
+    />
+  );
 };
 
 export default IconDrag;

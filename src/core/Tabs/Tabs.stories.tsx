@@ -3,7 +3,7 @@ import Tabs from "./Tabs";
 import { getTheme } from "../../theme";
 
 export default {
-  title: "Core/Tabs",
+  title: "core/Tabs",
   component: Tabs,
 };
 

@@ -3,7 +3,7 @@ import Popover from ".";
 import DemoCmp from "./Demo";
 
 export default {
-  title: "Core/Popover",
+  title: "core/Popover",
   component: Popover,
 };
 

@@ -4,7 +4,7 @@ import { getTheme } from "../../../../theme";
 import Popover from "../../../Popover";
 import Divider from "../../../Divider";
 import Placeholder from "../../../Placeholder";
-import FieldSearch from "../../../FieldSearch";
+import FieldSearch from "../../../InputSearch";
 import List from "../../../List";
 import ListItem, { IListItem } from "../../../ListItem";
 import { SelectType } from "../../../Checkbox";
@@ -36,8 +36,9 @@ interface IFieldPickerSearchModal {
   onInput: (input: string) => void;
   onClick: (slcIds: string[]) => void;
   onClose: () => void;
-  onSearch: (inputValue: string, item: IListItem) => boolean;
   placeholder: string;
+  itemsSearchKeys: string[];
+  zIndex?: number;
 }
 
 const FieldPickerSearchModal = ({
@@ -50,12 +51,13 @@ const FieldPickerSearchModal = ({
   onInput,
   onClick,
   onClose,
-  onSearch,
   placeholder,
+  itemsSearchKeys,
+  zIndex,
 }: IFieldPickerSearchModal) => {
   const classes = useStyles({});
   const cbOnClick = React.useCallback(
-    (e, id: string) => {
+    (_, id: string) => {
       const newIds = Array.from(slcIds);
       const indexToRemove = newIds.findIndex((i) => i === id);
       if (indexToRemove === -1) {
@@ -69,7 +71,13 @@ const FieldPickerSearchModal = ({
   );
   const listItems: IListItem[] = items
     .filter((item) => {
-      return onSearch(inputValue, item);
+      const inputLow = inputValue.toLowerCase();
+      const matchKey = itemsSearchKeys.some((key) => {
+        const value = item[key] || "";
+        const valueLow = value.toLowerCase();
+        return valueLow.includes(inputLow);
+      });
+      return matchKey;
     })
     .sort((a, b) => {
       const aValue = a.label?.toLowerCase() || "";
@@ -82,6 +90,7 @@ const FieldPickerSearchModal = ({
     .map((item) => {
       const data: IListItem = {
         ...item,
+        input: inputValue,
         selected: slcIds.some((a) => a === item.id),
         selectType: SelectType.CHECK,
         onClick: cbOnClick,
@@ -102,19 +111,26 @@ const FieldPickerSearchModal = ({
       }}
       open={open}
       onClose={onClose}
-      style={{ width }}
+      style={{ width: width + 2 }}
+      zIndex={zIndex}
     >
       <FieldSearch
         className={classes.input}
         value={inputValue}
         onChange={onInput}
         placeholder={placeholder}
-        autofocus
+        autoFocus
       />
       <Divider />
       <List className={classes.list}>
         {listItems.map((p) => (
-          <ListItem key={p.id} {...p} input={inputValue} />
+          <ListItem
+            key={p.id}
+            {...p}
+            subLabel={
+              !p.subLabel || p.label === p.subLabel ? undefined : p.subLabel
+            }
+          />
         ))}
         <Placeholder open={!listItems.length} label="No item found" />
       </List>

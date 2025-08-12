@@ -19,7 +19,7 @@ const FilterText = ({
   type = DefaultTextType,
   value = "",
   color = getTheme().colors.theme1,
-  cartridgeSplit = true,
+  multiline = true,
   className,
   collapsed,
   collapsedHelp,
@@ -42,7 +42,7 @@ const FilterText = ({
       onChange({
         id,
         type,
-        value: formatValue(cartridgeSplit, t),
+        value: formatValue(multiline, t),
         switchCaseSensitive,
         switchExactValue,
         switchNoValue,
@@ -50,7 +50,7 @@ const FilterText = ({
       inputValueRef.current = t;
     },
     [
-      cartridgeSplit,
+      multiline,
       type,
       id,
       onChange,
@@ -103,7 +103,7 @@ const FilterText = ({
       >
         <FieldText
           style={{ margin: 0 }}
-          multiline
+          multiline={multiline}
           autosize
           value={prepareValue(value)}
           onChange={onChangeInput}

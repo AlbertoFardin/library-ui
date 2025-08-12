@@ -8,10 +8,11 @@ const nodePortal =
   undefined;
 
 export interface IPortal {
+  node?: HTMLElement;
   children: JSX.Element | React.ReactNode;
 }
-const MyPortal = ({ children }: IPortal) => (
-  <Portal node={nodePortal} children={children} />
+const MyPortal = ({ node = nodePortal, children }: IPortal) => (
+  <Portal node={node} children={children} />
 );
 
 export default MyPortal;

@@ -1,5 +1,4 @@
 import { action } from "@storybook/addon-actions";
-import * as React from "react";
 import DemoFieldDate from "./Demo";
 import FieldDate from ".";
 import {
@@ -12,10 +11,10 @@ import {
   menuItems,
 } from "../utils/story";
 import CardDemo from "../../../stories/CardDemo";
-import { DATE_FORMAT } from "../../../interfaces";
+import { DATE_FORMAT } from "../../../constants";
 
 export default {
-  title: "Core/Field/FieldDate",
+  title: "core/Field/FieldDate",
   component: FieldDate,
   args: {
     color,

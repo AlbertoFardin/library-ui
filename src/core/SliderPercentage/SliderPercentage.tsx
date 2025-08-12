@@ -1,11 +1,11 @@
 import * as React from "react";
 import { createUseStyles } from "react-jss";
 import { Range, Direction, getTrackBackground } from "react-range";
+import classnames from "classnames";
 import emptyFn from "../../utils/emptyFn";
 import Text from "../Text";
 import { getTheme } from "../../theme";
 import mixColors from "../../utils/mixColors";
-import classnames from "classnames";
 
 interface IStyles {
   mainColor: string;

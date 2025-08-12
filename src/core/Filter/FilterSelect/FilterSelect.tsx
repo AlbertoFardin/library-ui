@@ -1,16 +1,17 @@
 import * as React from "react";
+import { createUseStyles } from "react-jss";
 import { getTheme } from "../../../theme";
 import List from "../../List";
+import Text from "../../Text";
 import FilterWrapper from "../utils/FilterWrapper";
-import FieldSearch from "../../FieldSearch";
+import FieldSearch from "../../InputSearch";
 import IFilterSelect, { IFilterSelectItem } from "./IFilterSelect";
 import ListItem from "../../ListItem";
 import { FilterType } from "../interfaces";
 import getNewValue from "./utils/getNewValue";
 import emptyFn from "../../../utils/emptyFn";
-import { createUseStyles } from "react-jss";
 import { SelectType } from "../../Checkbox";
-import { missingKey } from "../../../interfaces";
+import { MISSING_KEY } from "../../../constants";
 
 export const DefaultSelectType: FilterType = "MULTISELECTION";
 const itemEmpty = (
@@ -49,6 +50,9 @@ const useStyles = createUseStyles({
     maxHeight: 220,
     flex: 1,
     textAlign: "left",
+  },
+  listCount: {
+    color: getTheme().colors.disable,
   },
 });
 
@@ -91,22 +95,22 @@ const FilterSelect = ({
       return label1.includes(input) || label2.includes(input);
     })
     .filter((a) => {
-      if (!!inputValue && a.id === missingKey) return false;
+      if (!!inputValue && a.id === MISSING_KEY) return false;
       return true;
     })
     .sort((a) => {
-      if (a.id === missingKey) return -1;
+      if (a.id === MISSING_KEY) return -1;
       return 0;
     });
 
-  const optionsVisible = optionsSearch.filter((a, i) => i < MAX_SIZE);
+  const optionsVisible = optionsSearch.filter((_, i) => i < MAX_SIZE);
   const needFieldSearch = optionsSearch.length > options.length;
   const optionsMoreIn = optionsSearch.length - optionsVisible.length;
   const optionsMoreTotal = optionsMoreIn + optionsMoreOut;
   const listitemType = maxItems === 1 ? SelectType.RADIO : SelectType.CHECK;
 
   const onClickItem = React.useCallback(
-    (e, slcId: string) => {
+    (_, slcId: string) => {
       onChange({
         id,
         type,
@@ -171,14 +175,22 @@ const FilterSelect = ({
                     labelStyle={item.labelStyle}
                     labelClassName={item.labelClassName}
                     subLabel={item.subLabel}
-                    count={item.count}
                     onClick={onClickItem}
+                    children={
+                      item.count === undefined ? null : (
+                        <Text
+                          className={classes.listCount}
+                          weight="lighter"
+                          children={String(item.count)}
+                        />
+                      )
+                    }
                   />
                 ))}
             {!optionsMoreTotal ? null : (
               <ListItem
                 id="_more"
-                selectType={listitemType}
+                selectType={SelectType.NONE}
                 disabled
                 label="More results..."
               />

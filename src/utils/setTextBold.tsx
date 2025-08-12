@@ -1,5 +1,5 @@
 import * as React from "react";
-import { getFontWeight, getFonts } from "../theme";
+import { getFontWeight, getFontsFamily } from "../theme";
 
 const setTextBold = (
   textBld: string,
@@ -22,7 +22,7 @@ const setTextBold = (
     middlePart = (
       <span
         style={{
-          fontWeight: getFontWeight(getFonts()[font], "bolder"),
+          fontWeight: getFontWeight(getFontsFamily()[font], "bolder"),
           ...style,
         }}
         children={textAll.substr(resultIndex, textBld.length)}

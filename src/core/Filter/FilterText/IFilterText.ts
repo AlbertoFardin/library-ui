@@ -10,7 +10,7 @@ export interface IChangesText extends IChangesBase<TextValue> {
 
 interface IFilterText extends IFilterBase<TextValue, IChangesText> {
   /** If true, split value in array */
-  cartridgeSplit?: boolean;
+  multiline?: boolean;
   /** If valued, show checkbox "case sensitive" */
   switchCaseSensitive?: boolean;
   /** If valued, show checkbox "exact value" */

@@ -1,10 +1,10 @@
 import * as React from "react";
+import { createUseStyles } from "react-jss";
 import { getTheme } from "../../../theme";
 import FilterWrapper from "../utils/FilterWrapper";
 import { FilterType } from "../interfaces";
 import IFilterPercentage, { PercentageRange } from "./IFilterPercentage";
 import emptyFn from "../../../utils/emptyFn";
-import { createUseStyles } from "react-jss";
 import SliderPercentage from "../../SliderPercentage";
 
 const useStyles = createUseStyles({

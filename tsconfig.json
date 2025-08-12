@@ -5,8 +5,9 @@
     "outDir": "./built",
     "allowJs": true,
     "checkJs": false,
-
-    "importHelpers": true
+    "importHelpers": true,
+    "sourceMap": true,
+    "inlineSources": true
   },
   "exclude": ["build", "products", "package", "bucket"]
 }

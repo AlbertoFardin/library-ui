@@ -1,9 +1,8 @@
-import * as React from "react";
 import DemoStory from "./Demo";
 import CardFold from ".";
 
 export default {
-  title: "Core/CardFold",
+  title: "core/CardFold",
   component: CardFold,
   args: {
     size: 15,

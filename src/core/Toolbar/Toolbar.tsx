@@ -7,12 +7,13 @@ const useStyles = createUseStyles({
   toolbar: {
     position: "relative",
     display: "flex",
-    "flex-direction": "row",
-    "align-items": "center",
-    width: "-webkit-fill-available",
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
     height: 50,
-    "min-height": 50,
+    minHeight: 50,
     padding: "0 15px",
+    boxSizing: "border-box",
   },
 });
 

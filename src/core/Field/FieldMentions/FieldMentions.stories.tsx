@@ -1,5 +1,4 @@
 import { action } from "@storybook/addon-actions";
-import * as React from "react";
 import DemoFieldMentions from "./Demo";
 import FieldMentions from "./FieldMentions";
 import { style } from "../utils/story";
@@ -44,7 +43,7 @@ const users: IUserMock[] = [
 }));
 
 export default {
-  title: "Core/Field/FieldMentions",
+  title: "core/Field/FieldMentions",
   component: FieldMentions,
   args: {
     label: "FieldMentions",

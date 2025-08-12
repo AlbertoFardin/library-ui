@@ -1,8 +1,7 @@
-import * as React from "react";
 import IconHelp from "./IconHelp";
 
 export default {
-  title: "Core/IconHelp",
+  title: "core/IconHelp",
   component: IconHelp,
   args: {
     open: true,

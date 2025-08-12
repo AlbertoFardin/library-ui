@@ -1,9 +1,9 @@
 import * as React from "react";
 import { createUseStyles } from "react-jss";
+import classnames from "classnames";
 import Text from "../../Text";
 import Tooltip from "../../Tooltip";
 import mixColors from "../../../utils/mixColors";
-import classnames from "classnames";
 import { getTheme } from "../../../theme";
 
 interface IStyles {
@@ -14,20 +14,20 @@ const useStyles = createUseStyles({
     cursor: "pointer",
     transition: "all 250ms",
     border: "1px solid #fff",
-    "border-radius": 20,
-    "text-align": "center",
-    "min-width": "fit-content",
+    borderRadius: 20,
+    textAlign: "center",
+    minWidth: "fit-content",
     padding: "0 6px",
     height: 20,
-    "box-sizing": "border-box",
+    boxSizing: "border-box",
     transform: "scale(1)",
-    "background-color": ({ color }: IStyles) => mixColors(0.2, "#fff", color),
+    backgroundcolor: ({ color }: IStyles) => mixColors(0.2, "#fff", color),
     "&:hover": {
-      "border-color": ({ color }: IStyles) => color,
+      borderColor: ({ color }: IStyles) => color,
     },
   },
   countActive: {
-    "background-color": ({ color }: IStyles) => color,
+    backgroundColor: ({ color }: IStyles) => color,
     "& $countLabel": {
       color: "#fff",
     },
@@ -88,11 +88,7 @@ const FilterCount = ({
         style={style}
         onClick={onBtnClick}
       >
-        <Text
-          weight="bolder"
-          className={classes.countLabel}
-          children={String(label)}
-        />
+        <Text className={classes.countLabel} children={String(label)} />
       </div>
     </Tooltip>
   );

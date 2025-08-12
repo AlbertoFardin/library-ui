@@ -1,8 +1,15 @@
 import * as React from "react";
-import Text from ".";
+import Text, { TextSize } from ".";
+import {
+  ITheme,
+  THEME_DEFAULT,
+  setTheme,
+  loadFonts,
+  getFontsFamily,
+} from "../../theme";
 
 export default {
-  title: "Core/Text",
+  title: "core/Text",
   component: Text,
 };
 
@@ -27,33 +34,9 @@ const ExampleStory = () => (
 );
 export const Example = ExampleStory.bind({});
 
-const FontsStory = () => (
-  <>
-    <Text
-      style={{ margin: 25 }}
-      size={4}
-      children="The quick brown fox jumps over the lazy dog"
-      font={0}
-    />
-    <Text
-      style={{ margin: 25 }}
-      size={4}
-      children="The quick brown fox jumps over the lazy dog"
-      font={1}
-    />
-    <Text
-      style={{ margin: 25 }}
-      size={4}
-      children="The quick brown fox jumps over the lazy dog"
-      font={2}
-    />
-  </>
-);
-export const Fonts = FontsStory.bind({});
-
 const SizesStory = () => (
   <>
-    {[0, 1, 2, 3, 4, 5].map((n: 0 | 1 | 2 | 3 | 4 | 5) => (
+    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n: TextSize) => (
       <React.Fragment key={n}>
         <Text style={{ margin: 25 }} size={n} children={`Text SIZE ${n}`} />
       </React.Fragment>
@@ -64,9 +47,6 @@ export const Sizes = SizesStory.bind({});
 
 const WeightsStory = () => (
   <>
-    <Text children="Media Library - Beta" weight="lighter" />
-    <Text children="Media Library - Beta" weight="regular" />
-    <Text children="Media Library - Beta" weight="bolder" />
     <Text
       style={{ margin: 25 }}
       size={3}
@@ -96,6 +76,10 @@ const EllipsisStory = () => (
       size={3}
       ellipsis
       children="Text very very long with elipssis - here ellipsis is necessary!"
+      tooltipValue={[
+        "Text very very long with elipssis",
+        "There ellipsis is necessary",
+      ]}
     />
     <Text
       style={{ margin: 25, width: 450, border: "1px solid #f00" }}
@@ -106,3 +90,61 @@ const EllipsisStory = () => (
   </>
 );
 export const Ellipsis = EllipsisStory.bind({});
+
+const ManyFonts = () => {
+  const THEME: ITheme = {
+    ...THEME_DEFAULT,
+    id: "customFonts",
+    version: 1,
+    fonts: [
+      {
+        family: "Roboto",
+        weight: [300, 400, 500],
+        source:
+          "https://fonts.gstatic.com/s/roboto/v32/KFOiCnqEu92Fr1Mu51QrEz0dL-vwnYh2eg.woff2",
+      },
+      {
+        family: "Playwright IE Guides",
+        weight: [400, 400, 400],
+        source:
+          "https://fonts.gstatic.com/s/playwriteieguides/v1/LhW5MULFNP8PI-1UADw_Kbp9daTx5ovUaN8jMd_9.woff2",
+      },
+      {
+        family: "Monsieur La Doulaise",
+        weight: [400, 400, 400],
+        source:
+          "https://fonts.gstatic.com/s/monsieurladoulaise/v18/_Xmz-GY4rjmCbQfc-aPRaa4pqV340p7EZm5ZyEA242Tz.woff2",
+      },
+      {
+        family: "alternate-gothic-no-1-d",
+        weight: [300, 500, 700],
+        source:
+          "https://use.typekit.net/af/9fa845/000000000000000000010d5b/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3",
+      },
+      {
+        family: "din-2014-C",
+        weight: [400, 400, 700],
+        source:
+          "https://use.typekit.net/af/c2b6e5/00000000000000007735afee/30/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3",
+      },
+    ],
+  };
+  setTheme(THEME);
+  loadFonts();
+  return (
+    <>
+      {getFontsFamily().map((fontFamily, index) => (
+        <div key={fontFamily + index} style={{ margin: 25 }}>
+          <Text font={0} children={fontFamily} />
+          <Text
+            style={{ margin: "5px 15px" }}
+            size={4}
+            font={index}
+            children="The quick brown fox jumps over the lazy dog"
+          />
+        </div>
+      ))}
+    </>
+  );
+};
+export const TryCustomFonts = ManyFonts.bind({});

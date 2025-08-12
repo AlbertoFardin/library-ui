@@ -1,8 +1,7 @@
-import * as React from "react";
 import Avatar from ".";
 
 export default {
-  title: "Core/Avatar",
+  title: "core/Avatar",
   component: Avatar,
 };
 

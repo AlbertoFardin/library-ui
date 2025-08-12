@@ -703,5 +703,17 @@
   "avi": {
     "signs": ["0,52494646"],
     "mime": "video/avi"
+  },
+  "indd": {
+    "signs": ["..."],
+    "mime": "application/x-indesign"
+  },
+  "indt": {
+    "signs": ["..."],
+    "mime": "application/x-indesign"
+  },
+  "inx": {
+    "signs": ["..."],
+    "mime": "application/x-indesign"
   }
 }

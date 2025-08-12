@@ -1,4 +1,3 @@
-import * as React from "react";
 import { createUseStyles } from "react-jss";
 import classnames from "classnames";
 import Tabs from "../Tabs";
@@ -9,8 +8,8 @@ import { getTheme } from "../../theme";
 
 const useStyles = createUseStyles({
   tabscarousel: {
-    height: "-webkit-fill-available",
-    width: "-webkit-fill-available",
+    height: "100%",
+    width: "100%",
     position: "relative",
     display: "inline-flex",
     "flex-direction": "column",

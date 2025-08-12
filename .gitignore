@@ -7,5 +7,11 @@ bucket
 version.json
 static/webviewer/lib
 /package
+/static
 /.idea/
 /.out/
+target/
+.DS_Store
+/temp/
+/.husky/_/.gitignore
+/.husky/_/husky.sh

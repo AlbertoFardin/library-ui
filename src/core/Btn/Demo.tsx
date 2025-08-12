@@ -91,6 +91,7 @@ const BtnDemo = () => {
             labelRequired={labelRequired}
             variant={variant}
             style={{ margin: 15 }}
+            copyToClipboard="try_demo_copyToClipboard"
           />
         </div>
         <CardDemo>

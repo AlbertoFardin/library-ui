@@ -1,4 +1,4 @@
-import { useMemo, useState, useRef, useEffect } from "react";
+import * as React from "react";
 
 // https://github.com/bvaughn/react-window/blob/master/src/VariableSizeGrid.js See "findNearestItemBinarySearch". This
 // is a binary search to find the index of the position to the left (or right) of an element at a given position. In
@@ -72,14 +72,14 @@ const useVirtual = ({
 }: IUseVittual): IUseVirtualResult => {
   // This is a straight "if we've seen this scroll position before, use it" memo table. Since scroll positions are at
   // the pixel level, it seems unlikely we'd have a lot of hits. But if we do, they're stored here!
-  const granularMemo = useRef({
+  const granularMemo = React.useRef({
     rows: {},
     cols: {},
   });
 
   // We compute ahead of time the sizes and positions of all our elements. It's a big up-front cost, but we can't risk
   // having to do it on-the-fly as they're scrolling.
-  const [colSizes, colPositions] = useMemo(() => {
+  const [colSizes, colPositions] = React.useMemo(() => {
     // If any sizes or positions change, our granular memo table is invalidated
     granularMemo.current.cols = {};
 
@@ -101,7 +101,7 @@ const useVirtual = ({
   }, [columnsCount, columnWidth]);
 
   // Same as columns but rows
-  const [rowSizes, rowPositions] = useMemo(() => {
+  const [rowSizes, rowPositions] = React.useMemo(() => {
     granularMemo.current.rows = {};
     const isFunc = typeof rowHeight === "function";
     const positions = [0];
@@ -120,17 +120,17 @@ const useVirtual = ({
 
   // If the overscan value changes, we don't need to recompute all the sizes/positions, but it still invalidates the
   // granular memo table.
-  useEffect(() => {
+  React.useEffect(() => {
     granularMemo.current = {
       rows: {},
       cols: {},
     };
   }, [overscan]);
 
-  const [scrollX, setScrollX] = useState(0);
-  const [scrollY, setScrollY] = useState(0);
-  const [scrollW, setScrollW] = useState(0);
-  const [scrollH, setScrollH] = useState(0);
+  const [scrollX, setScrollX] = React.useState(0);
+  const [scrollY, setScrollY] = React.useState(0);
+  const [scrollW, setScrollW] = React.useState(0);
+  const [scrollH, setScrollH] = React.useState(0);
 
   let rows;
   let cols;

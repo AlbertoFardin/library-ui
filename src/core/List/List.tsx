@@ -4,7 +4,6 @@ import classnames from "classnames";
 
 const useStyles = createUseStyles({
   list: {
-    width: "inherit",
     overflow: "auto",
     padding: "8px 0",
     margin: 0,

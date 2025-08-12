@@ -38,9 +38,11 @@ const TableGrid = ({
           renderer={renderer}
           data={dRow[c]}
           rowIndex={r}
+          rowHeight={rows.sizes[r]}
+          rowsTotal={rows.sizes.length}
           columnIndex={c}
           columnWidth={cols.sizes[c]}
-          rowHeight={rows.sizes[r]}
+          columnsTotal={cols.sizes.length}
           style={{
             top: rows.positions[r],
             left: cols.positions[c],

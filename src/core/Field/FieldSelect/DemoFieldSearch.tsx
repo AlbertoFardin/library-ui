@@ -1,6 +1,7 @@
 import * as React from "react";
 import { action } from "@storybook/addon-actions";
 import FieldSelect from ".";
+import InputNumber from "../../../stories/InputNumber";
 import InputButton from "../../../stories/InputButton";
 import InputBoolean from "../../../stories/InputBoolean";
 import CardDemo from "../../../stories/CardDemo";
@@ -42,13 +43,12 @@ const fruits: IListItem[] = [
 ];
 const fruits1 = ["_tomato"];
 const fruits2 = ["_banana", "_tomato"];
-
 const DemoFieldSearch = () => {
   const [readOnly, setReadOnly] = React.useState(false);
-  const [optSearch, setOptSearch] = React.useState([] as IListItem[]);
-  const [optSelect, setOptSelect] = React.useState(fruits as IListItem[]);
+  const [optSearch, setOptSearch] = React.useState<IListItem[]>([]);
+  const [optSelect, setOptSelect] = React.useState<IListItem[]>(fruits);
   const [loading, setLoading] = React.useState(false);
-  const [value, setValue] = React.useState([] as string[]);
+  const [value, setValue] = React.useState<string[]>([]);
   const [menu, setMenu] = React.useState(false);
   const [menuVisibled, setMenuVisibled] = React.useState(false);
   const [input, setInput] = React.useState("");
@@ -58,7 +58,7 @@ const DemoFieldSearch = () => {
   const [type, setType] = React.useState(
     "multiselect" as "singleselect" | "multiselect",
   );
-
+  const [maxSelectable, setMaxSelectable] = React.useState<number>(null);
   const onChange = React.useCallback((newItem, newItems) => {
     console.log("onChange", newItem, newItems);
     setValue(newItems);
@@ -90,7 +90,6 @@ const DemoFieldSearch = () => {
     setValue([]);
     setType(type === "singleselect" ? "multiselect" : "singleselect");
   }, [type]);
-
   const options = [];
   optSearch.forEach((a) => {
     options.push(a);
@@ -149,6 +148,7 @@ const DemoFieldSearch = () => {
           adornmentAvatar={adAvtr ? adornmentAvatar : undefined}
           adornmentElement={adElem ? adornmentElement : undefined}
           loading={loading}
+          maxSelectable={maxSelectable >= 0 ? maxSelectable : undefined}
         />
       </div>
       <CardDemo>
@@ -181,6 +181,11 @@ const DemoFieldSearch = () => {
           label="adornmentElement"
           value={adElem}
           onChange={setAdElem}
+        />
+        <InputNumber
+          label="maxSelectable"
+          value={maxSelectable}
+          onChange={setMaxSelectable}
         />
       </CardDemo>
     </div>

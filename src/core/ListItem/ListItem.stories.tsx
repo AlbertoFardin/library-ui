@@ -1,4 +1,3 @@
-import * as React from "react";
 import { action } from "@storybook/addon-actions";
 import ListItem from ".";
 import { SelectType } from "../Checkbox";
@@ -26,7 +25,7 @@ const buttons = [
 ];
 
 export default {
-  title: "Core/ListItem",
+  title: "core/ListItem",
   component: ListItem,
   args: {
     color: "#f00",
@@ -63,12 +62,21 @@ Selected.args = {
 
 export const SelectTypeCheck = Story.bind({});
 SelectTypeCheck.args = {
+  selected: true,
   selectType: SelectType.CHECK,
 };
 
 export const SelectTypeRadio = Story.bind({});
 SelectTypeRadio.args = {
+  selected: true,
   selectType: SelectType.RADIO,
+};
+
+export const SelectPositionEnd = Story.bind({});
+SelectPositionEnd.args = {
+  selected: true,
+  selectType: SelectType.CHECK,
+  selectPosition: "end",
 };
 
 export const Input = Story.bind({});

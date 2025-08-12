@@ -1,5 +1,6 @@
 export { default } from "./FieldPicker";
 export type {
   default as IFieldPicker,
-  IFieldPickerCreateProp,
+  IFieldPickerDialog,
+  IFieldPickerDialogField,
 } from "./IFieldPicker";

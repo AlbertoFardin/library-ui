@@ -11,7 +11,7 @@ const useStyles = createUseStyles({
     height: 1,
     minHeight: 1,
     maxHeight: 1,
-    width: "-webkit-fill-available",
+    width: "initial",
     backgroundColor: ({ color }: IStyles) => color,
   },
 });

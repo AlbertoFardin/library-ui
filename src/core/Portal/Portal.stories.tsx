@@ -1,9 +1,8 @@
-import * as React from "react";
 import Portal from "./Portal";
 import Text from "../Text";
 
 export default {
-  title: "Core/Portal",
+  title: "core/Portal",
   component: Portal,
 };
 

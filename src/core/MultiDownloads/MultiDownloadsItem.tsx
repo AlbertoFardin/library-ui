@@ -1,7 +1,6 @@
-import * as React from "react";
-import ListItem from "../ListItem";
 import { createUseStyles } from "react-jss";
-import { IMultiDownloadsItem } from "./interfaces";
+import ListItem from "../ListItem";
+import { IMultiDownloadsItem, LinkTarget } from "./interfaces";
 import MultiDownloadsItemIcon from "./MultiDownloadsItemIcon";
 import { getTheme } from "../../theme";
 
@@ -19,14 +18,15 @@ const useStyles = createUseStyles({
   },
 });
 
-interface IMultiDownloadsItemCmp {
-  data: IMultiDownloadsItem;
-  onCopyUrlToClipboard: (url: string) => void;
-}
 const MultiDownloadsItem = ({
   data,
   onCopyUrlToClipboard,
-}: IMultiDownloadsItemCmp) => {
+  linkTarget,
+}: {
+  data: IMultiDownloadsItem;
+  onCopyUrlToClipboard: (url: string) => void;
+  linkTarget?: LinkTarget;
+}) => {
   const classes = useStyles({});
   const { id, name } = data;
   return (
@@ -34,6 +34,7 @@ const MultiDownloadsItem = ({
       <MultiDownloadsItemIcon
         data={data}
         onCopyUrlToClipboard={onCopyUrlToClipboard}
+        linkTarget={linkTarget}
       />
     </ListItem>
   );

@@ -1,5 +1,6 @@
 import * as React from "react";
 import ListItem, { IListItem } from "../ListItem";
+import Divider from "../Divider";
 
 export interface IPopoverListItem extends IListItem {
   divider?: boolean;
@@ -8,7 +9,7 @@ export interface IPopoverListItem extends IListItem {
 }
 
 const PopoverListItem = (p: IPopoverListItem) => {
-  const { onClose, onClick, label, disableClose } = p;
+  const { onClose, onClick, label, disableClose, hidden, divider } = p;
 
   const cbOnClick = React.useCallback(
     (event: React.MouseEvent, id: string, buttonId?: string) => {
@@ -20,7 +21,12 @@ const PopoverListItem = (p: IPopoverListItem) => {
     [disableClose, onClick, onClose],
   );
 
-  return <ListItem {...p} label={label} onClick={cbOnClick} />;
+  return (
+    <>
+      {divider ? <Divider style={{ margin: "0 10px" }} /> : null}
+      {hidden ? null : <ListItem {...p} label={label} onClick={cbOnClick} />}
+    </>
+  );
 };
 
 export default PopoverListItem;

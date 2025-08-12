@@ -1,6 +1,5 @@
-import Toolbar from "../Toolbar";
-import * as React from "react";
 import { action } from "@storybook/addon-actions";
+import Toolbar from "../Toolbar";
 import Pagination, { IPagination, IPageSize } from ".";
 import DemoPagination from "./Demo";
 
@@ -52,7 +51,7 @@ const args: IPagination = {
 };
 
 export default {
-  title: "Core/Pagination",
+  title: "core/Pagination",
   component: Pagination,
   args,
 };

@@ -1,9 +1,9 @@
 import * as React from "react";
 import { createUseStyles } from "react-jss";
+import classnames from "classnames";
 import Text from "../Text";
 import { getTheme } from "../../theme";
 import * as extensions from "../../utils/extensions.json";
-import classnames from "classnames";
 
 export const getExtension = (mimeType: string): string => {
   const k = Object.keys(extensions).find((k) => {

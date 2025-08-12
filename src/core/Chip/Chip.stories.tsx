@@ -1,4 +1,3 @@
-import * as React from "react";
 import { action } from "@storybook/addon-actions";
 import Chip from ".";
 import { getTheme } from "../../theme";
@@ -6,7 +5,7 @@ import { getTheme } from "../../theme";
 const urlImage = "./images/width_128/test_image1.jpeg";
 
 export default {
-  title: "Core/Chip",
+  title: "core/Chip",
   component: Chip,
   args: {
     color: getTheme().colors.theme1,

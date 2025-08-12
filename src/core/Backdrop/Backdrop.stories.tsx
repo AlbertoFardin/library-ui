@@ -1,8 +1,7 @@
-import * as React from "react";
 import Backdrop from ".";
 
 export default {
-  title: "Core/Backdrop",
+  title: "core/Backdrop",
   component: Backdrop,
 };
 

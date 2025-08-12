@@ -194,5 +194,6 @@ export const getPopoverStyle = ({
     ...getCoords(originAnchor, positionAuto, anchorEl),
     ...getTransf(originTransf, positionAuto),
     animation: "none",
+    boxSizing: "border-box",
   };
 };

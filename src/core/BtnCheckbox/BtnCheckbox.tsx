@@ -1,9 +1,9 @@
 import * as React from "react";
 import { createUseStyles } from "react-jss";
+import classnames from "classnames";
 import Text from "../Text";
 import BtnBase from "../BtnBase";
 import mixColors from "../../utils/mixColors";
-import classnames from "classnames";
 import { getTheme } from "../../theme";
 import Checkbox, { SelectType } from "../Checkbox";
 import emptyFn from "../../utils/emptyFn";
@@ -18,7 +18,7 @@ const useStyles = createUseStyles({
     flexDirection: "row",
     justifyContent: "start",
     alignItems: "center",
-    padding: "5px 8px 5px 5px",
+    padding: "5px 10px 5px 5px",
     borderRadius: getTheme().borderRadius,
     color: ({ color }: IStyles) => color,
     backgroundColor: ({ color, selected }: IStyles) =>
@@ -44,6 +44,9 @@ export interface IBtnCheckbox {
   disabled?: boolean;
   selected?: boolean;
   children?: JSX.Element | React.ReactNode;
+  checkboxType?: SelectType;
+  checkboxStyle?: React.CSSProperties;
+  checkboxClassName?: string;
   label: string | JSX.Element;
   labelStyle?: React.CSSProperties;
   labelClassName?: string;
@@ -58,6 +61,9 @@ const BtnCheckbox = ({
   disabled,
   selected,
   children,
+  checkboxType = SelectType.CHECK,
+  checkboxStyle,
+  checkboxClassName,
   label,
   labelStyle,
   labelClassName,
@@ -84,10 +90,14 @@ const BtnCheckbox = ({
     >
       <Checkbox
         color={color}
-        type={SelectType.CHECK}
+        type={checkboxType}
         disabled={disabled}
         selected={selected}
-        className={classes.icon}
+        style={checkboxStyle}
+        className={classnames({
+          [classes.icon]: true,
+          [checkboxClassName]: !!checkboxClassName,
+        })}
       />
       <Text style={labelStyle} className={labelClassName} children={label} />
       {selected === true && children}

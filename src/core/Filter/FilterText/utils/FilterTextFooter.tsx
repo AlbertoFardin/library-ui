@@ -75,7 +75,7 @@ const FilterTextFooter = ({
           tooltip="Search match exact value"
           checked={switchExactValue}
           onChange={onChangeSwitchExactValue}
-          icon="noise_aware"
+          icon="filter_tilt_shift"
         />
       )}
       <div style={{ flex: 1 }} />

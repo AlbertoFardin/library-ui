@@ -4,6 +4,7 @@ import { ILabel } from "../Label";
 import { IPopoverListItem } from "../../PopoverList";
 
 interface IFieldText {
+  inputRef?;
   /** Main color */
   color?: string;
   /** component CSS classes */
@@ -11,13 +12,13 @@ interface IFieldText {
   /** debounce dell'onChange in millisecond */
   debounce?: number;
   /** Label of the component. It must be a string or an ILabel[] */
-  label?: string | ILabel[] | React.ReactElement;
+  label?: string | ILabel[];
   /** input read only */
   inputReadOnly?: boolean;
   /** Icon render in InputAdornment position START */
   adornmentIcon?: string;
   /** adornmentIcon's tooltip  */
-  adornmentIconTooltip?: string;
+  adornmentIconTooltip?: string | string[];
   /** adornmentIcon's color  */
   adornmentIconColor?: string;
   /** Avatar render in InputAdornment position START */
@@ -27,7 +28,7 @@ interface IFieldText {
   /** adornmentAvatar's icon */
   adornmentAvatarIcon?: string;
   /** adornmentAvatar's tooltip */
-  adornmentAvatarTooltip?: string;
+  adornmentAvatarTooltip?: string | string[];
   /** Elements render in InputAdornment position START */
   adornmentElement?: JSX.Element;
   /** BtnMenu actions configs, if empty Btn isn't render */
@@ -52,6 +53,10 @@ interface IFieldText {
   onChange?: (s: string) => void;
   /** Callback fired when a key is pressed */
   onKeyPress?: (key: string, s: string) => void;
+  /** Callback on mouse over */
+  onMouseOver?: () => void;
+  /** Callback on mouse leave */
+  onMouseLeave?: () => void;
   /** The short hint displayed in the input before the user enters a value */
   placeholder?: string;
   /** The short hint displayed in the input if the field is disabled */
@@ -76,6 +81,8 @@ interface IFieldText {
   maxRows?: number;
   /** autosize (only for multiline text field) */
   autosize?: boolean;
+  /** inner component like buttons or badges */
+  innerChildren?: JSX.Element | React.ReactNode | React.ReactNode[];
 }
 
 export default IFieldText;

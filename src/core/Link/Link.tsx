@@ -1,8 +1,8 @@
 import * as React from "react";
 import { createUseStyles } from "react-jss";
+import classnames from "classnames";
 import Text, { IText } from "../Text";
 import { getTheme } from "../../theme";
-import classnames from "classnames";
 
 interface IStyles {
   color: string;
@@ -39,7 +39,7 @@ const Link = (p: ILink) => {
     <Text
       {...p}
       onClick={cbClick}
-      weight={p.weight || "bolder"}
+      weight={p.weight}
       className={classnames({
         [p.className]: !!p.className,
         [classes.link]: true,

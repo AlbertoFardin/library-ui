@@ -1,4 +1,3 @@
-import * as React from "react";
 import { action } from "@storybook/addon-actions";
 import DemoFieldText from "./Demo";
 import FieldText from ".";
@@ -14,7 +13,7 @@ import {
 import CardDemo from "../../../stories/CardDemo";
 
 export default {
-  title: "Core/Field/FieldText",
+  title: "core/Field/FieldText",
   component: FieldText,
   args: {
     color,

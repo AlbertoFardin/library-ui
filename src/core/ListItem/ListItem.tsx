@@ -1,10 +1,10 @@
 import * as React from "react";
+import { createUseStyles } from "react-jss";
+import classnames from "classnames";
 import Icon from "../Icon";
 import Text from "../Text";
 import Tooltip from "../Tooltip";
 import emptyFn from "../../utils/emptyFn";
-import { createUseStyles } from "react-jss";
-import classnames from "classnames";
 import ListItemButton, { IListItemButton } from "./ListItemButton";
 import Avatar from "../Avatar";
 import BtnBase from "../BtnBase";
@@ -12,7 +12,7 @@ import Checkbox, { SelectType } from "../Checkbox";
 import { getTheme } from "../../theme";
 import IconHelp from "../IconHelp";
 import setTextBold from "../../utils/setTextBold";
-import { missingKey } from "../../interfaces";
+import { MISSING_KEY } from "../../constants";
 
 export interface IGetAdditionalChildren {
   id?: string;
@@ -24,7 +24,6 @@ export interface IGetAdditionalChildren {
 export interface IListItem {
   cmpRef?: React.Ref<HTMLDivElement>;
   id: string;
-  selected?: boolean;
   avatar?: string;
   avatarText?: string;
   avatarIcon?: string;
@@ -49,6 +48,7 @@ export interface IListItem {
   style?: React.CSSProperties;
   className?: string;
   label: string;
+  labelWeight?: "regular" | "lighter" | "bolder";
   labelStyle?: React.CSSProperties;
   labelClassName?: string;
   subLabel?: string;
@@ -58,9 +58,10 @@ export interface IListItem {
   iconStyle?: React.CSSProperties;
   iconClassName?: string;
   iconTooltip?: string;
+  selected?: boolean;
   selectType?: SelectType;
+  selectPosition?: "start" | "end";
   input?: string;
-  count?: number;
   color?: string;
   help?: string;
 }
@@ -111,7 +112,7 @@ const useStyles = createUseStyles({
     visibility: "visible",
   },
   labelsContainer: {
-    width: "-webkit-fill-available",
+    width: "100%",
     minWidth: 0,
   },
   textCount: {
@@ -128,7 +129,6 @@ const useStyles = createUseStyles({
 const ListItem = ({
   cmpRef,
   id,
-  selected,
   avatar,
   avatarText,
   avatarIcon,
@@ -153,6 +153,7 @@ const ListItem = ({
   style,
   className,
   label,
+  labelWeight = "lighter",
   labelStyle,
   labelClassName,
   subLabel,
@@ -162,9 +163,10 @@ const ListItem = ({
   iconStyle,
   iconClassName,
   iconTooltip,
+  selected,
   selectType = SelectType.NONE,
+  selectPosition = "start",
   input,
-  count,
   color = getTheme().colors.theme1,
   help,
 }: IListItem) => {
@@ -212,6 +214,14 @@ const ListItem = ({
     },
     [input],
   );
+  const selectCmp = (
+    <Checkbox
+      style={{ marginRight: 10 }}
+      type={selectType}
+      selected={selected}
+      color={color}
+    />
+  );
 
   return (
     <BtnBase
@@ -235,12 +245,7 @@ const ListItem = ({
       onCopyToClipboard={onCopyToClipboard}
     >
       <div className={classes.labels}>
-        <Checkbox
-          style={{ marginRight: 10 }}
-          type={selectType}
-          selected={selected}
-          color={color}
-        />
+        {selectPosition === "start" ? selectCmp : null}
         {getListItemButtons(buttonsLeft, buttonsLeftEverVisible)}
         {!avatar && !avatarText && !avatarIcon ? null : (
           <Avatar
@@ -265,11 +270,11 @@ const ListItem = ({
           {!label ? null : (
             <Text
               ellipsis
-              weight={selected ? "bolder" : "lighter"}
+              weight={selected ? "bolder" : labelWeight}
               size={1}
               style={labelStyle}
               className={classnames({
-                [classes.textNoValue]: id === missingKey,
+                [classes.textNoValue]: id === MISSING_KEY,
                 [labelClassName]: !!labelClassName,
               })}
               children={getLabel(label)}
@@ -300,15 +305,8 @@ const ListItem = ({
         })}
         {children}
       </div>
-      {count === undefined ? null : (
-        <Text
-          style={{ marginLeft: 5 }}
-          weight="lighter"
-          className={classes.textCount}
-          children={String(count)}
-        />
-      )}
       <IconHelp open className={classes.help} tooltip={help} />
+      {selectPosition === "end" ? selectCmp : null}
     </BtnBase>
   );
 };

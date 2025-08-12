@@ -1,17 +1,17 @@
 import * as React from "react";
+import { createUseStyles } from "react-jss";
+import classnames from "classnames";
+import { v4 as uuidv4 } from "uuid";
 import { getTheme } from "../../theme";
 import { Collapse } from "../Transitions";
 import Divider from "../Divider";
 import List from "../List";
-import { createUseStyles } from "react-jss";
 import Toolbar from "../Toolbar";
-import classnames from "classnames";
 import Text from "../Text";
 import Btn from "../Btn";
 import emptyFn from "../../utils/emptyFn";
 import { IMultiDownloads } from "./interfaces";
 import MultiDownloadsItem from "./MultiDownloadsItem";
-import { v4 as uuidv4 } from "uuid";
 import IconDrag from "../IconDrag";
 import CardDraggable from "../CardDraggable";
 
@@ -46,6 +46,7 @@ const MultiDownloads = ({
   onClose = emptyFn,
   open,
   onCopyUrlToClipboard,
+  linkTarget = "_self",
 }: IMultiDownloads) => {
   const classes = useStyles({});
 
@@ -103,6 +104,7 @@ const MultiDownloads = ({
                 key={d.id}
                 data={d}
                 onCopyUrlToClipboard={onCopyUrlToClipboard}
+                linkTarget={linkTarget}
               />
             ))}
           </List>

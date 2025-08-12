@@ -2,21 +2,21 @@ import * as React from "react";
 import { createUseStyles } from "react-jss";
 import classnames from "classnames";
 import Text from "../Text";
+import LabelMandatory from "./LabelMandatory";
 
-export const getLabels = (label: string | ILabel[] | React.ReactElement) => {
+export const getLabels = (label: string | ILabel[]) => {
   if (!label) return null;
   if (Array.isArray(label)) {
-    return label.map((l: ILabel, i: number) => (
-      <Label key={String(i)} {...l} />
-    ));
+    return label.map((l: ILabel, i: number) => <Label key={i} {...l} />);
   }
-  return <Label label={label} positionY="top" positionX="left" />;
+  return <Label text={label} positionY="top" positionX="left" />;
 };
 
 const useStyles = createUseStyles({
   label: {
     position: "absolute",
-    "max-width": 250,
+    maxWidth: 250,
+    zIndex: 1,
   },
   labelTL: {
     top: "-20px",
@@ -39,8 +39,9 @@ const useStyles = createUseStyles({
 export interface ILabel {
   className?: string;
   style?: React.CSSProperties;
-  label: string | React.ReactNode;
-  required?: boolean;
+  node?: JSX.Element | React.ReactNode;
+  text?: string;
+  textMandatory?: boolean;
   positionX: "left" | "right";
   positionY: "bottom" | "top";
 }
@@ -48,31 +49,35 @@ export interface ILabel {
 const Label = ({
   className,
   style,
-  label,
-  required,
+  node,
+  text,
+  textMandatory,
   positionX,
   positionY,
 }: ILabel) => {
   const classes = useStyles({});
-  if (!label) return null;
+  const c = classnames({
+    [classes.label]: true,
+    [classes.labelTL]: positionX === "left" && positionY === "top",
+    [classes.labelTR]: positionX === "right" && positionY === "top",
+    [classes.labelBL]: positionX === "left" && positionY === "bottom",
+    [classes.labelBR]: positionX === "right" && positionY === "bottom",
+    [className]: !!className,
+  });
+
+  if (!text && !node) return null;
+
+  if (!!node) {
+    return <div style={style} className={c} children={node} />;
+  }
+
   return (
     <Text
       ellipsis
       style={style}
-      className={classnames({
-        [classes.label]: true,
-        [classes.labelTL]: positionX === "left" && positionY === "top",
-        [classes.labelTR]: positionX === "right" && positionY === "top",
-        [classes.labelBL]: positionX === "left" && positionY === "bottom",
-        [classes.labelBR]: positionX === "right" && positionY === "bottom",
-        [className]: !!className,
-      })}
-    >
-      <>
-        {label}
-        {!required ? null : <span style={{ color: "#FF0000" }} children=" *" />}
-      </>
-    </Text>
+      className={c}
+      children={<LabelMandatory label={text} mandatory={textMandatory} />}
+    />
   );
 };
 

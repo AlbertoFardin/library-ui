@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createUseStyles } from "react-jss";
-import Icon from "../Icon";
 import classnames from "classnames";
+import Icon from "../Icon";
 import BtnBase from "../BtnBase";
 import Tooltip from "../Tooltip";
 import Text from "../Text";
@@ -17,6 +17,7 @@ const useStyles = createUseStyles({
     position: "relative",
     padding: "0 15px",
     minWidth: 100,
+    height: "100%",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
@@ -93,7 +94,7 @@ const TabsItem = ({
         })}
       >
         {!icon ? null : <Icon children={icon} />}
-        <Text weight="bolder" children={label} style={{ margin: "0 5px" }} />
+        <Text children={label} style={{ margin: "0 5px" }} />
         <div
           className={classnames({
             [classes.cursor]: true,

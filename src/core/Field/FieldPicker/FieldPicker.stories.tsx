@@ -1,6 +1,5 @@
-import * as React from "react";
 import { action } from "@storybook/addon-actions";
-import FieldPicker, { IFieldPickerCreateProp } from ".";
+import FieldPicker, { IFieldPicker, IFieldPickerDialogField } from ".";
 import {
   color,
   style,
@@ -21,31 +20,42 @@ for (let i = 0; i < 50; i++) {
   items.push(obj);
 }
 
-const createProps: IFieldPickerCreateProp[] = [
-  { id: "a", text: "A_label", required: true },
-  { id: "b", text: "B_label", required: false },
-  { id: "c", text: "C_label", required: false },
-  { id: "d", text: "D_label", required: false },
+const dialogFields: IFieldPickerDialogField[] = [
+  { id: "a", text: "A_label", mandatory: true },
+  { id: "b", text: "B_label", mandatory: false },
+  { id: "c", text: "C_label", mandatory: false },
+  { id: "d", text: "D_label", mandatory: false },
 ];
 
-export default {
-  title: "Core/Field/FieldPicker",
-  component: FieldPicker,
-  args: {
-    color,
-    label: "FieldPicker",
-    onChange: action("onChange"),
-    onCreate: action("onCreate"),
-    style,
-    value: ["apple", "orange", "banana"],
-    items: ["apple", "orange", "banana"].map((id) => ({ id, label: id })),
-    menu: menuItems,
-    itemsSorting: true,
-    createEnabled: true,
-    createTitle: "Create Title",
-    createTitleHelp: "help me!",
-    createProps,
+const args: IFieldPicker = {
+  color,
+  label: "FieldPicker",
+  onChange: action("onChange"),
+  style,
+  value: ["apple", "orange", "banana"],
+  items: ["apple", "orange", "banana"].map((id) => ({ id, label: id })),
+  menu: menuItems,
+  itemsSortable: true,
+  dialogToCreate: {
+    enable: true,
+    fields: dialogFields,
+    title: "Create Title",
+    titleHelp: "help me!",
+    onChange: action("onCreate"),
   },
+  dialogToModify: {
+    enable: true,
+    fields: dialogFields,
+    title: "Modify Title",
+    titleHelp: "help me!",
+    onChange: action("oModify"),
+  },
+};
+
+export default {
+  title: "core/Field/FieldPicker",
+  component: FieldPicker,
+  args,
 };
 
 const DemoStory = () => <DemoCmp />;

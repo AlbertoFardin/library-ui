@@ -1,7 +1,7 @@
 import * as React from "react";
 import classnames from "classnames";
 import { createUseStyles } from "react-jss";
-import { getTheme, getFonts, getFontWeight } from "../../theme";
+import { getTheme, getFontsFamily, getFontWeight } from "../../theme";
 import Tooltip from "../Tooltip";
 
 interface IStyles {
@@ -19,6 +19,8 @@ const useStyles = createUseStyles({
     fontWeight: ({ fontWeight }: IStyles) => fontWeight,
     lineHeight: 1.5,
     margin: 0,
+    "-webkit-font-smoothing": "antialiased",
+    textRendering: "optimizeLegibility",
   },
   weightRegular: {
     letterSpacing: "0.015em",
@@ -47,6 +49,21 @@ const useStyles = createUseStyles({
   size5: {
     fontSize: "20px",
   },
+  size6: {
+    fontSize: "22px",
+  },
+  size7: {
+    fontSize: "24px",
+  },
+  size8: {
+    fontSize: "26px",
+  },
+  size9: {
+    fontSize: "28px",
+  },
+  size10: {
+    fontSize: "30px",
+  },
   ellipsis: {
     overflow: "hidden",
     whiteSpace: "nowrap",
@@ -54,15 +71,18 @@ const useStyles = createUseStyles({
   },
 });
 
+export type TextSize = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+
 export interface IText {
   cmpRef?;
   className?: string;
   style?: React.CSSProperties;
   children: string | JSX.Element;
   font?: number;
-  size?: 0 | 1 | 2 | 3 | 4 | 5;
+  size?: TextSize;
   weight?: "regular" | "lighter" | "bolder";
   tooltip?: boolean;
+  tooltipValue?: string | string[] | JSX.Element;
   ellipsis?: boolean;
   onClick?: (event: React.MouseEvent) => void;
 }
@@ -77,28 +97,33 @@ const Text = (props: IText) => {
     size = 1,
     weight = "regular",
     tooltip = true,
+    tooltipValue,
     ellipsis,
     onClick,
   } = props;
-  const fontFamily = getFonts()[font];
+  const fontFamily = getFontsFamily()[font] || getFontsFamily()[0];
   const fontWeight = getFontWeight(fontFamily, weight);
   const classes = useStyles({
     color: getTheme().colors.typography,
     fontFamily,
     fontWeight,
   });
+  const [mounted, setMounted] = React.useState(false);
   const refDefault = React.useRef(null);
   const ref = cmpRef || refDefault;
-  const [tooltipNeed, setTooltipNeed] = React.useState(false);
+  const tooltipNeed =
+    tooltip &&
+    mounted &&
+    ref?.current &&
+    ref?.current?.scrollWidth > ref?.current?.clientWidth;
 
   React.useEffect(() => {
-    if (!!ref && !!ref.current && children) {
-      setTooltipNeed(ref.current.scrollWidth > ref.current.clientWidth);
-    }
-  }, [children, ref]);
+    // al primo render, il ref non è ancora collegato al DOM
+    setMounted(true);
+  }, []);
 
   return (
-    <Tooltip title={tooltip && tooltipNeed ? children : ""}>
+    <Tooltip title={tooltipNeed ? tooltipValue ?? children : ""}>
       <p
         role="presentation"
         ref={ref}
@@ -114,6 +139,11 @@ const Text = (props: IText) => {
           [classes.size3]: size === 3,
           [classes.size4]: size === 4,
           [classes.size5]: size === 5,
+          [classes.size6]: size === 6,
+          [classes.size7]: size === 7,
+          [classes.size8]: size === 8,
+          [classes.size9]: size === 9,
+          [classes.size10]: size === 10,
           [classes.ellipsis]: ellipsis,
           [className]: !!className,
         })}

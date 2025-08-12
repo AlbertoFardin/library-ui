@@ -23,8 +23,8 @@ const renderChip = ({ id, label, readOnly, onClick }) => (
   <Chip
     key={id}
     id={id}
-    icon="close"
-    label={label}
+    icon={readOnly ? undefined : "close"}
+    label={"CUSTOM_" + label}
     color="#00f"
     selected
     onClick={readOnly ? undefined : onClick}

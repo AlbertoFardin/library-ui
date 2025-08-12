@@ -11,16 +11,17 @@ export interface IRenderer {
   style: React.CSSProperties;
   className: string;
   rowIndex: number;
+  rowsTotal: number;
   columnIndex: number;
+  columnsTotal: number;
   selected: boolean;
   disabled: boolean;
   highligh: boolean;
 }
 export interface IStickTableRow {
   value; // obbligatoria - lo leggo nella memoizzarione
+  dememoize?: boolean;
   loading?: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
 }
 
 export interface IStickyTable {
@@ -28,6 +29,10 @@ export interface IStickyTable {
   rightData?: IStickTableRow[];
   bottomData?: IStickTableRow[];
   leftData?: IStickTableRow[];
+  topBorder?: boolean;
+  rightBorder?: boolean;
+  bottomBorder?: boolean;
+  leftBorder?: boolean;
   width: number;
   height: number;
   columns: string[];

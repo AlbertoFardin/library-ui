@@ -34,7 +34,7 @@ const DemoFieldText = () => {
   const onChange = React.useCallback((newValue: string) => {
     setValue(newValue);
     action("onChange")(newValue);
-    console.log("change value " + newValue);
+    console.log("onChange", { newValue });
   }, []);
   const onSetEmptyString = React.useCallback(() => setValue(""), []);
   const onSetCiao = React.useCallback(() => setValue("ciao👋"), []);
@@ -64,9 +64,12 @@ const DemoFieldText = () => {
           label="FieldText"
           style={style}
           onChange={onChange}
+          onBlur={action("onBlur")}
+          onFocus={action("onFocus")}
           adornmentIcon={adIcon ? adornmentIcon : undefined}
           adornmentAvatar={adAvatar ? adornmentAvatar : undefined}
           adornmentElement={adElement ? adornmentElement : undefined}
+          autoFocus
         />
       </div>
       <CardDemo>

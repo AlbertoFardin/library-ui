@@ -1,16 +1,18 @@
 import * as React from "react";
+import isEqual from "lodash-es/isEqual";
 import { IRenderer, IStickTableRow } from "./IStickyTable";
 import allButDataAndVirtualEqual from "./allButDataAndVirtualEqual";
-import isEqual from "lodash-es/isEqual";
 
 interface ITableCell {
   data: IStickTableRow;
   className?: string;
   style?: React.CSSProperties;
   rowIndex: number;
+  rowHeight: number;
+  rowsTotal: number;
   columnIndex: number;
   columnWidth: number;
-  rowHeight: number;
+  columnsTotal: number;
   renderer: (p: IRenderer) => JSX.Element | React.ReactNode;
   selected?: boolean;
   disabled?: boolean;
@@ -22,9 +24,11 @@ const TableCell = ({
   className,
   style,
   rowIndex,
+  rowHeight,
+  rowsTotal,
   columnIndex,
   columnWidth,
-  rowHeight,
+  columnsTotal,
   renderer: Renderer,
   selected = false,
   disabled = false,
@@ -36,10 +40,13 @@ const TableCell = ({
       ...style,
       width: columnWidth,
       height: rowHeight,
+      position: "absolute",
     }}
     className={className}
     rowIndex={rowIndex}
+    rowsTotal={rowsTotal}
     columnIndex={columnIndex}
+    columnsTotal={columnsTotal}
     selected={selected}
     disabled={disabled}
     highligh={highligh}
@@ -48,14 +55,27 @@ const TableCell = ({
 
 export default React.memo(TableCell, (prev, next) => {
   // if data.value change we need to re-render
-  const prevVal = JSON.stringify(prev.data.value);
-  const nextVal = JSON.stringify(next.data.value);
+  let prevVal = "";
+  try {
+    prevVal = JSON.stringify(prev.data.value);
+  } catch {
+    prevVal = prev.data.value;
+  }
+  let nextVal = "";
+  try {
+    nextVal = JSON.stringify(next.data.value);
+  } catch {
+    nextVal = next.data.value;
+  }
   if (!isEqual(prevVal, nextVal)) return false;
 
   // if data.loading change we need to re-render
   const prevLoad = JSON.stringify(prev.data.loading);
   const nextLoad = JSON.stringify(next.data.loading);
   if (!isEqual(prevLoad, nextLoad)) return false;
+
+  // if data.dememoize we need to re-render ever
+  if (next.data.dememoize) return false;
 
   return allButDataAndVirtualEqual(prev, next);
 });

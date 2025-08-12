@@ -20,41 +20,32 @@ const useStyles = createUseStyles({
     },
     boxShadow: ({ elevation }: IStyles) => {
       const c = getTheme().colors.isDark ? "250,250,250" : "0,0,0";
-      if (elevation === 0) {
-        return "0";
-      }
-      if (elevation === 1) {
-        return "0";
-      }
-      if (elevation === 2) {
-        return `0px 2px 1px -1px rgba(${c},0.2), 0px 1px 1px 0px rgba(${c},0.14), 0px 1px 3px 0px rgba(${c},0.12)`;
-      }
-      if (elevation === 3) {
-        return `0px 3px 1px -2px rgba(${c},0.2), 0px 2px 2px 0px rgba(${c},0.14), 0px 1px 5px 0px rgba(${c},0.12)`;
-      }
-      if (elevation === 4) {
-        return `0px 3px 3px -2px rgba(${c},0.2), 0px 3px 4px 0px rgba(${c},0.14), 0px 1px 8px 0px rgba(${c},0.12)`;
-      }
-      if (elevation === 5) {
-        return `0px 2px 4px -1px rgba(${c},0.2), 0px 4px 5px 0px rgba(${c},0.14), 0px 1px 10px 0px rgba(${c},0.12)`;
-      }
-      if (elevation === 6) {
-        return `0px 3px 5px -1px rgba(${c},0.2), 0px 5px 8px 0px rgba(${c},0.14), 0px 1px 14px 0px rgba(${c},0.12)`;
-      }
-      if (elevation === 7) {
-        return `0px 3px 5px -1px rgba(${c},0.2), 0px 6px 10px 0px rgba(${c},0.14), 0px 1px 18px 0px rgba(${c},0.12)`;
-      }
-      if (elevation === 8) {
-        return `0px 4px 5px -2px rgba(${c},0.2), 0px 7px 10px 1px rgba(${c},0.14), 0px 2px 16px 1px rgba(${c},0.12)`;
-      }
-      if (elevation === 9) {
-        return `0px 5px 5px -3px rgba(${c},0.2), 0px 8px 10px 1px rgba(${c},0.14), 0px 3px 14px 2px rgba(${c},0.12)`;
-      }
-      if (elevation === 10) {
-        return `0px 5px 6px -3px rgba(${c},0.2), 0px 9px 12px 1px rgba(${c},0.14), 0px 3px 16px 2px rgba(${c},0.12)`;
-      }
-      if (elevation === 11) {
-        return `0px 6px 6px -3px rgba(${c},0.2), 0px 10px 14px 1px rgba(${c},0.14), 0px 4px 18px 3px rgba(${c},0.12)`;
+      switch (elevation) {
+        case 0:
+        case 1:
+          return "0";
+        case 2:
+          return `0px 2px 1px -1px rgba(${c},0.2), 0px 1px 1px 0px rgba(${c},0.14), 0px 1px 3px 0px rgba(${c},0.12)`;
+        case 3:
+          return `0px 3px 1px -2px rgba(${c},0.2), 0px 2px 2px 0px rgba(${c},0.14), 0px 1px 5px 0px rgba(${c},0.12)`;
+        case 4:
+          return `0px 3px 3px -2px rgba(${c},0.2), 0px 3px 4px 0px rgba(${c},0.14), 0px 1px 8px 0px rgba(${c},0.12)`;
+        case 5:
+          return `0px 2px 4px -1px rgba(${c},0.2), 0px 4px 5px 0px rgba(${c},0.14), 0px 1px 10px 0px rgba(${c},0.12)`;
+        case 6:
+          return `0px 3px 5px -1px rgba(${c},0.2), 0px 5px 8px 0px rgba(${c},0.14), 0px 1px 14px 0px rgba(${c},0.12)`;
+        case 7:
+          return `0px 3px 5px -1px rgba(${c},0.2), 0px 6px 10px 0px rgba(${c},0.14), 0px 1px 18px 0px rgba(${c},0.12)`;
+        case 8:
+          return `0px 4px 5px -2px rgba(${c},0.2), 0px 7px 10px 1px rgba(${c},0.14), 0px 2px 16px 1px rgba(${c},0.12)`;
+        case 9:
+          return `0px 5px 5px -3px rgba(${c},0.2), 0px 8px 10px 1px rgba(${c},0.14), 0px 3px 14px 2px rgba(${c},0.12)`;
+        case 10:
+          return `0px 5px 6px -3px rgba(${c},0.2), 0px 9px 12px 1px rgba(${c},0.14), 0px 3px 16px 2px rgba(${c},0.12)`;
+        case 11:
+          return `0px 6px 6px -3px rgba(${c},0.2), 0px 10px 14px 1px rgba(${c},0.14), 0px 4px 18px 3px rgba(${c},0.12)`;
+        default:
+          throw new Error(`Unsupported elevation: ${elevation}`);
       }
     },
   },

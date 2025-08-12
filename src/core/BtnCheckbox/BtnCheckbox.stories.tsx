@@ -1,9 +1,8 @@
-import * as React from "react";
-import BtnCheckbox from "./BtnCheckbox";
 import { action } from "@storybook/addon-actions";
+import BtnCheckbox from "./BtnCheckbox";
 
 export default {
-  title: "Core/BtnCheckbox",
+  title: "core/BtnCheckbox",
   component: BtnCheckbox,
   args: {
     style: { margin: 20 },

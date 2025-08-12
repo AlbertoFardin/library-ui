@@ -1,9 +1,8 @@
-import * as React from "react";
 import BorderShadow from ".";
 import Text from "../Text";
 
 export default {
-  title: "Core/BorderShadow",
+  title: "core/BorderShadow",
   component: BorderShadow,
 };
 

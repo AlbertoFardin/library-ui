@@ -1,7 +1,7 @@
 import * as React from "react";
-import { getTheme } from "../../theme";
 import { createUseStyles } from "react-jss";
 import classnames from "classnames";
+import { getTheme } from "../../theme";
 
 const getPosition = (p: "right" | "left" | "top" | "bottom") => {
   switch (p) {
@@ -35,9 +35,9 @@ const useStyles = createUseStyles({
     zIndex: 1,
     position: "absolute",
     height: ({ position }: IStyles) =>
-      new Set(["top", "bottom"]).has(position) ? 10 : "-webkit-fill-available",
+      new Set(["top", "bottom"]).has(position) ? 10 : "100%",
     width: ({ position }: IStyles) =>
-      new Set(["right", "left"]).has(position) ? 10 : "-webkit-fill-available",
+      new Set(["right", "left"]).has(position) ? 10 : "100%",
     background: ({ position, shadow, border }: IStyles) => {
       const b = border ? 1 : 0;
       const base = `linear-gradient(to ${GRADIENT[position]},`;

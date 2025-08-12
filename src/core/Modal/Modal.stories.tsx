@@ -2,6 +2,7 @@ import * as React from "react";
 import Modal, { IModal } from "./";
 import emptyFn from "../../utils/emptyFn";
 import DemoCmp from "./Demo";
+import DemoDnDCmp from "./DemoDnD";
 import TextLoading from "../TextLoading";
 
 const args: IModal = {
@@ -9,24 +10,25 @@ const args: IModal = {
   onClose: emptyFn,
   title: "ModalTitle",
   titleHelp: "_titleHelp_",
-  titleChildren: <div style={{ background: "#afa" }}>TITLE</div>,
-  content: <div style={{ background: "#faa" }}>CONTENT</div>,
+  titleChildren: <div style={{ background: "#afa" }} children="TITLE" />,
+  content: <div style={{ background: "#faa" }} children="CONTENT_" />,
   actions: (
     <>
       <TextLoading />
       <div style={{ flex: 1 }} />
-      <div style={{ background: "#aaf" }}>ACTIONS</div>
+      <div style={{ background: "#aaf" }} children="ACTIONS" />
     </>
   ),
 };
 
 export default {
-  title: "Core/Modal",
+  title: "core/Modal",
   component: Modal,
   args,
 };
 
 export const Demo = DemoCmp.bind({});
+export const DemoDragNDrop = DemoDnDCmp.bind({});
 
 const ExampleStory = (args) => <Modal {...args} />;
 export const Example = ExampleStory.bind({});
@@ -37,6 +39,27 @@ MaxDimensions.args = {
     width: 90000,
     height: 90000,
   },
+};
+
+export const MaxContent = ExampleStory.bind({});
+MaxContent.args = {
+  content: (
+    <>
+      {Array(50)
+        .fill("")
+        .map((_, index) => (
+          <div
+            key={index}
+            style={{
+              minHeight: 30,
+              background: "#faa",
+              borderBottom: "1px solid #f00",
+            }}
+            children={"LISTITEM_" + index}
+          />
+        ))}
+    </>
+  ),
 };
 
 export const Loading = ExampleStory.bind({});
@@ -60,7 +83,7 @@ const OnClickStory = () => {
       }}
     >
       <button onClick={onOpen}>CLICK ME</button>
-      <Modal open={open} onClose={onClose} />
+      <Modal {...args} open={open} onClose={onClose} />
     </div>
   );
 };

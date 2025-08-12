@@ -1,9 +1,8 @@
-import * as React from "react";
-import Link from ".";
 import { action } from "@storybook/addon-actions";
+import Link from ".";
 
 export default {
-  title: "Core/Link",
+  title: "core/Link",
   component: Link,
   args: {
     style: { margin: 25 },

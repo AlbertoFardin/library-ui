@@ -1,11 +1,10 @@
-import * as React from "react";
 import CardDraggable from "./CardDraggable";
 import Toolbar from "../Toolbar";
 import Icon from "../Icon";
 import Text from "../Text";
 
 export default {
-  title: "Core/CardDraggable",
+  title: "core/CardDraggable",
   component: CardDraggable,
 };
 
@@ -24,7 +23,7 @@ const ExampleStory = () => (
         border: "1px solid #f00",
       }}
     >
-      <Text>CIAO</Text>
+      <Text weight="bolder">Fixed text</Text>
       <CardDraggable
         dragCls={dragCls}
         position={{
@@ -44,6 +43,7 @@ const ExampleStory = () => (
           <Text children="CARD CONTENT" />
         </div>
       </CardDraggable>
+      <Text>Other text</Text>
     </div>
   </>
 );

@@ -1,10 +1,9 @@
-import * as React from "react";
-import Switch from ".";
 import { action } from "@storybook/addon-actions";
+import Switch from ".";
 import DemoSwitch from "./Demo";
 
 export default {
-  title: "Core/Switch",
+  title: "core/Switch",
   component: Switch,
   args: {
     style: { margin: 20 },
@@ -29,11 +28,6 @@ Disabled.args = {
 export const Checked = Story.bind({});
 Checked.args = {
   checked: true,
-};
-
-export const WithLabel = Story.bind({});
-WithLabel.args = {
-  label: "Switch label",
 };
 
 export const WithIcon = Story.bind({});

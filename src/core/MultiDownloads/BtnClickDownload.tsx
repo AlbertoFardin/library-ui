@@ -1,14 +1,7 @@
 import * as React from "react";
 import Btn from "../Btn";
 import { getTheme } from "../../theme";
-
-interface IBtnClickDownload {
-  style?: React.CSSProperties;
-  url: string;
-  name: string;
-  tooltip?: string;
-  onClick: () => void;
-}
+import { LinkTarget } from "./interfaces";
 
 const BtnClickDownload = ({
   style,
@@ -16,7 +9,15 @@ const BtnClickDownload = ({
   name,
   tooltip,
   onClick,
-}: IBtnClickDownload) => {
+  linkTarget = "_self",
+}: {
+  style?: React.CSSProperties;
+  url: string;
+  name: string;
+  tooltip?: string;
+  onClick: () => void;
+  linkTarget?: LinkTarget;
+}) => {
   const linkRef = React.useRef(null);
   const cbOnClick = React.useCallback(() => {
     linkRef.current.click();
@@ -25,6 +26,8 @@ const BtnClickDownload = ({
   return (
     <a
       ref={linkRef}
+      rel="noreferrer"
+      target={linkTarget}
       href={url}
       download={name}
       style={{ textDecoration: "none" }}

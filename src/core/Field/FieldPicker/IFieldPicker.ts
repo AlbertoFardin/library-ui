@@ -4,11 +4,33 @@ import { ILabel } from "../Label";
 import { IPopoverListItem } from "../../PopoverList";
 import { IListItem } from "../../ListItem";
 
-export interface IFieldPickerCreateProp {
+export interface IFieldItem extends IListItem, IFieldData {}
+export interface IFieldData {
   id: string;
-  text: string;
+  [key: string]: unknown;
+}
+export interface IFieldPickerDialogField {
+  id: string;
   icon?: string;
-  required?: boolean;
+  text: string;
+  mandatory?: boolean;
+  disabled?: boolean;
+  singular?: boolean;
+}
+
+export interface IFieldPickerDialog {
+  /** If true, show button to open the dialog */
+  enable: boolean;
+  /** Array of fields render in the dialog */
+  fields: IFieldPickerDialogField[];
+  /** Title of the dialog */
+  title?: string;
+  /** Title help of the dialog */
+  titleHelp?: string | string[];
+  /** Label of apply button of the dialog */
+  applyText?: string;
+  /** Callback fired click the apply button */
+  onChange: (newOpt: IFieldData, index: number) => void;
 }
 
 interface IFieldPicker {
@@ -19,11 +41,11 @@ interface IFieldPicker {
   /** Main color */
   color?: string;
   /** Label of the component. It must be a string or an ILabel[] */
-  label?: string | ILabel[] | React.ReactElement;
+  label?: string | ILabel[];
   /** Icon render in InputAdornment position START */
   adornmentIcon?: string;
   /** adornmentIcon's tooltip  */
-  adornmentIconTooltip?: string;
+  adornmentIconTooltip?: string | string[];
   /** adornmentIcon's color  */
   adornmentIconColor?: string;
   /** Avatar render in InputAdornment position START */
@@ -33,7 +55,7 @@ interface IFieldPicker {
   /** adornmentAvatar's icon */
   adornmentAvatarIcon?: string;
   /** adornmentAvatar's tooltip */
-  adornmentAvatarTooltip?: string;
+  adornmentAvatarTooltip?: string | string[];
   /** Elements render in InputAdornment position START */
   adornmentElement?: JSX.Element;
   /** BtnMenu actions configs, if empty Btn isn't render */
@@ -48,8 +70,6 @@ interface IFieldPicker {
   menuOnClose?: () => void;
   /** Callback fired when the selected listitems changed */
   onChange?: (newValue: string[]) => void;
-  /** Callback fired when the selected listitems changed */
-  onCreate?: (newOpt) => void;
   /** The short hint displayed in the input before the user enters a value */
   placeholder?: string;
   /** If true, the input element is in read only */
@@ -58,18 +78,18 @@ interface IFieldPicker {
   value?: string[];
   /** List of options showed */
   items?: IListItem[];
-  /** If true, list items can be sortable */
+  /** If false, list items can not be sortable */
   itemsSortable?: boolean;
-  /** Function to search items */
-  itemsOnSearch?: (inputValue: string, item: IListItem) => boolean;
-  /** If true, show button to Create Modal */
-  createEnabled?: boolean;
-  /** Array of fields in Create Modal */
-  createProps?: IFieldPickerCreateProp[];
-  /** Title of Create Modal */
-  createTitle?: string;
-  /** Title help of Create Modal */
-  createTitleHelp?: string | string[];
+  /** If false, search input is not visible */
+  itemsSearchable?: boolean;
+  /** Array of key to search */
+  itemsSearchKeys?: string[];
+  /** Props to render dialog to create a new item */
+  dialogToCreate?: IFieldPickerDialog;
+  /** Props to render dialog to edit an item */
+  dialogToModify?: IFieldPickerDialog;
+  /** zIndex for search, create and modify dialog boxes  */
+  zIndex?: number;
 }
 
 export default IFieldPicker;

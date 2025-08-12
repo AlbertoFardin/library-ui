@@ -1,8 +1,8 @@
 import * as React from "react";
-import { getTheme } from "../../theme";
 import { createUseStyles } from "react-jss";
-import Zoom from "../Transitions/Zoom";
 import classnames from "classnames";
+import { getTheme } from "../../theme";
+import Zoom from "../Transitions/Zoom";
 import Icon from "../Icon";
 
 interface IStyle {

@@ -1,4 +1,3 @@
-import * as React from "react";
 import { action } from "@storybook/addon-actions";
 import FilterSelect from "./FilterSelect";
 import FilterSelectDemo from "./Demo";
@@ -29,7 +28,7 @@ const options: IFilterSelectItem[] = [
 ];
 
 export default {
-  title: "Core/Filter/FilterSelect",
+  title: "core/Filter/FilterSelect",
   component: FilterSelect,
   args: {
     id: "_id",

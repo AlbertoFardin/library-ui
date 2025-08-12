@@ -1,9 +1,9 @@
 import * as React from "react";
+import { createUseStyles } from "react-jss";
+import classnames from "classnames";
 import { getTheme } from "../../theme";
 import Icon from "../Icon";
 import BtnBase from "../BtnBase";
-import { createUseStyles } from "react-jss";
-import classnames from "classnames";
 
 interface IStyles {
   checked: boolean;
@@ -74,7 +74,7 @@ const useStyles = createUseStyles({
 export interface ISwitch {
   className?: string;
   style?: React.CSSProperties;
-  color: string;
+  color?: string;
   disabled?: boolean;
   icon?: string | JSX.Element;
   tooltip?: string | string[];
@@ -85,7 +85,7 @@ export interface ISwitch {
 const Switch = ({
   className,
   style,
-  color,
+  color = getTheme().colors.theme1,
   disabled,
   checked,
   icon,

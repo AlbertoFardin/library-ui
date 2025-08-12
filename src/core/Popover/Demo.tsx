@@ -5,6 +5,7 @@ import Icon from "../Icon";
 import Text from "../Text";
 import Popover, { getPopoverStyle } from "./";
 import { getTheme } from "../../theme";
+import InputBoolean from "../../stories/InputBoolean";
 
 const anchorReference = "anchorEl";
 const COLOR_THEME = getTheme().colors.theme1;
@@ -106,6 +107,7 @@ const Demo = () => {
   const [open, setOpen] = React.useState(false);
   const onOpen = React.useCallback(() => setOpen(true), []);
   const onClose = React.useCallback(() => setOpen(false), []);
+  const [backdropVisible, setBackdropVisible] = React.useState(true);
 
   const [anchorH, setAnchorH] = React.useState(
     "center" as "left" | "right" | "center",
@@ -191,6 +193,11 @@ const Demo = () => {
           transfV={transfV}
           setTransfV={setTransfV}
         />
+        <InputBoolean
+          onChange={setBackdropVisible}
+          value={backdropVisible}
+          label="backdropVisible"
+        />
         <textarea
           style={{
             flex: 1,
@@ -230,6 +237,7 @@ const Demo = () => {
           horizontal: transfH,
           vertical: transfV,
         }}
+        backdropVisible={backdropVisible}
       >
         <div style={{ padding: 20 }}> The content of the Popover</div>
         <div style={{ padding: 20 }}> The content of the Popover</div>

@@ -1,4 +1,3 @@
-import * as React from "react";
 import { IRendererCorner } from "./IStickyTable";
 
 const Corner = ({ width, height, top, left, zIndex }: IRendererCorner) => (

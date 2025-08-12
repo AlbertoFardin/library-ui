@@ -1,11 +1,11 @@
 import * as React from "react";
 import * as moment from "moment";
+import { DayPicker, DateRange } from "react-day-picker";
 import Popover, { PopoverOrigin } from "../../Popover";
 import Btn from "../../Btn";
-import { getFonts, getTheme } from "../../../theme";
+import { getFontsFamily, getTheme } from "../../../theme";
 import "react-day-picker/dist/style.css";
 import "../../Field/FieldDate/daypicker.css";
-import { DayPicker, DateRange } from "react-day-picker";
 
 const originAnchor: PopoverOrigin = {
   vertical: "top",
@@ -39,7 +39,7 @@ const PopoverDatePicker = ({
   fromYear,
   toYear,
 }: IPopoverDatePicker) => {
-  const fontFamily = getFonts()[0];
+  const fontFamily = getFontsFamily()[0];
   const valued = !!valueFrom || !!valueTo;
   const startMoment = valueFrom ? moment(valueFrom) : null;
   const endMoment = valueTo ? moment(valueTo) : null;

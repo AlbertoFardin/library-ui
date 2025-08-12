@@ -1,4 +1,3 @@
-import * as React from "react";
 import BtnBase from "../BtnBase";
 import { ILogoWarda } from ".";
 import { Weight } from "./ILogoWarda";

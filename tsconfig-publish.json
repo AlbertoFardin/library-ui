@@ -5,7 +5,6 @@
     "outDir": "./package/",
     "allowJs": false,
     "checkJs": false,
-
     "skipLibCheck": true,
     "noUnusedLocals": false,
     "resolveJsonModule": true,

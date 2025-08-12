@@ -1,10 +1,9 @@
-import * as React from "react";
 import { action } from "@storybook/addon-actions";
 import FilterText from ".";
 import FilterTextDemo from "./Demo";
 
 export default {
-  title: "Core/Filter/FilterText",
+  title: "core/Filter/FilterText",
   component: FilterText,
   args: {
     id: "_id",

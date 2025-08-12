@@ -1,20 +1,22 @@
 import * as React from "react";
-import { getTheme } from "../src/theme";
-import WebFont from "webfontloader";
+import { AppMediaTypeProvider } from "../src/contexts/AppMediaTypeContext";
+import { THEME_DEFAULT, setTheme, loadFonts } from "../src/theme";
 
 export const decorators = [
   (Story) => {
-    const theme = getTheme();
-    React.useEffect(() => {
-      WebFont.load(theme.fonts);
-    }, [theme.fonts]);
-    return <Story />;
+    setTheme(THEME_DEFAULT);
+    loadFonts();
+    return (
+      <AppMediaTypeProvider>
+        <Story />
+      </AppMediaTypeProvider>
+    );
   },
 ];
 export const parameters = {
   options: {
     storySort: {
-      order: ["Intro", "Core", "Utils", "Portal"],
+      order: ["Welcome", "Auth", "Core", "Utils", "Portal"],
       method: "alphabetical",
     },
   },

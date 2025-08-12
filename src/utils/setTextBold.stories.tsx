@@ -1,12 +1,12 @@
 import * as React from "react";
+import { action } from "@storybook/addon-actions";
 import setTextBold from "./setTextBold";
 import InputText from "../stories/InputText";
 import Text from "../core/Text";
 import Divider from "../core/Divider";
-import { action } from "@storybook/addon-actions";
 
 export default {
-  title: "Utils/setTextBold",
+  title: "utils/setTextBold",
 };
 
 const DemoComponent = () => {

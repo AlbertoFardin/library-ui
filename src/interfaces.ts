@@ -1,10 +1,7 @@
-export const missingKey = "N/A";
-export const DATE_FORMAT = "DD/MM/YYYY";
-
 export enum Initialize {
   NONE = "NONE",
   START = "START",
-  LOADING = "LOADING",
+  WAIT = "WAIT",
   SUCC = "SUCC",
   FAIL = "FAIL",
 }
@@ -30,51 +27,8 @@ export enum Service {
   ARCHIVER = "archiver",
   NOTIFIER = "notifier",
   DASHBOARD = "dashboard",
+  SHAREPAGE = "share-page",
   MCM = "mcm",
-}
-
-export enum NotificationType {
-  DEFAULT = "default",
-  MENTION_IMG_SC = "MENTION_IMG_SC",
-  MENTION_IMG_DA = "MENTION_IMG_DA",
-  ASSIGNMENT = "ASSIGNMENT",
-  IMPORT = "IMPORT",
-  EXPORT = "EXPORT",
-  MEDIA_LIBRARY = "MEDIA_LIBRARY",
-  MEDIA_LIBRARY_CONFIG = "MEDIA_LIBRARY_CONFIG",
-  PRODUCT = "PRODUCT",
-  CONFIGURATION = "CONFIGURATION",
-  ARCHIVING = "ARCHIVING",
-  CDN_STATUS = "CDN_STATUS",
-  DELETE_MEDIA_CONTENT = "DELETE_MEDIA_CONTENT",
-  SHARED_FILES = "SHARED_FILES",
-  MULTI_PRODUCT_EDITING = "MULTI_PRODUCT_EDITING",
-  FILE_PUBLICATION_SUCCESS = "FILE_PUBLICATION_SUCCESS",
-  FILE_PUBLICATION_FAIL = "FILE_PUBLICATION_FAIL",
-  FILE_UNPUBLICATION_SUCCESS = "FILE_UNPUBLICATION_SUCCESS",
-  FILE_UNPUBLICATION_FAIL = "FILE_UNPUBLICATION_FAIL",
-  FILE_COPYRIGHT_UPDATED = "FILE_COPYRIGHT_UPDATED",
-  MEDIA_CONF_UPDATE = "MediaConfigurationUpdate",
-  MEDIA_ATTR_UPDATE = "MediaAttributesSetsMassive",
-}
-
-export interface IWsNotification {
-  connetionUUID: string;
-  application: string;
-  service: Service;
-  notificationType: NotificationType;
-  isError: boolean;
-  tenantId: string;
-  user: string;
-  payload;
-}
-
-export interface IWsCallbackViewport {
-  id: string;
-  callback: (
-    itemsWs: IWsNotification[],
-    dispatch: React.Dispatch<unknown>,
-  ) => void;
 }
 
 export enum Severity {
@@ -125,4 +79,31 @@ export enum TenantStatus {
 export interface IRole {
   roleId: string;
   roleLabel: string;
+}
+
+export interface IMngItem<T> {
+  id: string;
+  version: number;
+  ownerId: string;
+  created: number;
+  updated: number;
+  payload: T;
+  shareType?: ShareType;
+}
+
+export enum Condition {
+  AND = "AND",
+  OR = "OR",
+}
+
+export enum ShareType {
+  PRIVATE = "PRIVATE",
+  SHARE_UPD = "SHARE_UPD",
+  SHARE_OBS = "SHARE_OBS",
+}
+
+export enum FileType {
+  FOLDER = "FOLDER",
+  MEDIA = "MEDIA",
+  PORTAL = "PORTAL",
 }

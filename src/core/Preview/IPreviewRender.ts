@@ -1,15 +1,15 @@
-import { Initialize } from "../../interfaces";
-
 interface IPreviewRender {
-  initialize: Initialize;
+  src: string;
+  srcLoaded: boolean;
   onLoadSucc: (
     event: React.SyntheticEvent<HTMLImageElement | HTMLVideoElement, Event>,
   ) => void;
   onLoadFail: (
     event: React.SyntheticEvent<HTMLImageElement | HTMLVideoElement, Event>,
   ) => void;
-  srcUrl: string;
   mousehover: boolean;
+  size: number;
+  objectFit: "contain" | "cover" | "fill";
 }
 
 export default IPreviewRender;

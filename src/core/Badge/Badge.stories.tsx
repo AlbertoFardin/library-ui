@@ -1,19 +1,19 @@
-import * as React from "react";
-import Badge from "./Badge";
-import { getTheme } from "../../theme";
 import { action } from "@storybook/addon-actions";
+import Badge, { IBadge } from "./Badge";
+import { getTheme } from "../../theme";
 import mixColors from "../../utils/mixColors";
 
 const urlImage2 = "./images/width_128/test_image2.jpeg";
+const args: IBadge = {
+  style: { margin: 20 },
+  onClick: action("onClick"),
+  tooltip: "_tooltip_",
+};
 
 export default {
-  title: "Core/Badge",
+  title: "core/Badge",
   component: Badge,
-  args: {
-    style: { margin: 20 },
-    onClick: action("onClick"),
-    tooltip: "_tooltip_",
-  },
+  args,
 };
 
 const Story = (p) => <Badge {...p} />;
@@ -42,5 +42,8 @@ Mix.args = {
   icon: "public",
   label: "2/6",
   labelPosition: "left",
-  style: { backgroundColor: mixColors(0.7, getTheme().colors.msgSucc, "#fff") },
+  style: {
+    ...args.style,
+    backgroundColor: mixColors(0.7, getTheme().colors.msgSucc, "#fff"),
+  },
 };

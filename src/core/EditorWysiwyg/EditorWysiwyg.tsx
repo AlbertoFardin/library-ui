@@ -2,6 +2,7 @@ import * as React from "react";
 import classnames from "classnames";
 import { EditorState } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
+import { createUseStyles } from "react-jss";
 import emptyFn from "../../utils/emptyFn";
 import { RICHEDITOR_EMPTY_TAG, TOOLBAR } from "./utils/constants";
 import {
@@ -12,8 +13,7 @@ import IEditorWysiwyg from "./IEditorWysiwyg";
 import { localization } from "./utils/localization";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "draft-js/dist/Draft.css";
-import { createUseStyles } from "react-jss";
-import { getFonts, getTheme } from "../../theme";
+import { getFontsFamily, getTheme } from "../../theme";
 import { disabledLinkDecorator } from "./decorators/disabledLinkDecorator";
 
 const useStyles = createUseStyles({
@@ -26,7 +26,7 @@ const useStyles = createUseStyles({
     color: getTheme().colors.typography,
     fontSize: "12px",
     fontWeight: "normal",
-    fontFamily: [getFonts()[0], "Helvetica", "Arial", "sans-serif"]
+    fontFamily: [getFontsFamily()[0], "Helvetica", "Arial", "sans-serif"]
       .filter((f) => !!f)
       .join(", "),
     display: "flex",
@@ -61,6 +61,7 @@ const EditorWysiWyg = ({
 }: IEditorWysiwyg) => {
   const customDecorators = linkSelectable ? [] : [disabledLinkDecorator];
   const classes = useStyles({});
+  const refEditor = React.useRef(null);
   const [editorState, setEditorState] = React.useState(() =>
     getInitEditorStateFromValue(value),
   );
@@ -86,12 +87,33 @@ const EditorWysiWyg = ({
     onFocus();
   }, [onFocus]);
 
-  React.useMemo(() => {
+  React.useEffect(() => {
     setEditorState(getInitEditorStateFromValue(value));
   }, [value]);
 
+  React.useEffect(() => {
+    let tries = 0;
+    let frameId: number;
+
+    const tryFocus = () => {
+      if (refEditor.current?.editor) {
+        refEditor.current.editor.focus();
+      } else if (tries < 3) {
+        tries += 1;
+        frameId = requestAnimationFrame(tryFocus);
+      }
+    };
+
+    tryFocus();
+
+    return () => {
+      cancelAnimationFrame(frameId);
+    };
+  }, []);
+
   return (
     <Editor
+      ref={refEditor}
       readOnly={readOnly}
       toolbarHidden={toolbarHidden}
       editorState={editorState}

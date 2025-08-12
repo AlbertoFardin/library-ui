@@ -1,8 +1,8 @@
-import * as React from "react";
-import Breadcrumb, { IBreadcrumb } from ".";
 import { action } from "@storybook/addon-actions";
+import Breadcrumb, { IBreadcrumb } from ".";
 
 const args: IBreadcrumb = {
+  style: { border: "1px solid #f00", margin: 10 },
   color: "#f00",
   maxItems: 5,
   items: [1, 2, 3, 4, 5, 6, 7, 8, 9].map((p) => ({
@@ -13,7 +13,7 @@ const args: IBreadcrumb = {
 };
 
 export default {
-  title: "Core/Breadcrumb",
+  title: "core/Breadcrumb",
   component: Breadcrumb,
   args,
 };

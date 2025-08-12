@@ -1,7 +1,5 @@
-import * as React from "react";
-import Icon from "../../Icon";
-import Btn from "../../Btn";
 import { action } from "@storybook/addon-actions";
+import Btn from "../../Btn";
 import { ILabel } from "../Label";
 import { IPopoverListItem } from "../../PopoverList";
 
@@ -28,40 +26,49 @@ export const adornmentElement = (
   />
 );
 
+const readyOnClick = () => {
+  console.log("onClickReady");
+  action("onClickReady")();
+};
+const readyColor = "#48B784";
+const readyBtn = (
+  <Btn
+    style={{
+      margin: 0,
+      border: `1px solid ${readyColor}`,
+      backgroundColor: "#fff",
+    }}
+    color={readyColor}
+    icon="public"
+    iconStyle={{ color: readyColor }}
+    label="READY"
+    labelStyle={{ color: readyColor }}
+    onClick={readyOnClick}
+  />
+);
 export const multiLabels: ILabel[] = [
   {
     style: { color: "#fff", backgroundColor: "#00f", padding: "0 5px" },
-    required: true,
-    label: "label_1",
+    textMandatory: true,
+    text: "label_1",
     positionX: "left",
     positionY: "top",
   },
   {
     style: { color: "#fff", backgroundColor: "#f00", padding: "0 5px" },
-    label: "label_2",
+    text: "label_2",
     positionX: "right",
     positionY: "top",
   },
   {
     style: { color: "#fff", backgroundColor: "#0f0", padding: "0 5px" },
-    label: "label_3",
+    text: "label_3",
     positionX: "right",
     positionY: "bottom",
   },
   {
-    style: { color: "#00f" },
-    label: (
-      <>
-        <Icon
-          style={{ fontSize: 14, verticalAlign: "middle" }}
-          children="public"
-        />
-        <span
-          style={{ fontSize: 12, verticalAlign: "middle" }}
-          children="READY"
-        />
-      </>
-    ),
+    style: { bottom: "-35px", left: 0 },
+    node: readyBtn,
     positionX: "left",
     positionY: "bottom",
   },

@@ -1,10 +1,10 @@
 import * as React from "react";
+import { action } from "@storybook/addon-actions";
 import FieldRichEditor from ".";
 import { RICHEDITOR_EMPTY_TAG } from "../../EditorWysiwyg";
 import InputButton from "../../../stories/InputButton";
 import InputBoolean from "../../../stories/InputBoolean";
 import CardDemo from "../../../stories/CardDemo";
-import { action } from "@storybook/addon-actions";
 import { IPopoverListItem } from "../../PopoverList";
 import {
   color,

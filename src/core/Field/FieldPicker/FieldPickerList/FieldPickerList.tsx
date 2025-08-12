@@ -1,16 +1,17 @@
 import * as React from "react";
-import { getTheme } from "../../../../theme";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { createUseStyles } from "react-jss";
+import classnames from "classnames";
+import { getTheme } from "../../../../theme";
 import mixColors from "../../../../utils/mixColors";
 import Text from "../../../Text";
 import FieldPickerListItem from "./FieldPickerListItem";
-import classnames from "classnames";
-import { IListItem } from "../../../ListItem";
+import { IFieldItem, IFieldPickerDialog } from "../IFieldPicker";
 
 const useStyles = createUseStyles({
   list: {
-    overflow: "auto",
+    overflowY: "auto",
+    overflowX: "hidden",
     borderRadius: getTheme().borderRadius,
     padding: "8px 0",
     alignSelf: "stretch",
@@ -41,28 +42,30 @@ const useStyles = createUseStyles({
 });
 
 interface IFieldPickerList {
+  color: string;
+  width: number;
   value: string[];
-  items: IListItem[];
+  items: IFieldItem[];
   onChange: (value: string[]) => void;
   readOnly: boolean;
   sortable: boolean;
+  dialogToModify: IFieldPickerDialog;
+  zIndex?: number;
 }
 const FieldPickerList = ({
+  color,
+  width,
   value,
   items,
   onChange,
   readOnly,
   sortable,
+  dialogToModify,
+  zIndex,
 }: IFieldPickerList) => {
   const classes = useStyles({});
-  const slcItems = value
-    .map((id) => {
-      return items.find((item) => item.id === id);
-    })
-    .filter((item) => {
-      return !!item;
-    });
 
+  const isDragDisabled = readOnly || !sortable;
   const onDragEnd = React.useCallback(
     (result) => {
       if (!result.destination) return null;
@@ -84,41 +87,49 @@ const FieldPickerList = ({
     },
     [onChange, value],
   );
-
+  if (!items || items.length === 0) return null;
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="droppable">
-        {(provided, snapshot) => (
+        {(droppableProvided, droppableSnapshot) => (
           <div
-            {...provided.droppableProps}
-            ref={provided.innerRef}
+            {...droppableProvided.droppableProps}
+            ref={droppableProvided.innerRef}
             className={classnames({
               [classes.list]: true,
               [classes.listDisabled]: readOnly,
-              [classes.listDragging]: snapshot.isDraggingOver,
+              [classes.listDragging]: droppableSnapshot.isDraggingOver,
             })}
           >
-            {slcItems.map((o, index: number) => (
+            {value.map((itemId, index: number) => (
               <Draggable
-                key={o.id}
-                draggableId={o.id}
+                key={itemId}
+                draggableId={itemId}
                 index={index}
-                isDragDisabled={readOnly || !sortable}
+                isDragDisabled={isDragDisabled}
               >
-                {(provided, snapshot) => (
+                {(draggableProvided, draggableSnapshot) => (
                   <FieldPickerListItem
-                    provided={provided}
-                    data={o}
-                    isDragging={snapshot.isDragging}
+                    key={itemId}
+                    dragProvided={draggableProvided}
+                    dragSnapshot={draggableSnapshot}
+                    color={color}
+                    index={index}
+                    width={width}
+                    items={items}
+                    itemId={itemId}
                     onDelete={cbOnDelte}
                     readOnly={readOnly}
-                    sortable={sortable}
+                    dialogToModify={dialogToModify}
+                    isDraggingOver={droppableSnapshot.isDraggingOver}
+                    isDragDisabled={isDragDisabled}
+                    zIndex={zIndex}
                   />
                 )}
               </Draggable>
             ))}
-            {provided.placeholder}
-            {slcItems.length !== 0 ? null : (
+            {droppableProvided.placeholder}
+            {value.length !== 0 ? null : (
               <Text
                 className={classes.placeholder}
                 children={

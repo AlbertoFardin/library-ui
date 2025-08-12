@@ -1,10 +1,9 @@
-import * as React from "react";
 import { action } from "@storybook/addon-actions";
 import FilterDate from ".";
 import FilterDateDemo from "./Demo";
 
 export default {
-  title: "Core/Filter/FilterDate",
+  title: "core/Filter/FilterDate",
   component: FilterDate,
   args: {
     id: "_id",

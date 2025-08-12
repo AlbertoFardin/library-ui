@@ -1,6 +1,6 @@
 import * as React from "react";
 import { createUseStyles } from "react-jss";
-import FieldSearch from "../../../FieldSearch";
+import FieldSearch from "../../../InputSearch";
 import FieldPickerSearchModal from "./FieldPickerSearchModal";
 import { IListItem } from "../../../ListItem";
 import { getTheme } from "../../../../theme";
@@ -24,26 +24,29 @@ const useStyles = createUseStyles({
 });
 
 interface IFieldPickerSearch {
+  fieldRef;
   width: number;
   value: string[];
   items: IListItem[];
   onChange: (value: string[]) => void;
-  onSearch: (inputValue: string, item: IListItem) => boolean;
   adornment?: JSX.Element;
   placeholder: string;
+  itemsSearchKeys: string[];
+  zIndex?: number;
 }
 
 const FieldPickerSearch = ({
+  fieldRef,
   width,
   value,
   items,
   onChange,
-  onSearch,
   adornment,
   placeholder,
+  itemsSearchKeys,
+  zIndex,
 }: IFieldPickerSearch) => {
   const classes = useStyles({});
-  const searchRef = React.useRef(null);
   const [dropdown, setDropdown] = React.useState(false);
   const [inputValue, setInputValue] = React.useState("");
   const onDropdownOpen = React.useCallback(() => {
@@ -56,7 +59,6 @@ const FieldPickerSearch = ({
     <>
       <div
         role="presentation"
-        ref={searchRef}
         className={classes.search}
         onClick={onDropdownOpen}
       >
@@ -68,21 +70,20 @@ const FieldPickerSearch = ({
         />
         {adornment}
       </div>
-      {!searchRef?.current ? null : (
-        <FieldPickerSearchModal
-          anchorEl={searchRef.current}
-          open={dropdown}
-          inputValue={inputValue}
-          placeholder={placeholder}
-          width={width}
-          items={items}
-          slcIds={value}
-          onInput={setInputValue}
-          onClick={onChange}
-          onClose={onDropdownClose}
-          onSearch={onSearch}
-        />
-      )}
+      <FieldPickerSearchModal
+        anchorEl={fieldRef.current}
+        open={dropdown}
+        inputValue={inputValue}
+        placeholder={placeholder}
+        width={width}
+        items={items}
+        slcIds={value}
+        onInput={setInputValue}
+        onClick={onChange}
+        onClose={onDropdownClose}
+        itemsSearchKeys={itemsSearchKeys}
+        zIndex={zIndex}
+      />
     </>
   );
 };

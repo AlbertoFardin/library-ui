@@ -1,10 +1,9 @@
-import * as React from "react";
 import { action } from "@storybook/addon-actions";
 import FilterPercentage from ".";
 import DemoFilterPercentage from "./Demo";
 
 export default {
-  title: "Core/Filter/FilterPercentage",
+  title: "core/Filter/FilterPercentage",
   component: FilterPercentage,
   args: {
     id: "_id",

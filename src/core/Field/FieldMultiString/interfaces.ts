@@ -32,7 +32,7 @@ export interface IFieldMultiString {
   /** adornmentAvatar's icon */
   adornmentAvatarIcon?: string;
   /** adornmentAvatar's tooltip */
-  adornmentAvatarTooltip?: string;
+  adornmentAvatarTooltip?: string | string[];
   /** Elements render in InputAdornment position START */
   adornmentElement?: JSX.Element;
   /** Function to return the component to render as chips */
@@ -42,7 +42,7 @@ export interface IFieldMultiString {
   /** Type of selection */
   type?: "singleselect" | "multiselect";
   /** Label of the component. It must be a string or an ILabel[] */
-  label?: string | ILabel[] | React.ReactElement;
+  label?: string | ILabel[];
   /** Callback fired when value change */
   onChange?: (
     item: IFieldMultiStringItem,

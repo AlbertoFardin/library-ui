@@ -11,7 +11,7 @@ const headerStyle = {
   backgroundColor: getTheme().colors.grayDrawer,
   padding: "5px 15px",
   display: "flex",
-  width: "-webkit-fill-available",
+  width: "100%",
 };
 const panels = [
   {
@@ -87,7 +87,7 @@ const panels = [
 ];
 
 export default {
-  title: "Core/Accordions",
+  title: "core/Accordions",
   component: Accordions,
 };
 
