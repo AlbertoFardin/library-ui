@@ -11,7 +11,6 @@
   "scripts": {
     "start": "npm run storybook:start",
     "clean": "rimraf ./package && rimraf ./node_modules && npm install && npm audit fix",
-    "package:html": "node ./scripts/package-html.js",
     "package:clean": "rimraf ./package && mkdir -p ./package",
     "package:ts2js": "tsc -p ./tsconfig-publish.json && ts-node ./scripts/createPackageDist.ts name=@warda/library-ui",
     "package:copyCss": "copyfiles -u 1 src/**/*.css ./package",

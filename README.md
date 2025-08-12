@@ -253,7 +253,7 @@ if pre commit hook blocks the commit, and you want to fight without solving the 
   git commit --no-verify -m "Commit message"
 ```
 
-# Pre-check new version in local seecomerce project
+# Pre-check new version in local project
 
 To check new code you may produce distribution code in folder `package` with command
 
