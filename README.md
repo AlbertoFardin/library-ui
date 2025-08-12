@@ -1,5 +1,5 @@
 <p align="center">
-<img width="450" src="./static/logo.svg" alt="Alberto Fardin">
+<img width="450" src="./static-medias/logo.svg" alt="Alberto Fardin">
 </p>
 
 - **Live Demo:** [albertofardin-portfolio.netlify.app](https://albertofardin-portfolio.netlify.app/)
