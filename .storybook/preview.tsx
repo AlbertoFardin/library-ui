@@ -16,7 +16,7 @@ export const decorators = [
 export const parameters = {
   options: {
     storySort: {
-      order: ["Welcome", "Auth", "Core", "Utils", "Portal"],
+      order: ["Welcome", "Layout", "Core", "Utils"],
       method: "alphabetical",
     },
   },
