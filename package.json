@@ -3,11 +3,8 @@
   "version": "31.11.12",
   "description": "React components for faster and easier web development. Build your own design system, or start with Material Design.",
   "main": "index.js",
-  "authors": "alberto.fardin@warda.it",
+  "authors": "prevalentementealberto@gmail.com",
   "license": "ISC",
-  "publishConfig": {
-    "registry": "https://repo.warda.it/repository/warda-npm-releases/"
-  },
   "scripts": {
     "start": "npm run storybook:start",
     "clean": "rimraf ./package && rimraf ./node_modules && npm install && npm audit fix",
@@ -18,7 +15,7 @@
     "publish:create": "npm run package:clean && npm run package:ts2js && npm run package:copyCss && npm run package:copyWoff2",
     "publish:@warda": "npm run publish:create && ./scripts/publish.sh",
     "storybook:build-static": "rimraf ./.out/ && storybook build -s ./static-medias -c .storybook -o .out",
-    "storybook:start": "storybook dev -s ../static-medias -p 9001 -h local.wardacloud.com -c .storybook",
+    "storybook:start": "storybook dev -s ../static-medias -p 9001 -h localhost -c .storybook",
     "check": "npm run check:eslint && npm run check:jest",
     "check:eslint": "eslint -c .eslintrc.js 'src/**/*.ts?(x)' --max-warnings=20  && echo \"eslint: no lint errors\"",
     "check:jest": "jest ./src/** --ci --no-watchman --detectOpenHandles --forceExit --reporters=default --testMatch='**/?(*.)+(spec|test).[jt]s?(x)'",
